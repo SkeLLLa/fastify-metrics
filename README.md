@@ -1,16 +1,15 @@
 # fastify-metrics
 
-<div align="center">
+<!-- <div align="center">
   <img src="https://gitlab.com/m03geek/fastify-metrics/raw/master/logo.png" alt="fastify-metrics logo"/>
-</div>
+</div> -->
 
 [![NPM Version](https://img.shields.io/npm/v/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Downloads Count](https://img.shields.io/npm/dm/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Vunerabilities Count](https://snyk.io/test/npm/fastify-metrics/badge.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Build Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/pipeline.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master)
-<!-- [![Coverage Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/coverage.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master) -->
 [![License](https://img.shields.io/npm/l/fastify-metrics.svg)](https://gitlab.com/m03geek/fastify-metrics/blob/master/LICENSE)
-
+<!-- [![Coverage Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/coverage.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master) -->
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 
 This plugin uses [prom-client](https://github.com/siimon/prom-client) that generates swagger 2.0 docs.
