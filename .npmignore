@@ -1,0 +1,5 @@
+.vscode
+__tests__
+coverage
+.*
+*.config.js

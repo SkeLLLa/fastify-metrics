@@ -1,0 +1,7 @@
+logs/
+coverage/
+node_modules/
+.idea/
+.vscode/
+static/
+**/*.xxx.*
