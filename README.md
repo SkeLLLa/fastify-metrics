@@ -63,6 +63,11 @@ const metricsPlugin = require('fastify-metrics');
 app.register(metricsPlugin, {endpoint: '/metrics'});
 ```
 
+It also exports client to fastify instance `fastify.metrics.client` which you may use it in your routes.
+
+You may create your metrics when app starts and store it in `fastify.metrics` object and reuse them in multiple routes.
+
+
 <sub>[Back to top](#toc)</sub>
 
 ### Plugin options
