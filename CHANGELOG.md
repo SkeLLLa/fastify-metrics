@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://gitlab.com/m03geek/fastify-metrics/compare/v1.1.0...v2.0.0) (2018-10-02)
+
+
+### Features
+
+* **metrics:** add metric default customization ([c7a74b9](https://gitlab.com/m03geek/fastify-metrics/commit/c7a74b9))
+* **metrics:** remove count and rename histogram ([9cc92e4](https://gitlab.com/m03geek/fastify-metrics/commit/9cc92e4))
+
+
+### BREAKING CHANGES
+
+* **metrics:** Histogram metric new name http_request_duration_seconds
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://gitlab.com/m03geek/fastify-metrics/compare/v1.0.1...v1.1.0) (2018-09-28)
 
