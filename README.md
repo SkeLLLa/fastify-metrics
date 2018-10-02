@@ -26,6 +26,7 @@ This plugin also adds 3 http metrics for your routes:
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
     - [Plugin options](#plugin-options)
+      - [Metrics details](#metrics-details)
     - [HTTP routes metrics](#http-routes-metrics)
   - [See also](#see-also)
   - [License](#license)
@@ -75,15 +76,58 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 |  parameter  |  type  |  description   |  default  |
 |-------------|--------|----------------|-----------|
 | `enableDefaultMetrics` | Boolean | Enables collection of default metrics. | `true` |
+| `pluginName` | String | Change name which you'll use to access prometheus client instance in fastify. | `metrics` |
 | `interval` | Number | Default metrics collection interval in ms. | `5000` |
 | `register` | Object | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
 | `prefix` | String | Custom default metrics prefix. | `""` |
 | `endpoint` | String | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
+| `metrics` | Object | Allows override default metrics config. See section below. | `{}` |
+
+#### Metrics details
+
+You may override default metrics settings. You may provide overrides for two metrics tracking http request durations: `histogram` and `summary`.
+Default values:
+
+```js
+{
+  histogram: {
+    name: 'http_request_duration_seconds',
+    help: 'request duration in seconds',
+    labelNames: ['status_code', 'method', 'route'],
+    buckets: [0.005, 0.05, 0.1, 0.5, 1, 3, 5, 10],
+  },
+  summary: {
+    name: 'http_request_summary_seconds',
+    help: 'request duration in seconds summary',
+    labelNames: ['status_code', 'method', 'route'],
+    percentiles: [0.5, 0.9, 0.95, 0.99],
+  },
+}
+```
+
+You may also provide registers there or use it instead of prefix. Override should look like:
+
+```js
+const fastify = require('fastify');
+const app = fastify();
+const metricsPlugin = require('fastify-metrics');
+
+app.register(metricsPlugin, {endpoint: '/metrics', {
+  histogram: {
+    name: 'my_custom_http_request_duration_seconds',
+    buckets: [0.1, 0.5, 1, 3, 5],
+  },
+  summary: {
+    help: 'custom request duration in seconds summary help',
+    labelNames: ['status_code', 'method', 'route'],
+    percentiles: [0.5, 0.75, 0.9, 0.95, 0.99],
+  },
+}});
+```
 
 <sub>[Back to top](#toc)</sub>
 
 ### HTTP routes metrics
-
 
 |  metric  |  labels  |  description  |
 |----------|----------|---------------|
