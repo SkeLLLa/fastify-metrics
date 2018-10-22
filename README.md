@@ -14,10 +14,9 @@
 
 This plugin uses [prom-client](https://github.com/siimon/prom-client) that generates swagger 2.0 docs.
 
-This plugin also adds 3 http metrics for your routes:
-* Requests count
-* Requests timing histogram
-* Requests timing summary
+This plugin also adds 2 http metrics for your routes:
+* Requests duration histogram
+* Requests duration summary
 
 ## ToC
 - [fastify-metrics](#fastify-metrics)
@@ -129,11 +128,13 @@ app.register(metricsPlugin, {endpoint: '/metrics', {
 
 ### HTTP routes metrics
 
+The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
+
 |  metric  |  labels  |  description  |
 |----------|----------|---------------|
-| `http_request_count` | `method`, `route`, `status_code` | Requests count |
-| `http_request_buckets_seconds` | `method`, `route`, `status_code` | Requests timing by bucket |
-| `http_request_summary_seconds` | `method`, `route`, `status_code` | Requests timing by quantile |
+| `http_request_duration_seconds_count` | `method`, `route`, `status_code` | Requests total count |
+| `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket |
+| `http_request_duration_seconds_sum` | `method`, `route`, `status_code` | Requests duration summaries by quantile |
 
 <sub>[Back to top](#toc)</sub>
 
