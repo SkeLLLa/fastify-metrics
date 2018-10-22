@@ -1,6 +1,6 @@
 {
   "name": "fastify-metrics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Prometheus metrics exporter for Fastify",
   "main": "lib/index.js",
   "config": {
