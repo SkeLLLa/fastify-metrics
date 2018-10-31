@@ -81,6 +81,7 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 | `prefix` | String | Custom default metrics prefix. | `""` |
 | `endpoint` | String | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
 | `metrics` | Object | Allows override default metrics config. See section below. | `{}` |
+| `blacklist` | String, RegExp, String[] | Skip metrics collection for blacklisted routes | `undefined` |
 
 #### Metrics details
 
