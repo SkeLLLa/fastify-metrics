@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://gitlab.com/m03geek/fastify-metrics/compare/v2.0.2...v2.1.0) (2018-10-31)
+
+
+### Features
+
+* add group status codes option ([dcf658e](https://gitlab.com/m03geek/fastify-metrics/commit/dcf658e))
+* add routes blacklist ([0c9669a](https://gitlab.com/m03geek/fastify-metrics/commit/0c9669a))
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://gitlab.com/m03geek/fastify-metrics/compare/v2.0.1...v2.0.2) (2018-10-22)
 
