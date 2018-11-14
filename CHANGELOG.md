@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.1"></a>
+## [2.1.1](https://gitlab.com/m03geek/fastify-metrics/compare/v2.1.0...v2.1.1) (2018-11-14)
+
+
+### Bug Fixes
+
+* **blacklist:** remove query string ([5c268f5](https://gitlab.com/m03geek/fastify-metrics/commit/5c268f5))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://gitlab.com/m03geek/fastify-metrics/compare/v2.0.2...v2.1.0) (2018-10-31)
 
