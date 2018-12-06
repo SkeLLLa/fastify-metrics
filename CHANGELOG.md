@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://gitlab.com/m03geek/fastify-metrics/compare/v2.1.1...v2.1.2) (2018-12-06)
+
+
+### Bug Fixes
+
+* **registers:** fix registers registration ([6c3ba6d](https://gitlab.com/m03geek/fastify-metrics/commit/6c3ba6d))
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://gitlab.com/m03geek/fastify-metrics/compare/v2.1.0...v2.1.1) (2018-11-14)
 
