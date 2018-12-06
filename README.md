@@ -77,7 +77,7 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 | `enableDefaultMetrics` | Boolean | Enables collection of default metrics. | `true` |
 | `pluginName` | String | Change name which you'll use to access prometheus client instance in fastify. | `metrics` |
 | `interval` | Number | Default metrics collection interval in ms. | `5000` |
-| `register` | Object | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
+| `register` | Object, Array<Object> | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
 | `prefix` | String | Custom default metrics prefix. | `""` |
 | `endpoint` | String | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
 | `metrics` | Object | Allows override default metrics config. See section below. | `{}` |
