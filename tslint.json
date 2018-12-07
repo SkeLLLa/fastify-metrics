@@ -1,0 +1,38 @@
+{
+  "extends": ["tslint-eslint-rules"],
+  "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
+  "rules": {
+    "no-constant-condition": true,
+    "no-unnecessary-type-assertion": true,
+    "prefer-const": true,
+    "prefer-for-of": true,
+    "curly": true,
+    "forin": true,
+    "no-duplicate-variable": true,
+    "no-eval": true,
+    "no-invalid-template-strings": true,
+    "no-return-await": true,
+    "no-string-literal": true,
+    "no-string-throw": true,
+    "no-var-keyword": true,
+    "eofline": true,
+    "indent": [true, "spaces", 2],
+    "linebreak-style": [true, "LF"],
+    "no-duplicate-imports": true,
+    "object-literal-sort-keys": false,
+    "trailing-comma": [true, {"typeLiterals": "never", "arrays": "always", "objects": "always"}],
+    "array-type": [true, "generic"],
+    "arrow-parens": true,
+    "arrow-return-shorthand": true,
+    "class-name": true,
+    "import-spacing": true,
+    "no-consecutive-blank-lines": true,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    },
+    "type-literal-delimiter": true,
+    "semicolon": [true, "always"],
+    "quotemark": [true, "single"]
+  }
+}
