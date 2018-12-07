@@ -1,5 +1,9 @@
 .vscode
-__tests__
+test
+tsconfig.json
 coverage
 .*
 *.config.js
+docs/
+src/
+example/

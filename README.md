@@ -27,6 +27,8 @@ This plugin also adds 2 http metrics for your routes:
     - [Plugin options](#plugin-options)
       - [Metrics details](#metrics-details)
     - [HTTP routes metrics](#http-routes-metrics)
+  - [Docs](#docs)
+  - [Changelog](#changelog)
   - [See also](#see-also)
   - [License](#license)
 
@@ -77,7 +79,7 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 | `enableDefaultMetrics` | Boolean | Enables collection of default metrics. | `true` |
 | `pluginName` | String | Change name which you'll use to access prometheus client instance in fastify. | `metrics` |
 | `interval` | Number | Default metrics collection interval in ms. | `5000` |
-| `register` | Object, Array<Object> | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
+| `register` | Object | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
 | `prefix` | String | Custom default metrics prefix. | `""` |
 | `endpoint` | String | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
 | `metrics` | Object | Allows override default metrics config. See section below. | `{}` |
@@ -95,7 +97,7 @@ Default values:
     name: 'http_request_duration_seconds',
     help: 'request duration in seconds',
     labelNames: ['status_code', 'method', 'route'],
-    buckets: [0.005, 0.05, 0.1, 0.5, 1, 3, 5, 10],
+    buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
   },
   summary: {
     name: 'http_request_summary_seconds',
@@ -139,6 +141,14 @@ The following table shows what metrics will be available in Prometheus. Note suf
 | `http_request_duration_seconds_sum` | `method`, `route`, `status_code` | Requests duration summaries by quantile |
 
 <sub>[Back to top](#toc)</sub>
+
+## Docs
+
+See [docs](docs/README.md).
+
+## Changelog
+
+See [changelog](CHANGELOG.md).
 
 ## See also
 
