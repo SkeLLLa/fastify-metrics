@@ -21,6 +21,7 @@ This plugin also adds 2 http metrics for your routes:
 ## ToC
 - [fastify-metrics](#fastify-metrics)
   - [ToC](#toc)
+  - [Fastify support](#fastify-support)
   - [Installation](#installation)
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
@@ -31,6 +32,11 @@ This plugin also adds 2 http metrics for your routes:
   - [Changelog](#changelog)
   - [See also](#see-also)
   - [License](#license)
+
+## Fastify support
+
+- **v3.x.x** - supports `< fastify-2.0.0`
+- **v4.x.x** - will support `>= fastify-2.0.0`
 
 ## Installation
 
