@@ -17,6 +17,10 @@ Additional objects to store your metrics, registries, etc.
 
 * [client](fastifymetrics.md#client)
 
+### Methods
+
+* [clearRegister](fastifymetrics.md#clearregister)
+
 ---
 
 ## Properties
@@ -30,6 +34,22 @@ Additional objects to store your metrics, registries, etc.
 *Defined in plugin.ts:30*
 
 Prom-client
+
+___
+
+## Methods
+
+<a id="clearregister"></a>
+
+### `<Optional>` clearRegister
+
+▸ **clearRegister**(): `void`
+
+*Defined in plugin.ts:34*
+
+Expose register clear function if register was provided
+
+**Returns:** `void`
 
 ___
 
