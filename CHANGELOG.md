@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://gitlab.com/m03geek/fastify-metrics/compare/v2.1.3...v3.0.0) (2018-12-07)
+
+
+### Bug Fixes
+
+* metrics prefix fix ([4e102d6](https://gitlab.com/m03geek/fastify-metrics/commit/4e102d6))
+
+
+### Chores
+
+* mark changes as breaking ([d7f6c9a](https://gitlab.com/m03geek/fastify-metrics/commit/d7f6c9a))
+
+
+### Features
+
+* rewrite to typescript ([7797c6d](https://gitlab.com/m03geek/fastify-metrics/commit/7797c6d))
+
+
+### BREAKING CHANGES
+
+* Remove one bucket from histogram, rewrite to typescript
+
+
+
 <a name="2.1.3"></a>
 ## [2.1.3](https://gitlab.com/m03geek/fastify-metrics/compare/v2.1.2...v2.1.3) (2018-12-06)
 
