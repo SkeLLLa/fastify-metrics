@@ -7,14 +7,9 @@ cache:
     - node_modules/
 
 stages:
-  - prepare
   - verify
   - test
   - publish
-
-before_script:
-  - VERSION=$([ ! -z $CI_COMMIT_TAG ] && echo ${CI_COMMIT_TAG} || echo ${CI_COMMIT_REF_NAME})
-  - echo VERSION=$VERSION
 
 codestyle:
   stage: verify
@@ -22,6 +17,7 @@ codestyle:
     - npm ci
     - npm run lint
     - npm audit
+    - npm run build
 
 node:8:
   stage: test
@@ -31,32 +27,33 @@ node:8:
   script:
     - npm i
     - npm run unit
-  coverage: /^All files\s*\|\s*\d+\.*\d+\s*\|\s*(\d+\.*\d+)/
+  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
 
-node:9:
+node:10:
   stage: test
-  image: node:9
+  image: node:10
   only:
     - /^v\d+\.\d+\.\d+(-rc.\d+|)$/
   script:
     - npm i
     - npm run unit
-  coverage: /^All files\s*\|\s*\d+\.*\d+\s*\|\s*(\d+\.*\d+)/
+  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
 
 node:latest:
   stage: test
   image: node:latest
   script:
-    - npm ci
+    - npm i
     - npm run unit
-  coverage: /^All files\s*\|\s*\d+\.*\d+\s*\|\s*(\d+\.*\d+)/
+  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
 
 npm:
   stage: publish
   script:
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-    - npm ci
-    - npm publish
+    - npm i
+    - npm run build
+    - npm run pub
   environment:
     name: npm
     url: https://www.npmjs.com/package/${CI_PROJECT_NAME}
