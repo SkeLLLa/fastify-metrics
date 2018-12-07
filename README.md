@@ -146,9 +146,13 @@ The following table shows what metrics will be available in Prometheus. Note suf
 
 See [docs](docs/README.md).
 
+<sub>[Back to top](#toc)</sub>
+
 ## Changelog
 
 See [changelog](CHANGELOG.md).
+
+<sub>[Back to top](#toc)</sub>
 
 ## See also
 
