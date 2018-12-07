@@ -90,6 +90,7 @@ const fastifyMetricsPlugin: Plugin<
       } as SummaryConfiguration,
     };
     if (register) {
+      plugin.clearRegister = register.clear;
       defaultOpts.register = register;
       opts.histogram.registers = [register];
       opts.summary.registers = [register];

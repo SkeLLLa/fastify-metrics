@@ -29,6 +29,10 @@ export interface FastifyMetrics {
    */
   client: typeof promClient;
   /**
+   * Expose register clear function if register was provided
+   */
+  clearRegister?(): void;
+  /**
    * Additional objects to store your metrics, registries, etc.
    */
   [key: string]: any;
