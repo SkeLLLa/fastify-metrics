@@ -1,11 +1,8 @@
 .idea
 node_modules
+deploy
+build
 coverage
-logs
-*.log
-npm-debug.log*
-**/*.xxx.js
-.npm
-.DS_Store
-static/*
-!static/.*
+config/local.*
+**/*.xxx.js  
+dist/
