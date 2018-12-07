@@ -2,26 +2,38 @@
   "name": "fastify-metrics",
   "version": "2.1.3",
   "description": "Prometheus metrics exporter for Fastify",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "config": {
-    "releaseBranch": "master",
-    "mirror": "https://github.com/SkeLLLa/fastify-metrics",
-    "origin": "https://gitlab.com/m03geek/fastify-metrics"
+    "releaseBranch": "master"
   },
+  "directories": {
+    "doc": "docs",
+    "lib": "dist",
+    "test": "test"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.ts"
+  ],
   "standard-version": {
     "scripts": {
-      "prerelease": "npm run check-branch && npm run lint && npm run unit",
+      "prerelease": "npm run check-branch && npm run test && npm run typedoc && git add -u",
       "postbump": "echo Version: v$npm_package_version",
-      "postchangelog": "replace \"$npm_package_config_mirror\" \"$npm_package_config_origin\" CHANGELOG.md",
+      "postchangelog": "replace \"https://github.com/SkeLLLa/\" \"https://gitlab.com/m03geek/\" CHANGELOG.md",
       "posttag": "git push --follow-tags origin $npm_package_config_releaseBranch"
     }
   },
   "scripts": {
-    "release": "git add package.json package-lock.json && standard-version",
-    "check-branch": "if test \"$(git rev-parse --abbrev-ref HEAD)\" = \"$npm_package_config_releaseBranch\" ; then exit 0 ; else  echo \"Not on '$npm_package_config_releaseBranch' branch\" && exit 1 ; fi",
-    "lint": "eslint .",
+    "check-branch": "if test \"$(git rev-parse --abbrev-ref HEAD)\" = \"$npm_package_config_releaseBranch\" ; then exit 0 ; else  echo \"Not on '$npm_package_config_releaseBranch' branch\" && exit1 ; fi",
+    "lint": "eslint . && tslint -p ./ && tslint -p ./test",
+    "lint:fix": "eslint . --fix && tslint -p ./ --fix && tslint -p ./test --fix",
     "test": "npm audit && npm run lint && npm run unit",
-    "unit": "exit 0"
+    "unit": "jest",
+    "build": "tsc",
+    "release": "standard-version",
+    "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs",
+    "pub": "npm publish --access=public"
   },
   "repository": {
     "type": "git",
@@ -37,24 +49,26 @@
   "bugs": {
     "url": "https://gitlab.com/m03geek/fastify-metrics/issues"
   },
-  "directories": {
-    "test": "__tests__",
-    "lib": "lib"
-  },
-  "files": [
-    "lib/**/*.js"
-  ],
   "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
   "dependencies": {
     "fastify-plugin": "^1.3.0",
     "prom-client": "^11.2.0"
   },
   "devDependencies": {
-    "@types/node": "^10.12.12",
-    "eslint": "^5.9.0",
-    "eslint-config-google": "^0.11.0",
+    "@types/jest": "^23.3.10",
+    "@types/node": "^10.12.10",
+    "eslint": "^5.6.0",
+    "eslint-config-google": "*",
     "fastify": "^1.13.1",
+    "jest": "^23.0.0",
     "replace": "^1.0.0",
-    "standard-version": "^4.4.0"
+    "standard-version": "^4.0.0",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typedoc": "^0.13.0",
+    "typedoc-plugin-markdown": "^1.1.19",
+    "typescript": "^3.2.1"
   }
 }
