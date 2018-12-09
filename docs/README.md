@@ -6,7 +6,6 @@
 ### Modules
 
 * ["fastify"](modules/_fastify_.md)
-* ["http"](modules/_http_.md)
 
 ### Interfaces
 
@@ -28,7 +27,7 @@
 
 ▸ **fastifyMetricsPlugin**(fastify: *`FastifyInstance`*, __namedParameters?: *`object`*, next: *`fastifyPlugin.nextCallback`*): `void`
 
-*Defined in index.ts:38*
+*Defined in index.ts:35*
 
 **Parameters:**
 
