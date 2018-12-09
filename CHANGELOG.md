@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0-rc.0"></a>
+# [4.0.0-rc.0](https://gitlab.com/m03geek/fastify-metrics/compare/v3.1.1...v4.0.0-rc.0) (2018-12-09)
+
+
+### Features
+
+* fastify 2.0 support ([2981bdb](https://gitlab.com/m03geek/fastify-metrics/commit/2981bdb))
+
+
+### BREAKING CHANGES
+
+* drop fastify 1.X.X support
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://gitlab.com/m03geek/fastify-metrics/compare/v3.1.0...v3.1.1) (2018-12-07)
 
