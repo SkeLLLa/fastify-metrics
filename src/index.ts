@@ -19,10 +19,7 @@ declare module 'fastify' {
   interface RouteSchema {
     hide?: boolean; // for compatibility with fastify-oas
   }
-}
-
-declare module 'http' {
-  interface IncomingMessage {
+  interface FastifyRequest<HttpRequest, Query, Params, Headers, Body> {
     metrics?: {
       hist: (labels?: labelValues) => void;
       sum: (labels?: labelValues) => void;
@@ -125,7 +122,7 @@ const fastifyMetricsPlugin: Plugin<
     }
 
     fastify.addHook('onRequest', (request, _, next) => {
-      if (request.url && collectMetricsForUrl(request.url)) {
+      if (request.req.url && collectMetricsForUrl(request.req.url)) {
         request.metrics = {
           hist: routeHist.startTimer(),
           sum: routeSum.startTimer(),
@@ -134,23 +131,23 @@ const fastifyMetricsPlugin: Plugin<
       next();
     });
 
-    fastify.addHook('onSend', function(request, reply, _, next) {
-      if (request.raw.metrics) {
-        let routeId = reply.context.config.url || request.raw.url;
+    fastify.addHook('onResponse', function(request, reply, next) {
+      if (request.metrics) {
+        let routeId = reply.context.config.url || request.req.url;
         if (reply.context.config.statsId) {
           routeId = reply.context.config.statsId;
         }
-        const method = request.raw.method;
+        const method = request.req.method;
         const statusCode = groupStatusCodes
           ? `${Math.floor(reply.res.statusCode / 100)}xx`
           : reply.res.statusCode;
 
-        request.raw.metrics.sum({
+        request.metrics.sum({
           method: method || 'UNKNOWN',
           route: routeId,
           status_code: statusCode,
         });
-        request.raw.metrics.hist({
+        request.metrics.hist({
           method: method || 'UNKNOWN',
           route: routeId,
           status_code: statusCode,
@@ -165,6 +162,6 @@ const fastifyMetricsPlugin: Plugin<
 };
 
 export = fastifyPlugin(fastifyMetricsPlugin, {
-  fastify: '>=1.0.0',
+  fastify: '>=2.0.0',
   name: 'fastify-metrics',
 });
