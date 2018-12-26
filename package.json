@@ -18,22 +18,21 @@
   ],
   "standard-version": {
     "scripts": {
-      "prerelease": "npm run check-branch && npm run test && npm run typedoc && git add -u",
+      "prerelease": "npm run test",
       "postbump": "echo Version: v$npm_package_version",
       "postchangelog": "replace \"https://github.com/SkeLLLa/\" \"https://gitlab.com/m03geek/\" CHANGELOG.md",
       "posttag": "git push --follow-tags origin $npm_package_config_releaseBranch"
     }
   },
   "scripts": {
-    "check-branch": "if test \"$(git rev-parse --abbrev-ref HEAD)\" = \"$npm_package_config_releaseBranch\" ; then exit 0 ; else  echo \"Not on '$npm_package_config_releaseBranch' branch\" && exit1 ; fi",
     "lint": "eslint . && tslint -p ./ && tslint -p ./test",
     "lint:fix": "eslint . --fix && tslint -p ./ --fix && tslint -p ./test --fix",
     "test": "npm audit && npm run lint && npm run unit",
     "unit": "jest",
     "build": "tsc",
-    "release": "standard-version",
-    "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs",
-    "pub": "npm publish --access=public"
+    "prerelease": "npm run typedoc",
+    "release": "standard-version -A",
+    "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs"
   },
   "repository": {
     "type": "git",
@@ -51,24 +50,24 @@
   },
   "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
   "dependencies": {
-    "fastify-plugin": "^1.3.0",
-    "prom-client": "^11.2.0"
+    "fastify-plugin": "^1.4.0",
+    "prom-client": "^11.2.1"
   },
   "devDependencies": {
     "@types/jest": "^23.3.10",
-    "@types/node": "^10.12.10",
-    "eslint": "^5.6.0",
+    "@types/node": "^10.12.18",
+    "eslint": "^5.11.0",
     "eslint-config-google": "*",
-    "fastify": "^2.0.0-rc.1",
+    "fastify": "^2.0.0-rc.3",
     "jest": "^23.0.0",
-    "replace": "^1.0.0",
+    "replace": "^1.0.1",
     "standard-version": "^4.0.0",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
+    "tslint": "^5.12.0",
     "tslint-eslint-rules": "^5.4.0",
     "typedoc": "^0.13.0",
-    "typedoc-plugin-markdown": "^1.1.19",
+    "typedoc-plugin-markdown": "^1.1.20",
     "typescript": "^3.2.2"
   }
 }
