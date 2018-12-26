@@ -28,8 +28,7 @@
 
 ### `<Optional>` blacklist
 
-**● blacklist**: * `RegExp` &#124; `Array`<`string`> &#124; `string`
-*
+**● blacklist**: *`RegExp` | `Array`<`string`> | `string`*
 
 *Defined in plugin.ts:65*
 
@@ -40,8 +39,7 @@ ___
 
 ### `<Optional>` enableDefaultMetrics
 
-**● enableDefaultMetrics**: * `undefined` &#124; `false` &#124; `true`
-*
+**● enableDefaultMetrics**: *`undefined` | `false` | `true`*
 
 *Defined in plugin.ts:46*
 
@@ -53,8 +51,7 @@ ___
 
 ### `<Optional>` endpoint
 
-**● endpoint**: * `undefined` &#124; `string`
-*
+**● endpoint**: *`undefined` | `string`*
 
 *Defined in plugin.ts:77*
 
@@ -65,8 +62,7 @@ ___
 
 ### `<Optional>` groupStatusCodes
 
-**● groupStatusCodes**: * `undefined` &#124; `false` &#124; `true`
-*
+**● groupStatusCodes**: *`undefined` | `false` | `true`*
 
 *Defined in plugin.ts:51*
 
@@ -78,8 +74,7 @@ ___
 
 ### `<Optional>` interval
 
-**● interval**: * `undefined` &#124; `number`
-*
+**● interval**: *`undefined` | `number`*
 
 *Defined in plugin.ts:61*
 
@@ -102,8 +97,7 @@ ___
 
 ### `<Optional>` pluginName
 
-**● pluginName**: * `undefined` &#124; `string`
-*
+**● pluginName**: *`undefined` | `string`*
 
 *Defined in plugin.ts:56*
 
@@ -115,8 +109,7 @@ ___
 
 ### `<Optional>` prefix
 
-**● prefix**: * `undefined` &#124; `string`
-*
+**● prefix**: *`undefined` | `string`*
 
 *Defined in plugin.ts:73*
 

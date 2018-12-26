@@ -20,8 +20,7 @@
 
 ### `<Optional>` hide
 
-**● hide**: * `undefined` &#124; `false` &#124; `true`
-*
+**● hide**: *`undefined` | `false` | `true`*
 
 *Defined in index.ts:20*
 
