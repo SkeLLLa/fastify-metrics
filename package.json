@@ -31,7 +31,7 @@
     "unit": "jest",
     "build": "tsc",
     "prerelease": "npm run typedoc",
-    "release": "standard-version -A",
+    "release": "git add -A && standard-version -A",
     "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs"
   },
   "repository": {
