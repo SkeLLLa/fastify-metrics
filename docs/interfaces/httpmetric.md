@@ -35,7 +35,7 @@ ___
 
 ### `<Optional>` help
 
-**● help**: *`undefined` | `string`*
+**● help**: *`undefined` \| `string`*
 
 *Defined in plugin.ts:11*
 
@@ -57,7 +57,7 @@ ___
 
 ### `<Optional>` name
 
-**● name**: *`undefined` | `string`*
+**● name**: *`undefined` \| `string`*
 
 *Defined in plugin.ts:7*
 

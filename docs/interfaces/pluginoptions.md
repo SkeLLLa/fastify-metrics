@@ -28,7 +28,7 @@
 
 ### `<Optional>` blacklist
 
-**● blacklist**: *`RegExp` | `Array`<`string`> | `string`*
+**● blacklist**: *`RegExp` \| `Array`<`string`> \| `string`*
 
 *Defined in plugin.ts:65*
 
@@ -39,11 +39,12 @@ ___
 
 ### `<Optional>` enableDefaultMetrics
 
-**● enableDefaultMetrics**: *`undefined` | `false` | `true`*
+**● enableDefaultMetrics**: *`undefined` \| `false` \| `true`*
 
 *Defined in plugin.ts:46*
 
 Enable default nodejs metrics
+
 *__default__*: true
 
 ___
@@ -51,7 +52,7 @@ ___
 
 ### `<Optional>` endpoint
 
-**● endpoint**: *`undefined` | `string`*
+**● endpoint**: *`undefined` \| `string`*
 
 *Defined in plugin.ts:77*
 
@@ -62,11 +63,12 @@ ___
 
 ### `<Optional>` groupStatusCodes
 
-**● groupStatusCodes**: *`undefined` | `false` | `true`*
+**● groupStatusCodes**: *`undefined` \| `false` \| `true`*
 
 *Defined in plugin.ts:51*
 
 Groups status code labels by first digit 200 -> 2XX
+
 *__default__*: false
 
 ___
@@ -74,11 +76,12 @@ ___
 
 ### `<Optional>` interval
 
-**● interval**: *`undefined` | `number`*
+**● interval**: *`undefined` \| `number`*
 
 *Defined in plugin.ts:61*
 
 Metrics collection interval in ms
+
 *__default__*: 5000
 
 ___
@@ -97,11 +100,12 @@ ___
 
 ### `<Optional>` pluginName
 
-**● pluginName**: *`undefined` | `string`*
+**● pluginName**: *`undefined` \| `string`*
 
 *Defined in plugin.ts:56*
 
 Plugin name that will be registered in fastify
+
 *__default__*: metrics
 
 ___
@@ -109,7 +113,7 @@ ___
 
 ### `<Optional>` prefix
 
-**● prefix**: *`undefined` | `string`*
+**● prefix**: *`undefined` \| `string`*
 
 *Defined in plugin.ts:73*
 
