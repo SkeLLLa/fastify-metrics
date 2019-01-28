@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0-rc.4"></a>
+# [4.0.0-rc.4](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.0-rc.3...v4.0.0-rc.4) (2019-01-28)
+
+
+
 <a name="4.0.0-rc.3"></a>
 # [4.0.0-rc.3](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.0-rc.2...v4.0.0-rc.3) (2018-12-26)
 
