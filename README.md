@@ -12,7 +12,7 @@
 <!-- [![Coverage Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/coverage.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master) -->
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 
-This plugin uses [prom-client](https://github.com/siimon/prom-client) that generates swagger 2.0 docs.
+This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood.
 
 This plugin also adds 2 http metrics for your routes:
 * Requests duration histogram

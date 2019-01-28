@@ -20,8 +20,7 @@
 
 ### `<Optional>` metrics
 
-**● metrics**: * `undefined` &#124; `object`
-*
+**● metrics**: *`undefined` \| `object`*
 
 *Defined in index.ts:26*
 

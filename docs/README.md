@@ -38,15 +38,15 @@
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| blacklist |  `undefined` &#124; `string` &#124; `RegExp` &#124; `string`[]| - |
+| blacklist | `undefined` \| `string` \| `RegExp` \| `string`[] | - |
 | enableDefaultMetrics | `boolean` | true |
-| endpoint |  `undefined` &#124; `string`| - |
+| endpoint | `undefined` \| `string` | - |
 | groupStatusCodes | `boolean` | false |
 | interval | `number` | 5000 |
 | metrics | `any` | - |
 | pluginName | `string` | &quot;metrics&quot; |
-| prefix |  `undefined` &#124; `string`| - |
-| register |  `undefined` &#124; `Registry`| - |
+| prefix | `undefined` \| `string` | - |
+| register | `undefined` \| `Registry` | - |
 
 **next: `fastifyPlugin.nextCallback`**
 
