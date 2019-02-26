@@ -50,24 +50,24 @@
   },
   "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
   "dependencies": {
-    "fastify-plugin": "^1.4.0",
+    "fastify-plugin": "^1.5.0",
     "prom-client": "^11.2.1"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.13",
-    "@types/node": "^10.12.18",
-    "eslint": "^5.12.1",
-    "eslint-config-google": "*",
+    "@types/jest": "^23.3.14",
+    "@types/node": "^10.12.27",
+    "eslint": "^5.14.1",
+    "eslint-config-google": "^0.12.0",
     "fastify": "^2.0.0-rc.4",
-    "jest": "^24.0.0",
+    "jest": "^24.1.0",
     "replace": "^1.0.1",
-    "standard-version": "^4.0.0",
-    "ts-jest": "^23.10.5",
+    "standard-version": "^5.0.0",
+    "ts-jest": "^24.0.0",
     "ts-node": "^8.0.1",
-    "tslint": "^5.12.1",
+    "tslint": "^5.13.0",
     "tslint-eslint-rules": "^5.4.0",
     "typedoc": "^0.14.0",
-    "typedoc-plugin-markdown": "^1.1.25",
-    "typescript": "^3.2.4"
+    "typedoc-plugin-markdown": "^1.1.27",
+    "typescript": "^3.3.3333"
   }
 }
