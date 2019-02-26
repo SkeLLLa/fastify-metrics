@@ -29,7 +29,7 @@ Additional objects to store your metrics, registries, etc.
 
 ###  client
 
-**● client**: *`&quot;/home/m03geek/dev/os/fastify-metrics/node_modules/prom-client/index&quot;`*
+**● client**: *`"/home/m03geek/dev/os/fastify-metrics/node_modules/prom-client/index"`*
 
 *Defined in plugin.ts:30*
 
