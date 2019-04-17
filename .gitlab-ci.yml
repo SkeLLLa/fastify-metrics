@@ -16,7 +16,7 @@ codestyle:
   script:
     - npm ci
     - npm run lint
-    - npm audit
+    # - npm audit
     - npm run build
 
 node:8:
