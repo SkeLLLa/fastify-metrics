@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.2](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.1...v4.0.2) (2019-04-17)
+
+
+### Bug Fixes
+
+* make hasOwnProperty this to be opts ([aba8720](https://gitlab.com/m03geek/fastify-metrics/commit/aba8720))
+
+
+
 ## [4.0.1](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.0...v4.0.1) (2019-02-26)
 
 
