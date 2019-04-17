@@ -98,7 +98,7 @@ const fastifyMetricsPlugin: Plugin<
       opts.summary.name = `${prefix}${opts.summary.name}`;
     }
     Object.keys(metrics)
-      .filter(opts.hasOwnProperty)
+      .filter(opts.hasOwnProperty.bind(opts))
       .forEach((key) => {
         Object.assign(opts[key], metrics[key]);
       });
