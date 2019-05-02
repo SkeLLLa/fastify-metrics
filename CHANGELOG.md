@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.4](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.3...v4.0.4) (2019-05-02)
+
+
+### Bug Fixes
+
+* **audit:** fix typedoc audit issue ([2b4dfb2](https://gitlab.com/m03geek/fastify-metrics/commit/2b4dfb2))
+
+
+
 ## [4.0.3](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.2...v4.0.3) (2019-04-17)
 
 
