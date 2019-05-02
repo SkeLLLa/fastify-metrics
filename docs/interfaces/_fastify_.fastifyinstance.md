@@ -26,7 +26,9 @@
 
 **● metrics**: *[FastifyMetrics](fastifymetrics.md)*
 
-*Defined in index.ts:17*
+*Defined in index.ts:20*
+
+Metrics interface
 
 ___
 

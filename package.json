@@ -27,7 +27,7 @@
   "scripts": {
     "lint": "eslint . && tslint -p ./ && tslint -p ./test",
     "lint:fix": "eslint . --fix && tslint -p ./ --fix && tslint -p ./test --fix",
-    "test": "npm audit || true && npm run lint && npm run unit",
+    "test": "npm audit && npm run lint && npm run unit",
     "unit": "jest",
     "build": "tsc",
     "prerelease": "npm run typedoc",
@@ -60,6 +60,7 @@
     "eslint-config-google": "^0.12.0",
     "fastify": "^2.2.0",
     "jest": "^24.7.1",
+    "marked": "^0.6.2",
     "replace": "^1.1.0",
     "standard-version": "^5.0.2",
     "ts-jest": "^24.0.2",

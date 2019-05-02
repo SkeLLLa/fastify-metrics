@@ -27,7 +27,9 @@
 
 ▸ **fastifyMetricsPlugin**(fastify: *`FastifyInstance`*, __namedParameters?: *`object`*, next: *`fastifyPlugin.nextCallback`*): `void`
 
-*Defined in index.ts:35*
+*Defined in index.ts:50*
+
+Fastify metrics plugin
 
 **Parameters:**
 

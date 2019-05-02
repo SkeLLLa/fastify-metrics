@@ -22,7 +22,9 @@
 
 **● hide**: *`undefined` \| `false` \| `true`*
 
-*Defined in index.ts:20*
+*Defined in index.ts:26*
+
+Hides metric route from swagger/openapi documentation
 
 ___
 

@@ -28,7 +28,7 @@
 
 **● metrics**: *`undefined` \| `object`*
 
-*Defined in index.ts:23*
+*Defined in index.ts:29*
 
 ___
 
