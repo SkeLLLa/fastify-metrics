@@ -14,19 +14,34 @@ declare module 'fastify' {
     HttpRequest = http.IncomingMessage,
     HttpResponse = http.ServerResponse
   > {
+    /**
+     * Metrics interface
+     */
     metrics: FastifyMetrics;
   }
   interface RouteSchema {
+    /**
+     * Hides metric route from swagger/openapi documentation
+     */
     hide?: boolean; // for compatibility with fastify-oas
   }
   interface FastifyRequest<HttpRequest, Query, Params, Headers, Body> {
     metrics?: {
+      /**
+       * Request duration histogram
+       */
       hist: (labels?: labelValues) => void;
+      /**
+       * Request duration summary by quantiles
+       */
       sum: (labels?: labelValues) => void;
     };
   }
 }
 
+/**
+ * Fastify metrics plugin
+ */
 const fastifyMetricsPlugin: Plugin<
   http.Server,
   http.IncomingMessage,
