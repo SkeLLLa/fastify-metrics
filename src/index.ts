@@ -29,10 +29,12 @@ declare module 'fastify' {
     metrics?: {
       /**
        * Request duration histogram
+       * @param labels metric labels
        */
       hist: (labels?: labelValues) => void;
       /**
        * Request duration summary by quantiles
+       * @param labels metric labels
        */
       sum: (labels?: labelValues) => void;
     };
