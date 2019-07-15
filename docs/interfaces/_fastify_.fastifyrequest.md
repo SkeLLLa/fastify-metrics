@@ -1,34 +1,35 @@
-[fastify-metrics](../README.md) > ["fastify"](../modules/_fastify_.md) > [FastifyRequest](../interfaces/_fastify_.fastifyrequest.md)
+> **[fastify-metrics](../README.md)**
 
-# Interface: FastifyRequest
+["fastify"](../modules/_fastify_.md) / [FastifyRequest](_fastify_.fastifyrequest.md) /
+
+# Interface: FastifyRequest <**HttpRequest, Query, Params, Headers, Body**>
 
 ## Type parameters
-#### HttpRequest 
-#### Query 
-#### Params 
-#### Headers 
-#### Body 
+
+▪ **HttpRequest**
+
+▪ **Query**
+
+▪ **Params**
+
+▪ **Headers**
+
+▪ **Body**
+
 ## Hierarchy
 
-**FastifyRequest**
+* **FastifyRequest**
 
-## Index
+### Index
 
-### Properties
+#### Properties
 
-* [metrics](_fastify_.fastifyrequest.md#metrics)
-
----
+* [metrics](_fastify_.fastifyrequest.md#optional-metrics)
 
 ## Properties
 
-<a id="metrics"></a>
+### `Optional` metrics
 
-### `<Optional>` metrics
+• **metrics**? : *undefined | object*
 
-**● metrics**: *`undefined` \| `object`*
-
-*Defined in index.ts:29*
-
-___
-
+Defined in index.ts:29

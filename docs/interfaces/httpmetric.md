@@ -1,78 +1,69 @@
-[fastify-metrics](../README.md) > [HTTPMetric](../interfaces/httpmetric.md)
+> **[fastify-metrics](../README.md)**
+
+[HTTPMetric](httpmetric.md) /
 
 # Interface: HTTPMetric
 
 ## Hierarchy
 
-**HTTPMetric**
+* **HTTPMetric**
 
-## Index
+### Index
 
-### Properties
+#### Properties
 
-* [buckets](httpmetric.md#buckets)
-* [help](httpmetric.md#help)
-* [labelNames](httpmetric.md#labelnames)
-* [name](httpmetric.md#name)
-* [registers](httpmetric.md#registers)
-
----
+* [buckets](httpmetric.md#optional-buckets)
+* [help](httpmetric.md#optional-help)
+* [labelNames](httpmetric.md#optional-labelnames)
+* [name](httpmetric.md#optional-name)
+* [registers](httpmetric.md#optional-registers)
 
 ## Properties
 
-<a id="buckets"></a>
+### `Optional` buckets
 
-### `<Optional>` buckets
+• **buckets**? : *`Array<number>`*
 
-**● buckets**: *`Array`<`number`>*
-
-*Defined in plugin.ts:19*
+Defined in plugin.ts:19
 
 Histogram/Summary buckets
 
 ___
-<a id="help"></a>
 
-### `<Optional>` help
+### `Optional` help
 
-**● help**: *`undefined` \| `string`*
+• **help**? : *undefined | string*
 
-*Defined in plugin.ts:11*
+Defined in plugin.ts:11
 
 Metric description
 
 ___
-<a id="labelnames"></a>
 
-### `<Optional>` labelNames
+### `Optional` labelNames
 
-**● labelNames**: *`Array`<`string`>*
+• **labelNames**? : *`Array<string>`*
 
-*Defined in plugin.ts:15*
+Defined in plugin.ts:15
 
 Metric labels
 
 ___
-<a id="name"></a>
 
-### `<Optional>` name
+### `Optional` name
 
-**● name**: *`undefined` \| `string`*
+• **name**? : *undefined | string*
 
-*Defined in plugin.ts:7*
+Defined in plugin.ts:7
 
 Metric name
 
 ___
-<a id="registers"></a>
 
-### `<Optional>` registers
+### `Optional` registers
 
-**● registers**: *`Array`<`Registry`>*
+• **registers**? : *`Array<Registry>`*
 
-*Defined in plugin.ts:23*
+Defined in plugin.ts:23
 
 Prom-client registries
-
-___
-

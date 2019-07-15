@@ -1,34 +1,33 @@
-[fastify-metrics](../README.md) > ["fastify"](../modules/_fastify_.md) > [FastifyInstance](../interfaces/_fastify_.fastifyinstance.md)
+> **[fastify-metrics](../README.md)**
 
-# Interface: FastifyInstance
+["fastify"](../modules/_fastify_.md) / [FastifyInstance](_fastify_.fastifyinstance.md) /
+
+# Interface: FastifyInstance <**HttpServer, HttpRequest, HttpResponse**>
 
 ## Type parameters
-#### HttpServer 
-#### HttpRequest 
-#### HttpResponse 
+
+▪ **HttpServer**
+
+▪ **HttpRequest**
+
+▪ **HttpResponse**
+
 ## Hierarchy
 
-**FastifyInstance**
+* **FastifyInstance**
 
-## Index
+### Index
 
-### Properties
+#### Properties
 
 * [metrics](_fastify_.fastifyinstance.md#metrics)
 
----
-
 ## Properties
-
-<a id="metrics"></a>
 
 ###  metrics
 
-**● metrics**: *[FastifyMetrics](fastifymetrics.md)*
+• **metrics**: *[FastifyMetrics](fastifymetrics.md)*
 
-*Defined in index.ts:20*
+Defined in index.ts:20
 
 Metrics interface
-
-___
-

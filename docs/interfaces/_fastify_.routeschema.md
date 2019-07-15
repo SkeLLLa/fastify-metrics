@@ -1,30 +1,25 @@
-[fastify-metrics](../README.md) > ["fastify"](../modules/_fastify_.md) > [RouteSchema](../interfaces/_fastify_.routeschema.md)
+> **[fastify-metrics](../README.md)**
+
+["fastify"](../modules/_fastify_.md) / [RouteSchema](_fastify_.routeschema.md) /
 
 # Interface: RouteSchema
 
 ## Hierarchy
 
-**RouteSchema**
+* **RouteSchema**
 
-## Index
+### Index
 
-### Properties
+#### Properties
 
-* [hide](_fastify_.routeschema.md#hide)
-
----
+* [hide](_fastify_.routeschema.md#optional-hide)
 
 ## Properties
 
-<a id="hide"></a>
+### `Optional` hide
 
-### `<Optional>` hide
+• **hide**? : *undefined | false | true*
 
-**● hide**: *`undefined` \| `false` \| `true`*
-
-*Defined in index.ts:26*
+Defined in index.ts:26
 
 Hides metric route from swagger/openapi documentation
-
-___
-
