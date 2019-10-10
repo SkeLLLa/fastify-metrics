@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-["fastify"](../modules/_fastify_.md) / [FastifyInstance](_fastify_.fastifyinstance.md) /
+[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [FastifyInstance](_fastify_.fastifyinstance.md)
 
 # Interface: FastifyInstance <**HttpServer, HttpRequest, HttpResponse**>
 
@@ -16,9 +14,9 @@
 
 * **FastifyInstance**
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [metrics](_fastify_.fastifyinstance.md#metrics)
 

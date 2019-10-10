@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-[PluginOptions](pluginoptions.md) /
+[fastify-metrics](../README.md) › [PluginOptions](pluginoptions.md)
 
 # Interface: PluginOptions
 
@@ -8,9 +6,9 @@
 
 * **PluginOptions**
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [blacklist](pluginoptions.md#optional-blacklist)
 * [enableDefaultMetrics](pluginoptions.md#optional-enabledefaultmetrics)
@@ -26,7 +24,7 @@
 
 ### `Optional` blacklist
 
-• **blacklist**? : *`RegExp` | `Array<string>` | string*
+• **blacklist**? : *RegExp | Array‹string› | string*
 
 Defined in plugin.ts:65
 
@@ -114,7 +112,7 @@ ___
 
 ### `Optional` register
 
-• **register**? : *`promClient.Registry`*
+• **register**? : *promClient.Registry*
 
 Defined in plugin.ts:69
 

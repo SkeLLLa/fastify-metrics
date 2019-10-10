@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-[FastifyMetrics](fastifymetrics.md) /
+[fastify-metrics](../README.md) › [FastifyMetrics](fastifymetrics.md)
 
 # Interface: FastifyMetrics
 
@@ -10,17 +8,17 @@
 
 ## Indexable
 
-● \[▪ **key**: *string*\]: any
+* \[ **key**: *string*\]: any
 
 Additional objects to store your metrics, registries, etc.
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [client](fastifymetrics.md#client)
 
-#### Methods
+### Methods
 
 * [clearRegister](fastifymetrics.md#optional-clearregister)
 
@@ -28,7 +26,7 @@ Additional objects to store your metrics, registries, etc.
 
 ###  client
 
-• **client**: *`"/home/m03geek/dev/os/fastify-metrics/node_modules/prom-client/index"`*
+• **client**: *"/home/m03geek/dev/os/fastify-metrics/node_modules/prom-client/index"*
 
 Defined in plugin.ts:30
 

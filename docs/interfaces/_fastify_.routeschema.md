@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-["fastify"](../modules/_fastify_.md) / [RouteSchema](_fastify_.routeschema.md) /
+[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [RouteSchema](_fastify_.routeschema.md)
 
 # Interface: RouteSchema
 
@@ -8,9 +6,9 @@
 
 * **RouteSchema**
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [hide](_fastify_.routeschema.md#optional-hide)
 

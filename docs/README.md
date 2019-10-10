@@ -1,18 +1,20 @@
-> **[fastify-metrics](README.md)**
+[fastify-metrics](README.md)
 
-### Index
+# fastify-metrics
 
-#### Modules
+## Index
+
+### Modules
 
 * ["fastify"](modules/_fastify_.md)
 
-#### Interfaces
+### Interfaces
 
 * [FastifyMetrics](interfaces/fastifymetrics.md)
 * [HTTPMetric](interfaces/httpmetric.md)
 * [PluginOptions](interfaces/pluginoptions.md)
 
-#### Functions
+### Functions
 
 * [fastifyMetricsPlugin](README.md#const-fastifymetricsplugin)
 
@@ -20,7 +22,7 @@
 
 ### `Const` fastifyMetricsPlugin
 
-▸ **fastifyMetricsPlugin**(`fastify`: `FastifyInstance`, `__namedParameters`: object, `next`: `fastifyPlugin.nextCallback`): *void*
+▸ **fastifyMetricsPlugin**(`fastify`: FastifyInstance, `__namedParameters`: object, `next`: fastifyPlugin.nextCallback): *void*
 
 Defined in index.ts:52
 
@@ -28,22 +30,22 @@ Fastify metrics plugin
 
 **Parameters:**
 
-▪ **fastify**: *`FastifyInstance`*
+▪ **fastify**: *FastifyInstance*
 
 ▪`Default value`  **__namedParameters**: *object*=  {}
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`blacklist` | undefined \| string \| `RegExp` \| string[] | - |
+`blacklist` | undefined &#124; string &#124; RegExp &#124; string[] | - |
 `enableDefaultMetrics` | boolean | true |
-`endpoint` | undefined \| string | - |
+`endpoint` | undefined &#124; string | - |
 `groupStatusCodes` | boolean | false |
 `interval` | number | 5000 |
 `metrics` | any | - |
 `pluginName` | string | "metrics" |
-`prefix` | undefined \| string | - |
-`register` | undefined \| `Registry` | - |
+`prefix` | undefined &#124; string | - |
+`register` | undefined &#124; Registry | - |
 
-▪ **next**: *`fastifyPlugin.nextCallback`*
+▪ **next**: *fastifyPlugin.nextCallback*
 
 **Returns:** *void*

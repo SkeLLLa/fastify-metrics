@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-["fastify"](../modules/_fastify_.md) / [FastifyRequest](_fastify_.fastifyrequest.md) /
+[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [FastifyRequest](_fastify_.fastifyrequest.md)
 
 # Interface: FastifyRequest <**HttpRequest, Query, Params, Headers, Body**>
 
@@ -20,9 +18,9 @@
 
 * **FastifyRequest**
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [metrics](_fastify_.fastifyrequest.md#optional-metrics)
 

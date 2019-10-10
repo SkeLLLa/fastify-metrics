@@ -1,6 +1,4 @@
-> **[fastify-metrics](../README.md)**
-
-[HTTPMetric](httpmetric.md) /
+[fastify-metrics](../README.md) › [HTTPMetric](httpmetric.md)
 
 # Interface: HTTPMetric
 
@@ -8,9 +6,9 @@
 
 * **HTTPMetric**
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [buckets](httpmetric.md#optional-buckets)
 * [help](httpmetric.md#optional-help)
@@ -22,7 +20,7 @@
 
 ### `Optional` buckets
 
-• **buckets**? : *`Array<number>`*
+• **buckets**? : *Array‹number›*
 
 Defined in plugin.ts:19
 
@@ -42,7 +40,7 @@ ___
 
 ### `Optional` labelNames
 
-• **labelNames**? : *`Array<string>`*
+• **labelNames**? : *Array‹string›*
 
 Defined in plugin.ts:15
 
@@ -62,7 +60,7 @@ ___
 
 ### `Optional` registers
 
-• **registers**? : *`Array<Registry>`*
+• **registers**? : *Array‹Registry›*
 
 Defined in plugin.ts:23
 
