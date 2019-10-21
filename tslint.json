@@ -22,7 +22,7 @@
     "object-literal-sort-keys": false,
     "trailing-comma": [true, {"typeLiterals": "never", "arrays": "always", "objects": "always"}],
     "array-type": [true, "generic"],
-    "arrow-parens": true,
+    "arrow-parens": false,
     "arrow-return-shorthand": true,
     "class-name": true,
     "import-spacing": true,
