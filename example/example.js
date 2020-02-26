@@ -38,7 +38,7 @@ app.get(
     setTimeout(() => {
       reply.send({id, delay});
     }, delay);
-  }
+  },
 );
 
 app.get(
@@ -66,7 +66,7 @@ app.get(
     setTimeout(() => {
       reply.send({data: 'hello', delay});
     }, delay);
-  }
+  },
 );
 
 (async () => {
