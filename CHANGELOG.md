@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.7...v5.0.0) (2020-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* new default metrics and types (see prom-client v12 release notes)
+
+### Features
+
+* update to prom-client v12 ([6d4d949](https://gitlab.com/m03geek/fastify-metrics/commit/6d4d949b94c6156655812ff6e5bf8d6ed6fa83ea))
+
 ### [4.0.7](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.6...v4.0.7) (2019-10-11)
 
 ### [4.0.6](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.5...v4.0.6) (2019-10-10)
