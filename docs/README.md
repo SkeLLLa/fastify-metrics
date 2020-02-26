@@ -22,7 +22,7 @@
 
 ### `Const` fastifyMetricsPlugin
 
-▸ **fastifyMetricsPlugin**(`fastify`: FastifyInstance, `__namedParameters`: object, `next`: fastifyPlugin.nextCallback): *void*
+▸ **fastifyMetricsPlugin**(`fastify`: [FastifyInstance](interfaces/_fastify_.fastifyinstance.md), `__namedParameters`: object, `next`: fastifyPlugin.nextCallback): *void*
 
 Defined in index.ts:52
 
@@ -30,21 +30,20 @@ Fastify metrics plugin
 
 **Parameters:**
 
-▪ **fastify**: *FastifyInstance*
+▪ **fastify**: *[FastifyInstance](interfaces/_fastify_.fastifyinstance.md)*
 
-▪`Default value`  **__namedParameters**: *object*=  {}
+▪`Default value`  **__namedParameters**: *object*= {}
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`blacklist` | undefined &#124; string &#124; RegExp &#124; string[] | - |
+`blacklist` | undefined &#124; string &#124; RegExp‹› &#124; string[] | - |
 `enableDefaultMetrics` | boolean | true |
 `endpoint` | undefined &#124; string | - |
 `groupStatusCodes` | boolean | false |
-`interval` | number | 5000 |
 `metrics` | any | - |
 `pluginName` | string | "metrics" |
 `prefix` | undefined &#124; string | - |
-`register` | undefined &#124; Registry | - |
+`register` | undefined &#124; Registry‹› | - |
 
 ▪ **next**: *fastifyPlugin.nextCallback*
 

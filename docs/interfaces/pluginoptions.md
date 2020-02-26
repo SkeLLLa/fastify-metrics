@@ -14,7 +14,6 @@
 * [enableDefaultMetrics](pluginoptions.md#optional-enabledefaultmetrics)
 * [endpoint](pluginoptions.md#optional-endpoint)
 * [groupStatusCodes](pluginoptions.md#optional-groupstatuscodes)
-* [interval](pluginoptions.md#optional-interval)
 * [metrics](pluginoptions.md#optional-metrics)
 * [pluginName](pluginoptions.md#optional-pluginname)
 * [prefix](pluginoptions.md#optional-prefix)
@@ -26,7 +25,7 @@
 
 • **blacklist**? : *RegExp | Array‹string› | string*
 
-Defined in plugin.ts:65
+Defined in plugin.ts:60
 
 Routes blacklist that will be excluded from metrics collection
 
@@ -48,7 +47,7 @@ ___
 
 • **endpoint**? : *undefined | string*
 
-Defined in plugin.ts:77
+Defined in plugin.ts:72
 
 Metrics endpoint for Prometheus
 
@@ -66,23 +65,11 @@ Groups status code labels by first digit 200 -> 2XX
 
 ___
 
-### `Optional` interval
-
-• **interval**? : *undefined | number*
-
-Defined in plugin.ts:61
-
-Metrics collection interval in ms
-
-**`default`** 5000
-
-___
-
 ### `Optional` metrics
 
 • **metrics**? : *any*
 
-Defined in plugin.ts:81
+Defined in plugin.ts:76
 
 HTTP metrics overrides
 
@@ -104,7 +91,7 @@ ___
 
 • **prefix**? : *undefined | string*
 
-Defined in plugin.ts:73
+Defined in plugin.ts:68
 
 Metrics prefix
 
@@ -114,6 +101,6 @@ ___
 
 • **register**? : *promClient.Registry*
 
-Defined in plugin.ts:69
+Defined in plugin.ts:64
 
 Prom client registry for default metrics and route metrics

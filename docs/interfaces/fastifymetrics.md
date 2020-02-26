@@ -26,7 +26,7 @@ Additional objects to store your metrics, registries, etc.
 
 ###  client
 
-• **client**: *"/home/m03geek/dev/os/fastify-metrics/node_modules/prom-client/index"*
+• **client**: *typeof promClient*
 
 Defined in plugin.ts:30
 
