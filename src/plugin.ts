@@ -55,11 +55,6 @@ export interface PluginOptions {
    */
   pluginName?: string;
   /**
-   * Metrics collection interval in ms
-   * @default 5000
-   */
-  interval?: number;
-  /**
    * Routes blacklist that will be excluded from metrics collection
    */
   blacklist?: RegExp | Array<string> | string;

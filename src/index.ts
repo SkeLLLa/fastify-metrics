@@ -1,12 +1,12 @@
-import {FastifyInstance, Plugin} from 'fastify';
+import { FastifyInstance, Plugin } from 'fastify';
 import * as http from 'http';
 import fastifyPlugin from 'fastify-plugin';
 import client, {
   HistogramConfiguration,
   SummaryConfiguration,
-  labelValues,
+  LabelValues
 } from 'prom-client';
-import {PluginOptions, FastifyMetrics} from './plugin';
+import { PluginOptions, FastifyMetrics } from './plugin';
 
 declare module 'fastify' {
   interface FastifyInstance<
@@ -31,12 +31,12 @@ declare module 'fastify' {
        * Request duration histogram
        * @param labels metric labels
        */
-      hist: (labels?: labelValues) => void;
+      hist: (labels?: LabelValues<string>) => void;
       /**
        * Request duration summary by quantiles
        * @param labels metric labels
        */
-      sum: (labels?: labelValues) => void;
+      sum: (labels?: LabelValues<string>) => void;
     };
   }
 }
@@ -55,16 +55,15 @@ const fastifyMetricsPlugin: Plugin<
     enableDefaultMetrics = true,
     groupStatusCodes = false,
     pluginName = 'metrics',
-    interval = 5000,
     blacklist,
     register,
     prefix,
     endpoint,
-    metrics = {},
+    metrics = {}
   }: PluginOptions = {},
   next: fastifyPlugin.nextCallback
 ) {
-  const plugin: FastifyMetrics = {client};
+  const plugin: FastifyMetrics = { client };
 
   if (enableDefaultMetrics) {
     const collectMetricsForUrl = (url: string) => {
@@ -84,24 +83,24 @@ const fastifyMetricsPlugin: Plugin<
       }
       return false;
     };
-    const defaultOpts: client.DefaultMetricsCollectorConfiguration = {
-      timeout: interval,
-    };
+    const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
     const opts: {
-      [name: string]: HistogramConfiguration | SummaryConfiguration;
+      [name: string]:
+        | HistogramConfiguration<string>
+        | SummaryConfiguration<string>;
     } = {
       histogram: {
         name: 'http_request_duration_seconds',
         help: 'request duration in seconds',
         labelNames: ['status_code', 'method', 'route'],
-        buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
-      } as HistogramConfiguration,
+        buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10]
+      } as HistogramConfiguration<string>,
       summary: {
         name: 'http_request_summary_seconds',
         help: 'request duration in seconds summary',
         labelNames: ['status_code', 'method', 'route'],
-        percentiles: [0.5, 0.9, 0.95, 0.99],
-      } as SummaryConfiguration,
+        percentiles: [0.5, 0.9, 0.95, 0.99]
+      } as SummaryConfiguration<string>
     };
     if (register) {
       plugin.clearRegister = register.clear;
@@ -116,7 +115,7 @@ const fastifyMetricsPlugin: Plugin<
     }
     Object.keys(metrics)
       .filter(opts.hasOwnProperty.bind(opts))
-      .forEach((key) => {
+      .forEach(key => {
         Object.assign(opts[key], metrics[key]);
       });
 
@@ -128,13 +127,13 @@ const fastifyMetricsPlugin: Plugin<
       fastify.route({
         url: endpoint,
         method: 'GET',
-        schema: {hide: true},
+        schema: { hide: true },
         handler: (_, reply) => {
           const data = register
             ? register.metrics()
             : client.register.metrics();
           reply.type('text/plain').send(data);
-        },
+        }
       });
     }
 
@@ -142,7 +141,7 @@ const fastifyMetricsPlugin: Plugin<
       if (request.req.url && collectMetricsForUrl(request.req.url)) {
         request.metrics = {
           hist: routeHist.startTimer(),
-          sum: routeSum.startTimer(),
+          sum: routeSum.startTimer()
         };
       }
       next();
@@ -162,12 +161,12 @@ const fastifyMetricsPlugin: Plugin<
         request.metrics.sum({
           method: method || 'UNKNOWN',
           route: routeId,
-          status_code: statusCode,
+          status_code: statusCode
         });
         request.metrics.hist({
           method: method || 'UNKNOWN',
           route: routeId,
-          status_code: statusCode,
+          status_code: statusCode
         });
       }
       next();
@@ -180,5 +179,5 @@ const fastifyMetricsPlugin: Plugin<
 
 export = fastifyPlugin(fastifyMetricsPlugin, {
   fastify: '>=2.0.0',
-  name: 'fastify-metrics',
+  name: 'fastify-metrics'
 });
