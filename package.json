@@ -9,12 +9,13 @@
   },
   "directories": {
     "doc": "docs",
-    "lib": "dist",
+    
     "test": "test"
   },
   "files": [
     "dist/**/*.js",
-    "dist/**/*.ts"
+    "dist/**/*.ts",
+    "dist/**/*.map"
   ],
   "standard-version": {
     "scripts": {
@@ -30,7 +31,9 @@
     "test": "npm audit || true && npm run lint && npm run unit",
     "unit": "jest",
     "build": "tsc",
+    "postbuild": "npm run fuck:typescript",
     "prerelease": "npm run typedoc",
+    "fuck:typescript": "replace \"/// <reference types=\\\"dist\\\" />\" \"\" dist/index.d.ts",
     "release": "git add -A && standard-version -a",
     "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs"
   },
@@ -60,7 +63,7 @@
     "eslint-config-google": "^0.14.0",
     "fastify": "^2.9.0",
     "jest": "^25.0.0",
-    "replace": "^1.1.1",
+    "replace": "^1.1.5",
     "standard-version": "^7.0.0",
     "ts-jest": "^25.0.0",
     "ts-node": "^8.4.1",
