@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://gitlab.com/m03geek/fastify-metrics/compare/v5.0.0...v5.0.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* **typescript:** add fucking typescript fixer ([f810673](https://gitlab.com/m03geek/fastify-metrics/commit/f810673672979bb54e972ff6d3aa9b69eae6a155))
+
 ## [5.0.0](https://gitlab.com/m03geek/fastify-metrics/compare/v4.0.7...v5.0.0) (2020-02-26)
 
 
