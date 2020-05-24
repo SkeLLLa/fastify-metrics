@@ -1,0 +1,17 @@
+{
+  "issueUrlFormat": "https://gitlab.com/m03geek/{{repository}}/issues/{{id}}",
+  "commitUrlFormat": "https://gitlab.com/m03geek/{{repository}}/commit/{{hash}}",
+  "compareUrlFormat": "https://gitlab.com/m03geek/{{repository}}/compare/{{previousTag}}...{{currentTag}}",
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "style", "section": "Style" },
+    { "type": "test", "section": "Tests" },
+    { "type": "chore", "section": "Misc" }
+  ],
+  "scripts": {
+    "prerelease": "npm test",
+    "postbump": "echo Version: v$npm_package_version",
+    "posttag": "git push --follow-tags"
+  }
+}
