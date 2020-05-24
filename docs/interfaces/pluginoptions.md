@@ -25,7 +25,7 @@
 
 • **blacklist**? : *RegExp | Array‹string› | string*
 
-Defined in plugin.ts:60
+Defined in plugin.ts:57
 
 Routes blacklist that will be excluded from metrics collection
 
@@ -35,7 +35,7 @@ ___
 
 • **enableDefaultMetrics**? : *undefined | false | true*
 
-Defined in plugin.ts:46
+Defined in plugin.ts:43
 
 Enable default nodejs metrics
 
@@ -47,7 +47,7 @@ ___
 
 • **endpoint**? : *undefined | string*
 
-Defined in plugin.ts:72
+Defined in plugin.ts:69
 
 Metrics endpoint for Prometheus
 
@@ -57,7 +57,7 @@ ___
 
 • **groupStatusCodes**? : *undefined | false | true*
 
-Defined in plugin.ts:51
+Defined in plugin.ts:48
 
 Groups status code labels by first digit 200 -> 2XX
 
@@ -67,9 +67,9 @@ ___
 
 ### `Optional` metrics
 
-• **metrics**? : *any*
+• **metrics**? : *Partial‹[MetricConfig](metricconfig.md)›*
 
-Defined in plugin.ts:76
+Defined in plugin.ts:73
 
 HTTP metrics overrides
 
@@ -79,7 +79,7 @@ ___
 
 • **pluginName**? : *undefined | string*
 
-Defined in plugin.ts:56
+Defined in plugin.ts:53
 
 Plugin name that will be registered in fastify
 
@@ -91,7 +91,7 @@ ___
 
 • **prefix**? : *undefined | string*
 
-Defined in plugin.ts:68
+Defined in plugin.ts:65
 
 Metrics prefix
 
@@ -101,6 +101,6 @@ ___
 
 • **register**? : *promClient.Registry*
 
-Defined in plugin.ts:64
+Defined in plugin.ts:61
 
 Prom client registry for default metrics and route metrics

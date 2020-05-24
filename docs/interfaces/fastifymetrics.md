@@ -8,7 +8,7 @@
 
 ## Indexable
 
-* \[ **key**: *string*\]: any
+* \[ **key**: *string*\]: unknown
 
 Additional objects to store your metrics, registries, etc.
 
@@ -28,7 +28,7 @@ Additional objects to store your metrics, registries, etc.
 
 • **client**: *typeof promClient*
 
-Defined in plugin.ts:30
+Defined in plugin.ts:27
 
 Prom-client
 
@@ -38,7 +38,7 @@ Prom-client
 
 ▸ **clearRegister**(): *void*
 
-Defined in plugin.ts:34
+Defined in plugin.ts:31
 
 Expose register clear function if register was provided
 

@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0-rc.0](https://gitlab.com/m03geek/fastify-metrics/compare/v5.0.1...v6.0.0-rc.0) (2020-05-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* fastify 3 support
+
+### Features
+
+* fastify 3 support ([6fc321f](https://gitlab.com/m03geek/fastify-metrics/commit/6fc321f957a85530a6fa5448c17fdf15184bb1e8))
+
+
+### Style
+
+* new lint rules ([51a39eb](https://gitlab.com/m03geek/fastify-metrics/commit/51a39eb02f07ac6b1e96cfa2583a010efd249f9c))
+
+
+### Tests
+
+* update test config ([993467e](https://gitlab.com/m03geek/fastify-metrics/commit/993467ea701055be550f11f2e34792dbcd6e146e))
+* update tests ([eea3792](https://gitlab.com/m03geek/fastify-metrics/commit/eea3792438b17ea0e140dd31d9f96ccd7974cbe5))
+
+
+### Misc
+
+* rename workflows ([b19f1f1](https://gitlab.com/m03geek/fastify-metrics/commit/b19f1f120e444ea89a85cc3e00e8d83234ca7b29))
+* **deps:** bump acorn from 6.4.0 to 6.4.1 ([dc52000](https://gitlab.com/m03geek/fastify-metrics/commit/dc520000ed424e8736dd33f8823f3f9574fc0562))
+* **deps:** bump jquery from 3.4.1 to 3.5.0 ([1f0b356](https://gitlab.com/m03geek/fastify-metrics/commit/1f0b356eeb9449ae5a097d75786603f2306cff1a))
+* **deps:** update ([0e0b329](https://gitlab.com/m03geek/fastify-metrics/commit/0e0b3299d3dd800ee61400a496fbc100bb239569))
+
 ### [5.0.1](https://gitlab.com/m03geek/fastify-metrics/compare/v5.0.0...v5.0.1) (2020-02-28)
 
 
