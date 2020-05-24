@@ -1,4 +1,4 @@
-name: Verify
+name: build
 
 on:
   push:
