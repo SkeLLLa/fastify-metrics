@@ -2,74 +2,76 @@
   "name": "fastify-metrics",
   "version": "5.0.1",
   "description": "Prometheus metrics exporter for Fastify",
+  "keywords": [
+    "fastify",
+    "prometheus",
+    "metrics"
+  ],
+  "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
+  "bugs": {
+    "url": "https://gitlab.com/m03geek/fastify-metrics/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SkeLLLa/fastify-metrics.git"
+  },
+  "license": "MIT",
+  "author": "m03geek",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "config": {
-    "releaseBranch": "master"
-  },
   "directories": {
-    "doc": "docs",
-    "test": "test"
+    "doc": "docs"
   },
   "files": [
     "dist/**/*.js",
     "dist/**/*.ts",
     "dist/**/*.map"
   ],
-  "standard-version": {
-    "scripts": {
-      "prerelease": "npm run test",
-      "postbump": "echo Version: v$npm_package_version",
-      "postchangelog": "replace \"https://github.com/SkeLLLa/\" \"https://gitlab.com/m03geek/\" CHANGELOG.md",
-      "posttag": "git push --follow-tags origin $npm_package_config_releaseBranch"
-    }
-  },
   "scripts": {
-    "lint": "eslint . && tslint -p ./ && tslint -p ./test",
-    "lint:fix": "eslint . --fix && tslint -p ./ --fix && tslint -p ./test --fix",
-    "test": "npm audit || true && npm run lint && npm run unit",
-    "unit": "jest",
     "build": "tsc",
-    "postbuild": "npm run fuck:typescript",
+    "lint": "eslint .",
     "prerelease": "npm run typedoc",
-    "fuck:typescript": "replace \"/// <reference types=\\\"dist\\\" />\" \"\" dist/index.d.ts",
     "release": "git add -A && standard-version -a",
-    "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs"
+    "test": "npm audit --production && npm run lint && npm run unit",
+    "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs",
+    "unit": "jest",
+    "postunit": "codecov || true"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SkeLLLa/fastify-metrics.git"
+  "config": {
+    "releaseBranch": "master"
   },
-  "keywords": [
-    "fastify",
-    "prometheus",
-    "metrics"
-  ],
-  "author": "m03geek",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/m03geek/fastify-metrics/issues"
-  },
-  "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
   "dependencies": {
-    "fastify-plugin": "^1.6.0",
+    "deepmerge": "^4.2.2",
+    "fastify-plugin": "^2.0.0",
     "prom-client": "^12.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.0.0",
-    "@types/node": "^13.0.0",
-    "eslint": "^6.5.1",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
+    "codecov": "^3.7.0",
+    "eslint": "^7.0.0",
     "eslint-config-google": "^0.14.0",
-    "fastify": "^2.9.0",
-    "jest": "^25.0.0",
-    "replace": "^1.1.5",
-    "standard-version": "^7.0.0",
-    "ts-jest": "^25.0.0",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "typedoc": "^0.16.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.10.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-sort-requires": "^2.1.0",
+    "fastify": "^3.0.0-rc.3",
+    "husky": "^4.2.5",
+    "jest": "^26.0.0",
+    "prettier": "^2.0.5",
+    "prettier-plugin-packagejson": "^2.2.3",
+    "pretty-quick": "^2.0.1",
+    "replace": "^1.2.0",
+    "standard-version": "^8.0.0",
+    "ts-jest": "^26.0.0",
+    "ts-node": "^8.10.1",
+    "typedoc": "^0.17.0",
     "typedoc-plugin-markdown": "^2.2.10",
-    "typescript": "^3.6.4"
+    "typescript": "^3.8.3"
   }
 }

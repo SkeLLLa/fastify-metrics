@@ -7,3 +7,8 @@ coverage
 docs/
 src/
 example/
+**/*.spec.*
+**/__tests__
+**/__mocks__
+**/__snapshots__
+*.png
