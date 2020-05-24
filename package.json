@@ -28,6 +28,7 @@
     "dist/**/*.map"
   ],
   "scripts": {
+    "get-changelog": "conventional-changelog -r 2 -p angular",
     "build": "tsc",
     "lint": "eslint .",
     "prerelease": "npm run typedoc",
@@ -53,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "^3.0.0",
     "@typescript-eslint/parser": "^3.0.0",
     "codecov": "^3.7.0",
+    "conventional-changelog-cli": "^2.0.34",
     "eslint": "^7.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.11.0",

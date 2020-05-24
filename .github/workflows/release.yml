@@ -3,7 +3,7 @@ on:
     tags:
       - '^v\d+\.\d+\.\d+(-rc.\d+|)'
 
-name: Create Release
+name: release
 
 jobs:
   release:
