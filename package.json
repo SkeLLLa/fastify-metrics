@@ -3,9 +3,11 @@
   "version": "6.0.0-rc.3",
   "description": "Prometheus metrics exporter for Fastify",
   "keywords": [
-    "fastify",
+    "fastify-plugin",
+    "metrics",
     "prometheus",
-    "metrics"
+    "fastify",
+    "plugin"
   ],
   "homepage": "https://gitlab.com/m03geek/fastify-metrics#README",
   "bugs": {
@@ -33,9 +35,6 @@
     "typedoc": "rm -rf ./docs/* && typedoc --excludeExternals --name \"$npm_package_name\" --readme none --mode file --includeDeclarations --theme markdown --out ./docs",
     "unit": "jest",
     "postunit": "codecov || true"
-  },
-  "config": {
-    "releaseBranch": "master"
   },
   "dependencies": {
     "deepmerge": "^4.2.2",
