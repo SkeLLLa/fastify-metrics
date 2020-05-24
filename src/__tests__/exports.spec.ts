@@ -1,7 +1,6 @@
-import { name } from '../../package.json';
 import fastifyPlugin = require('../index');
 
-describe(name, () => {
+describe('exports plugin', () => {
   test('fastify plugin exported', async () => {
     expect(fastifyPlugin).toBeDefined();
   });
