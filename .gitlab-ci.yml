@@ -1,11 +1,5 @@
 image: node:latest
 
-cache:
-  key: "$CI_BUILD_REF_NAME"
-  untracked: true
-  paths:
-    - node_modules/
-
 stages:
   - verify
   - test
@@ -19,31 +13,11 @@ codestyle:
     # - npm audit
     - npm run build
 
-node:8:
-  stage: test
-  image: node:8
-  only:
-    - /^v\d+\.\d+\.\d+(-rc.\d+|)$/
-  script:
-    - npm i
-    - npm run unit
-  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
-
-node:10:
-  stage: test
-  image: node:10
-  only:
-    - /^v\d+\.\d+\.\d+(-rc.\d+|)$/
-  script:
-    - npm i
-    - npm run unit
-  coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
-
 node:latest:
   stage: test
   image: node:latest
   script:
-    - npm i
+    - npm ci
     - npm run unit
   coverage: /^All files[^|]*\|[^|]*\s+([\d\.]+)/
 
