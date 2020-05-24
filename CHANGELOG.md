@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0-rc.2](https://gitlab.com/m03geek/fastify-metrics/compare/v6.0.0-rc.1...v6.0.0-rc.2) (2020-05-24)
+
+
+### Misc
+
+* ts build fix ([411681a](https://gitlab.com/m03geek/fastify-metrics/commit/411681a3b96133e8381597a019a8793c35eaab98))
+
 ## [6.0.0-rc.1](https://gitlab.com/m03geek/fastify-metrics/compare/v6.0.0-rc.0...v6.0.0-rc.1) (2020-05-24)
 
 

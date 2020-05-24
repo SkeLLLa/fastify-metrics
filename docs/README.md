@@ -38,7 +38,7 @@ ___
 
 • **fastifyPlugin**: *FastifyPlugin‹[PluginOptions](interfaces/pluginoptions.md)›*
 
-Defined in __tests__/exports.spec.ts:2
+Defined in __tests__/exports.spec.ts:1
 
 Defined in __tests__/metrics.spec.ts:1
 
