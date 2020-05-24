@@ -28,6 +28,8 @@ jobs:
         run: npm run lint --if-present
       - name: Test
         run: npm run unit --if-present -- --coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Archive code coverage results
         if: matrix.node-version == '14.x'
         uses: actions/upload-artifact@v1
