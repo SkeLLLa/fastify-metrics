@@ -24,7 +24,7 @@ jobs:
         run: npm run build --if-present
       - name: Audit
         run: npm audit --production
-      - name: lint
+      - name: Lint
         uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
