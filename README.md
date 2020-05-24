@@ -1,24 +1,29 @@
 # fastify-metrics
 
-<!-- <div align="center">
+<div align="center">
   <img src="https://gitlab.com/m03geek/fastify-metrics/raw/master/logo.png" alt="fastify-metrics logo"/>
-</div> -->
+</div>
 
 [![NPM Version](https://img.shields.io/npm/v/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Downloads Count](https://img.shields.io/npm/dm/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Vunerabilities Count](https://snyk.io/test/npm/fastify-metrics/badge.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Build Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/pipeline.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master)
 [![License](https://img.shields.io/npm/l/fastify-metrics.svg)](https://gitlab.com/m03geek/fastify-metrics/blob/master/LICENSE)
+[![Codecov](https://img.shields.io/codecov/c/gh/SkeLLLa/fastify-metrics.svg)](https://codecov.io/gh/SkeLLLa/fastify-metrics)
+
 <!-- [![Coverage Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/coverage.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master) -->
+
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 
 This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood.
 
 This plugin also adds 2 http metrics for your routes:
-* Requests duration histogram
-* Requests duration summary
+
+- Requests duration histogram
+- Requests duration summary
 
 ## ToC
+
 - [fastify-metrics](#fastify-metrics)
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
@@ -35,8 +40,10 @@ This plugin also adds 2 http metrics for your routes:
 
 ## Fastify support
 
-- **v3.x.x** - supports `< fastify-2.0.0`
-- **v4.x.x** - will support `>= fastify-2.0.0`
+- **v3.x.x** - supports `fastify-1.x`
+- **v4.x.x** - supports `fastify-2.x` `prom-client-11.x`
+- **v5.x.x** - supports `fastify-2.x` `prom-client-12.x`
+- **v6.x.x** - supports `fastify-3.x`
 
 ## Installation
 
@@ -48,14 +55,14 @@ npm i fastify-metrics --save
 
 ## Features and requirements
 
-* Collects default server metrics (see [prom-client](https://github.com/siimon/prom-client/tree/master/lib/metrics));
-* Collects route response timings
-* Adds `metrics` to fastify instance for your custom metrics.
+- Collects default server metrics (see [prom-client](https://github.com/siimon/prom-client/tree/master/lib/metrics));
+- Collects route response timings
+- Adds `metrics` to fastify instance for your custom metrics.
 
---- 
+---
 
-* Requires fastify `>=1.9.0`.
-* Node.js `>=8.9.0`.
+- Requires fastify `>=1.9.0`.
+- Node.js `>=8.9.0`.
 
 <sub>[Back to top](#toc)</sub>
 
@@ -68,29 +75,28 @@ const fastify = require('fastify');
 const app = fastify();
 
 const metricsPlugin = require('fastify-metrics');
-app.register(metricsPlugin, {endpoint: '/metrics'});
+app.register(metricsPlugin, { endpoint: '/metrics' });
 ```
 
 It also exports client to fastify instance `fastify.metrics.client` which you may use it in your routes.
 
 You may create your metrics when app starts and store it in `fastify.metrics` object and reuse them in multiple routes.
 
-
 <sub>[Back to top](#toc)</sub>
 
 ### Plugin options
 
-|  parameter  |  type  |  description   |  default  |
-|-------------|--------|----------------|-----------|
-| `enableDefaultMetrics` | Boolean | Enables collection of default metrics. | `true` |
-| `pluginName` | String | Change name which you'll use to access prometheus client instance in fastify. | `metrics` |
-| `interval` | Number | Default metrics collection interval in ms. | `5000` |
-| `register` | Object | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
-| `prefix` | String | Custom default metrics prefix. | `""` |
-| `endpoint` | String | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
-| `metrics` | Object | Allows override default metrics config. See section below. | `{}` |
-| `blacklist` | String, RegExp, String[] | Skip metrics collection for blacklisted routes | `undefined` |
-| `groupStatusCodes` | Boolean | Groups status codes (e.g. 2XX) if `true` | `false` |
+| parameter              | type                     | description                                                                                              | default     |
+| ---------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------- | ----------- |
+| `enableDefaultMetrics` | Boolean                  | Enables collection of default metrics.                                                                   | `true`      |
+| `pluginName`           | String                   | Change name which you'll use to access prometheus client instance in fastify.                            | `metrics`   |
+| `interval`             | Number                   | Default metrics collection interval in ms.                                                               | `5000`      |
+| `register`             | Object                   | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
+| `prefix`               | String                   | Custom default metrics prefix.                                                                           | `""`        |
+| `endpoint`             | String                   | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards.    | `undefined` |
+| `metrics`              | Object                   | Allows override default metrics config. See section below.                                               | `{}`        |
+| `blacklist`            | String, RegExp, String[] | Skip metrics collection for blacklisted routes                                                           | `undefined` |
+| `groupStatusCodes`     | Boolean                  | Groups status codes (e.g. 2XX) if `true`                                                                 | `false`     |
 
 #### Metrics details
 
@@ -140,11 +146,11 @@ app.register(metricsPlugin, {endpoint: '/metrics', {
 
 The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
 
-|  metric  |  labels  |  description  |
-|----------|----------|---------------|
-| `http_request_duration_seconds_count` | `method`, `route`, `status_code` | Requests total count |
-| `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket |
-| `http_request_duration_seconds_sum` | `method`, `route`, `status_code` | Requests duration summaries by quantile |
+| metric                                 | labels                           | description                             |
+| -------------------------------------- | -------------------------------- | --------------------------------------- |
+| `http_request_duration_seconds_count`  | `method`, `route`, `status_code` | Requests total count                    |
+| `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket            |
+| `http_request_duration_seconds_sum`    | `method`, `route`, `status_code` | Requests duration summaries by quantile |
 
 <sub>[Back to top](#toc)</sub>
 
@@ -162,7 +168,7 @@ See [changelog](CHANGELOG.md).
 
 ## See also
 
-* [fastify-prom-client](https://github.com/ExcitableAardvark/fastify-prom-client) - just simple client that adds aggregated http requests metric.
+- [fastify-prom-client](https://github.com/ExcitableAardvark/fastify-prom-client) - just simple client that adds aggregated http requests metric.
 
 <sub>[Back to top](#toc)</sub>
 
