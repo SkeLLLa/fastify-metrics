@@ -1,6 +1,5 @@
-import 'jest';
-import fastifyPlugin = require('../src/index');
-const {name} = require('../package.json');
+import { name } from '../../package.json';
+import fastifyPlugin = require('../index');
 
 describe(name, () => {
   test('fastify plugin exported', async () => {

@@ -1,31 +1,28 @@
-import { FastifyInstance, Plugin } from 'fastify';
-import * as http from 'http';
+import { FastifyInstance, FastifyPlugin, FastifyContext } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
-import client, {
-  HistogramConfiguration,
-  SummaryConfiguration,
-  LabelValues
-} from 'prom-client';
-import { PluginOptions, FastifyMetrics } from './plugin';
+import client, { LabelValues } from 'prom-client';
+import merge from 'deepmerge';
+import {
+  PluginOptions,
+  FastifyMetrics,
+  MetricsContextConfig,
+  MetricConfig,
+} from './plugin';
 
 declare module 'fastify' {
-  interface FastifyInstance<
-    HttpServer = http.Server,
-    HttpRequest = http.IncomingMessage,
-    HttpResponse = http.ServerResponse
-  > {
+  interface FastifyInstance {
     /**
      * Metrics interface
      */
     metrics: FastifyMetrics;
   }
-  interface RouteSchema {
+  interface FastifySchema {
     /**
      * Hides metric route from swagger/openapi documentation
      */
     hide?: boolean; // for compatibility with fastify-oas
   }
-  interface FastifyRequest<HttpRequest, Query, Params, Headers, Body> {
+  interface FastifyRequestInterface {
     metrics?: {
       /**
        * Request duration histogram
@@ -43,13 +40,9 @@ declare module 'fastify' {
 
 /**
  * Fastify metrics plugin
+ * @param {FastifyInstance} fastify - Fastify instance asdfasdf asdf asdf
  */
-const fastifyMetricsPlugin: Plugin<
-  http.Server,
-  http.IncomingMessage,
-  http.ServerResponse,
-  PluginOptions
-> = function fastifyMetrics(
+const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastifyMetrics(
   fastify: FastifyInstance,
   {
     enableDefaultMetrics = true,
@@ -59,9 +52,8 @@ const fastifyMetricsPlugin: Plugin<
     register,
     prefix,
     endpoint,
-    metrics = {}
-  }: PluginOptions = {},
-  next: fastifyPlugin.nextCallback
+    metrics = {},
+  }: PluginOptions = {}
 ) {
   const plugin: FastifyMetrics = { client };
 
@@ -84,26 +76,24 @@ const fastifyMetricsPlugin: Plugin<
       return false;
     };
     const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
-    const opts: {
-      [name: string]:
-        | HistogramConfiguration<string>
-        | SummaryConfiguration<string>;
-    } = {
+    const opts: MetricConfig = {
       histogram: {
         name: 'http_request_duration_seconds',
         help: 'request duration in seconds',
         labelNames: ['status_code', 'method', 'route'],
-        buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10]
-      } as HistogramConfiguration<string>,
+        buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
+      },
       summary: {
         name: 'http_request_summary_seconds',
         help: 'request duration in seconds summary',
         labelNames: ['status_code', 'method', 'route'],
-        percentiles: [0.5, 0.9, 0.95, 0.99]
-      } as SummaryConfiguration<string>
+        percentiles: [0.5, 0.9, 0.95, 0.99],
+      },
     };
     if (register) {
-      plugin.clearRegister = register.clear;
+      plugin.clearRegister = () => {
+        register.clear();
+      };
       defaultOpts.register = register;
       opts.histogram.registers = [register];
       opts.summary.registers = [register];
@@ -113,60 +103,63 @@ const fastifyMetricsPlugin: Plugin<
       opts.histogram.name = `${prefix}${opts.histogram.name}`;
       opts.summary.name = `${prefix}${opts.summary.name}`;
     }
-    Object.keys(metrics)
-      .filter(opts.hasOwnProperty.bind(opts))
-      .forEach(key => {
-        Object.assign(opts[key], metrics[key]);
-      });
+
+    const extendedOpts = merge<MetricConfig>(opts, metrics);
 
     client.collectDefaultMetrics(defaultOpts);
-    const routeHist = new client.Histogram(opts.histogram);
-    const routeSum = new client.Summary(opts.summary);
+    const routeHist = new client.Histogram(extendedOpts.histogram);
+    const routeSum = new client.Summary(extendedOpts.summary);
 
     if (endpoint) {
       fastify.route({
         url: endpoint,
         method: 'GET',
-        schema: { hide: true },
+        schema: {
+          // hide route from swagger plugins
+          hide: true,
+        },
         handler: (_, reply) => {
           const data = register
             ? register.metrics()
             : client.register.metrics();
           reply.type('text/plain').send(data);
-        }
+        },
       });
     }
 
     fastify.addHook('onRequest', (request, _, next) => {
-      if (request.req.url && collectMetricsForUrl(request.req.url)) {
+      if (request.raw.url && collectMetricsForUrl(request.raw.url)) {
         request.metrics = {
           hist: routeHist.startTimer(),
-          sum: routeSum.startTimer()
+          sum: routeSum.startTimer(),
         };
       }
       next();
     });
 
-    fastify.addHook('onResponse', function(request, reply, next) {
+    fastify.addHook('onResponse', function (request, reply, next) {
       if (request.metrics) {
-        let routeId = reply.context.config.url || request.req.url;
-        if (reply.context.config.statsId) {
-          routeId = reply.context.config.statsId;
+        const context: FastifyContext<MetricsContextConfig> = reply.context as FastifyContext<
+          MetricsContextConfig
+        >;
+        let routeId = context.config.url || request.raw.url;
+        if (context.config.statsId) {
+          routeId = context.config.statsId;
         }
-        const method = request.req.method;
+        const method = request.raw.method;
         const statusCode = groupStatusCodes
-          ? `${Math.floor(reply.res.statusCode / 100)}xx`
-          : reply.res.statusCode;
+          ? `${Math.floor(reply.raw.statusCode / 100)}xx`
+          : reply.raw.statusCode;
 
         request.metrics.sum({
           method: method || 'UNKNOWN',
           route: routeId,
-          status_code: statusCode
+          status_code: statusCode,
         });
         request.metrics.hist({
           method: method || 'UNKNOWN',
           route: routeId,
-          status_code: statusCode
+          status_code: statusCode,
         });
       }
       next();
@@ -174,10 +167,9 @@ const fastifyMetricsPlugin: Plugin<
   }
 
   fastify.decorate(pluginName, plugin);
-  next();
 };
 
 export = fastifyPlugin(fastifyMetricsPlugin, {
-  fastify: '>=2.0.0',
-  name: 'fastify-metrics'
+  fastify: '>=3.0.0',
+  name: 'fastify-metrics',
 });
