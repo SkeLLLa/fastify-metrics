@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0-rc.1](https://gitlab.com/m03geek/fastify-metrics/compare/v6.0.0-rc.0...v6.0.0-rc.1) (2020-05-24)
+
+
+### Misc
+
+* update lockfile ([4899d2f](https://gitlab.com/m03geek/fastify-metrics/commit/4899d2f8c06f32f86783f4a9a3d9dad63e30caa2))
+
 ## [6.0.0-rc.0](https://gitlab.com/m03geek/fastify-metrics/compare/v5.0.1...v6.0.0-rc.0) (2020-05-24)
 
 
