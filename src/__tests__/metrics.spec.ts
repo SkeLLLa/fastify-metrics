@@ -39,46 +39,6 @@ describe('metrics plugin', () => {
       url: '/test',
     });
 
-    // const expectedMetrics = [
-    //   // It should register histogram metrics for requests duration in seconds
-    //   '# HELP http_request_duration_seconds request duration in seconds',
-    //   '# TYPE http_request_duration_seconds histogram',
-    //   // GET /test
-    //   'http_request_duration_seconds_bucket{le="0.05",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="0.1",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="0.5",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="1",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="3",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="5",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="10",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="+Inf",method="GET",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_sum{method="GET",route="/test",status_code="200"}',
-    //   'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-    //   // POST /test
-    //   'http_request_duration_seconds_bucket{le="0.05",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="0.1",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="0.5",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="1",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="3",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="5",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="10",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_bucket{le="+Inf",method="POST",route="/test",status_code="200"} 1',
-    //   'http_request_duration_seconds_sum{method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.5",method="GET",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.9",method="GET",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.95",method="GET",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.99",method="GET",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds_sum{method="GET",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-    //   // POST /test
-    //   'http_request_summary_seconds{quantile="0.5",method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.9",method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.95",method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds{quantile="0.99",method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds_sum{method="POST",route="/test",status_code="200"}',
-    //   'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-    // ];
-
     const metrics = await app.inject({
       method: 'GET',
       url: '/metrics',
