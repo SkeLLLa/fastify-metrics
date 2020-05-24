@@ -10,6 +10,8 @@
 [![Build Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/pipeline.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master)
 [![License](https://img.shields.io/npm/l/fastify-metrics.svg)](https://gitlab.com/m03geek/fastify-metrics/blob/master/LICENSE)
 [![Codecov](https://img.shields.io/codecov/c/gh/SkeLLLa/fastify-metrics.svg)](https://codecov.io/gh/SkeLLLa/fastify-metrics)
+[![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/SkeLLLa/fastify-metrics.svg)](https://lgtm.com/projects/g/SkeLLLa/fastify-metrics/)
+[![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/SkeLLLa/yammy.svg)](https://lgtm.com/projects/g/SkeLLLa/fastify-metrics/)
 
 <!-- [![Coverage Status](https://gitlab.com/m03geek/fastify-metrics/badges/master/coverage.svg)](https://gitlab.com/m03geek/fastify-metrics/commits/master) -->
 
