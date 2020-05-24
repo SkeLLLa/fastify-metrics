@@ -1,26 +1,23 @@
-import promClient from 'prom-client';
+// import promClient from 'prom-client';
+import promClient, {
+  HistogramConfiguration,
+  SummaryConfiguration,
+} from 'prom-client';
 
-export interface HTTPMetric {
+export interface MetricsContextConfig {
+  url?: string;
+  statsId?: string;
+}
+
+export interface MetricConfig {
   /**
-   * Metric name
+   * Histogram config
    */
-  name?: string;
+  histogram: HistogramConfiguration<string>;
   /**
-   * Metric description
+   * Summary config
    */
-  help?: string;
-  /**
-   * Metric labels
-   */
-  labelNames?: Array<string>;
-  /**
-   * Histogram/Summary buckets
-   */
-  buckets?: Array<number>;
-  /**
-   * Prom-client registries
-   */
-  registers?: Array<promClient.Registry>;
+  summary: SummaryConfiguration<string>;
 }
 
 export interface FastifyMetrics {
@@ -35,7 +32,7 @@ export interface FastifyMetrics {
   /**
    * Additional objects to store your metrics, registries, etc.
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface PluginOptions {
@@ -73,5 +70,5 @@ export interface PluginOptions {
   /**
    * HTTP metrics overrides
    */
-  metrics?: any;
+  metrics?: Partial<MetricConfig>;
 }

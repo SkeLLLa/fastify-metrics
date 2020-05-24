@@ -18,6 +18,13 @@
     "strictNullChecks": true,
     "target": "es2018"
   },
-  "include": ["src/**/*"]
-  // "exclude": ["dist/**/*", "coverage/**/*", "node_modules/**/*"]
+  "include": ["src/**/*"],
+  "exclude": [
+    "dist/**/*",
+    "coverage/**/*",
+    "node_modules/**/*",
+    "jest.config.js",
+    "example/**/*",
+    ".*"
+  ]
 }
