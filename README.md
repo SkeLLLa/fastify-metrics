@@ -54,7 +54,7 @@ This plugin also adds 2 http metrics for your routes:
 - Fastify v3 support.
 - Drop node.js 8 support.
 - `enableDefaultMetrics` - now enables only default `prom-client` metrics. Set to `true` by default.
-- `enableRouteMetrics` - additianal flag that enables route metrics. Set to `true` by default.
+- `enableRouteMetrics` - additional flag that enables route metrics. Set to `true` by default.
 
 ## Installation
 
