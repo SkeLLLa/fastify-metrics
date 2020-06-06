@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyPlugin, FastifyContext } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import client, { LabelValues } from 'prom-client';
-import merge from 'deepmerge';
 import {
   PluginOptions,
   FastifyMetrics,
@@ -46,6 +45,7 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
   fastify: FastifyInstance,
   {
     enableDefaultMetrics = true,
+    enableRouteMetrics = true,
     groupStatusCodes = false,
     pluginName = 'metrics',
     blacklist,
@@ -55,9 +55,30 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
     metrics = {},
   }: PluginOptions = {}
 ) {
-  const plugin: FastifyMetrics = { client };
+  const plugin: FastifyMetrics = {
+    client,
+    clearRegister: function () {
+      // dummy fn;
+    },
+  };
+  const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
+
+  if (register) {
+    plugin.clearRegister = () => {
+      register.clear();
+    };
+    defaultOpts.register = register;
+  }
+
+  if (prefix) {
+    defaultOpts.prefix = prefix;
+  }
 
   if (enableDefaultMetrics) {
+    client.collectDefaultMetrics(defaultOpts);
+  }
+
+  if (enableRouteMetrics) {
     const collectMetricsForUrl = (url: string) => {
       const queryIndex = url.indexOf('?');
       url = queryIndex === -1 ? url : url.substring(0, queryIndex);
@@ -75,40 +96,34 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
       }
       return false;
     };
-    const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
+
     const opts: MetricConfig = {
       histogram: {
         name: 'http_request_duration_seconds',
         help: 'request duration in seconds',
         labelNames: ['status_code', 'method', 'route'],
         buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
+        ...metrics.histogram,
       },
       summary: {
         name: 'http_request_summary_seconds',
         help: 'request duration in seconds summary',
         labelNames: ['status_code', 'method', 'route'],
         percentiles: [0.5, 0.9, 0.95, 0.99],
+        ...metrics.summary,
       },
     };
     if (register) {
-      plugin.clearRegister = () => {
-        register.clear();
-      };
-      defaultOpts.register = register;
       opts.histogram.registers = [register];
       opts.summary.registers = [register];
     }
     if (prefix) {
-      defaultOpts.prefix = prefix;
       opts.histogram.name = `${prefix}${opts.histogram.name}`;
       opts.summary.name = `${prefix}${opts.summary.name}`;
     }
 
-    const extendedOpts = merge<MetricConfig>(opts, metrics);
-
-    client.collectDefaultMetrics(defaultOpts);
-    const routeHist = new client.Histogram(extendedOpts.histogram);
-    const routeSum = new client.Summary(extendedOpts.summary);
+    const routeHist = new client.Histogram(opts.histogram);
+    const routeSum = new client.Summary(opts.summary);
 
     if (endpoint) {
       fastify.route({
