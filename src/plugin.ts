@@ -28,7 +28,7 @@ export interface FastifyMetrics {
   /**
    * Expose register clear function if register was provided
    */
-  clearRegister?(): void;
+  clearRegister(): void;
   /**
    * Additional objects to store your metrics, registries, etc.
    */
@@ -37,10 +37,15 @@ export interface FastifyMetrics {
 
 export interface PluginOptions {
   /**
-   * Enable default nodejs metrics
+   * Enable default prom-client metrics
    * @default true
    */
   enableDefaultMetrics?: boolean;
+  /**
+   * Enable fastify route metrics
+   * @default true
+   */
+  enableRouteMetrics?: boolean;
   /**
    * Groups status code labels by first digit 200 -> 2XX
    * @default false
