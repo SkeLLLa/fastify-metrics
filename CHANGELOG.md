@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0-rc.4](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.3...v6.0.0-rc.4) (2020-06-06)
+
+
+### Features
+
+* add flags for enabling/disabling route metrics ([3da8352](https://github.com/SkeLLLa/fastify-metrics/commit/3da83524010f424b08dd4e39ae5f32505b47a7ec))
+* replace options extend ([e92f07e](https://github.com/SkeLLLa/fastify-metrics/commit/e92f07e4f11e79a709a8b56fc67fc78832cdfc95))
+
+
+### Bug fixes
+
+* **jest:** reports fix ([9aa6453](https://github.com/SkeLLLa/fastify-metrics/commit/9aa6453d8e3de787ad41c57eb5d8bf69b98ce666))
+
+
+### Misc
+
+* **deps:** update ([6f6803a](https://github.com/SkeLLLa/fastify-metrics/commit/6f6803a0ac22f559017287eee863b6d0bbb9d8fb))
+* badges fix ([3014d89](https://github.com/SkeLLLa/fastify-metrics/commit/3014d891462257e67c3106aa03ee90474362080e))
+* date update ([e2b40de](https://github.com/SkeLLLa/fastify-metrics/commit/e2b40de61beaecf495d2936efde824f0c3433e6d))
+* issues url ([97a5aca](https://github.com/SkeLLLa/fastify-metrics/commit/97a5aca63008788bd8aef2a6a66deb5cc868f3cb))
+
 ## [6.0.0-rc.3](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.2...v6.0.0-rc.3) (2020-05-24)
 
 

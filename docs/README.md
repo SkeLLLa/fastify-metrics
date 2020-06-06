@@ -30,7 +30,7 @@
 
 • **app**: *[FastifyInstance](interfaces/_fastify_.fastifyinstance.md)‹Server‹›, IncomingMessage‹›, ServerResponse‹›, FastifyLoggerOptions‹Server‹›, IncomingMessage‹›, ServerResponse‹›››* = fastify()
 
-*Defined in [__tests__/metrics.spec.ts:4](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/__tests__/metrics.spec.ts#L4)*
+*Defined in [__tests__/metrics.spec.ts:4](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/__tests__/metrics.spec.ts#L4)*
 
 ___
 
@@ -38,9 +38,9 @@ ___
 
 • **fastifyPlugin**: *FastifyPlugin‹[PluginOptions](interfaces/pluginoptions.md)›*
 
-*Defined in [__tests__/exports.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/__tests__/exports.spec.ts#L1)*
+*Defined in [__tests__/exports.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/__tests__/exports.spec.ts#L1)*
 
-*Defined in [__tests__/metrics.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/__tests__/metrics.spec.ts#L1)*
+*Defined in [__tests__/metrics.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/__tests__/metrics.spec.ts#L1)*
 
 ## Functions
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **fastifyMetricsPlugin**(`fastify`: [FastifyInstance](interfaces/_fastify_.fastifyinstance.md), `__namedParameters`: object): *Promise‹void›*
 
-*Defined in [index.ts:45](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/index.ts#L45)*
+*Defined in [index.ts:44](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/index.ts#L44)*
 
 Fastify metrics plugin
 
@@ -64,6 +64,7 @@ Name | Type | Default |
 ------ | ------ | ------ |
 `blacklist` | undefined &#124; string &#124; RegExp‹› &#124; string[] | - |
 `enableDefaultMetrics` | boolean | true |
+`enableRouteMetrics` | boolean | true |
 `endpoint` | undefined &#124; string | - |
 `groupStatusCodes` | boolean | false |
 `metrics` | object | - |

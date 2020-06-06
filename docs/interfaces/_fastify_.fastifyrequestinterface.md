@@ -18,4 +18,4 @@
 
 • **metrics**? : *undefined | object*
 
-*Defined in [index.ts:26](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/index.ts#L26)*
+*Defined in [index.ts:25](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/index.ts#L25)*

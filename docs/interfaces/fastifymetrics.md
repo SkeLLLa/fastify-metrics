@@ -20,7 +20,7 @@ Additional objects to store your metrics, registries, etc.
 
 ### Methods
 
-* [clearRegister](fastifymetrics.md#optional-clearregister)
+* [clearRegister](fastifymetrics.md#clearregister)
 
 ## Properties
 
@@ -28,17 +28,17 @@ Additional objects to store your metrics, registries, etc.
 
 • **client**: *typeof promClient*
 
-*Defined in [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/plugin.ts#L27)*
+*Defined in [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/plugin.ts#L27)*
 
 Prom-client
 
 ## Methods
 
-### `Optional` clearRegister
+###  clearRegister
 
 ▸ **clearRegister**(): *void*
 
-*Defined in [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/9c64a0e/src/plugin.ts#L31)*
+*Defined in [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/plugin.ts#L31)*
 
 Expose register clear function if register was provided
 
