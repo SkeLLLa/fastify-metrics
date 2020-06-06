@@ -27,6 +27,8 @@ This plugin also adds 2 http metrics for your routes:
 - [fastify-metrics](#fastify-metrics)
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
+  - [Notable changes](#notable-changes)
+    - [v6.x.x](#v6xx)
   - [Installation](#installation)
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
@@ -45,6 +47,15 @@ This plugin also adds 2 http metrics for your routes:
 - **v5.x.x** - supports `fastify-2.x` `prom-client-12.x`
 - **v6.x.x** - supports `fastify-3.x`
 
+## Notable changes
+
+### v6.x.x
+
+- Fastify v3 support.
+- Drop node.js 8 support.
+- `enableDefaultMetrics` - now enables only default `prom-client` metrics. Set to `true` by default.
+- `enableRouteMetrics` - additianal flag that enables route metrics. Set to `true` by default.
+
 ## Installation
 
 ```sh
@@ -61,8 +72,8 @@ npm i fastify-metrics --save
 
 ---
 
-- Requires fastify `>=1.9.0`.
-- Node.js `>=8.9.0`.
+- Requires fastify `>=3.0.0`.
+- Node.js `>=10.0.0`.
 
 <sub>[Back to top](#toc)</sub>
 
@@ -86,17 +97,18 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 
 ### Plugin options
 
-| parameter              | type                     | description                                                                                              | default     |
-| ---------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------- | ----------- |
-| `enableDefaultMetrics` | Boolean                  | Enables collection of default metrics.                                                                   | `true`      |
-| `pluginName`           | String                   | Change name which you'll use to access prometheus client instance in fastify.                            | `metrics`   |
-| `interval`             | Number                   | Default metrics collection interval in ms.                                                               | `5000`      |
-| `register`             | Object                   | Custom prom-client metrics registry (see [docs](https://github.com/siimon/prom-client#default-metrics)). | `undefined` |
-| `prefix`               | String                   | Custom default metrics prefix.                                                                           | `""`        |
-| `endpoint`             | String                   | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards.    | `undefined` |
-| `metrics`              | Object                   | Allows override default metrics config. See section below.                                               | `{}`        |
-| `blacklist`            | String, RegExp, String[] | Skip metrics collection for blacklisted routes                                                           | `undefined` |
-| `groupStatusCodes`     | Boolean                  | Groups status codes (e.g. 2XX) if `true`                                                                 | `false`     |
+| parameter              | type                     | description                                                                                           | default     |
+| ---------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- | ----------- |
+| `enableDefaultMetrics` | Boolean                  | Enables collection of default prom-client metrics.                                                    | `true`      |
+| `enableRouteMetrics`   | Boolean                  | Enables collection of fastify route metrics.                                                          | `true`      |
+| `pluginName`           | String                   | Change name which you'll use to access prometheus client instance in fastify.                         | `metrics`   |
+| `interval`             | Number                   | Default metrics collection interval in ms.                                                            | `5000`      |
+| `register`             | Object                   | Custom prom-client metrics registry.                                                                  | `undefined` |
+| `prefix`               | String                   | Custom default metrics prefix.                                                                        | `""`        |
+| `endpoint`             | String                   | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
+| `metrics`              | Object                   | Allows override default metrics config. See section below.                                            | `{}`        |
+| `blacklist`            | String, RegExp, String[] | Skip metrics collection for blacklisted routes                                                        | `undefined` |
+| `groupStatusCodes`     | Boolean                  | Groups status codes (e.g. 2XX) if `true`                                                              | `false`     |
 
 #### Metrics details
 
