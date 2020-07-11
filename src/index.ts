@@ -21,7 +21,7 @@ declare module 'fastify' {
      */
     hide?: boolean; // for compatibility with fastify-oas
   }
-  interface FastifyRequestInterface {
+  interface FastifyRequest {
     metrics?: {
       /**
        * Request duration histogram
@@ -137,7 +137,8 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
           const data = register
             ? register.metrics()
             : client.register.metrics();
-          reply.type('text/plain').send(data);
+
+          void reply.type('text/plain').send(data);
         },
       });
     }

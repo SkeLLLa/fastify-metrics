@@ -25,6 +25,8 @@ module.exports = {
     'prettier/prettier': 'error',
     'sort-requires/sort-requires': 'error',
     '@typescript-eslint/require-await': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
   },
   overrides: [
     {
