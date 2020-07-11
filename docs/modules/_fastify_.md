@@ -7,5 +7,5 @@
 ### Interfaces
 
 * [FastifyInstance](../interfaces/_fastify_.fastifyinstance.md)
-* [FastifyRequestInterface](../interfaces/_fastify_.fastifyrequestinterface.md)
+* [FastifyRequest](../interfaces/_fastify_.fastifyrequest.md)
 * [FastifySchema](../interfaces/_fastify_.fastifyschema.md)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.1](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0...v6.0.1) (2020-07-11)
+
+
+### Bug fixes
+
+* typescript fixes ([6036ae1](https://github.com/SkeLLLa/fastify-metrics/commit/6036ae1dbc4aeb2ededfb1137d48144b8a786e34))
+
 ## [6.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.4...v6.0.0) (2020-07-11)
 
 ## [6.0.0-rc.4](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.3...v6.0.0-rc.4) (2020-06-06)

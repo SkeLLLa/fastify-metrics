@@ -28,19 +28,19 @@
 
 ### `Const` app
 
-• **app**: *[FastifyInstance](interfaces/_fastify_.fastifyinstance.md)‹Server‹›, IncomingMessage‹›, ServerResponse‹›, FastifyLoggerOptions‹Server‹›, IncomingMessage‹›, ServerResponse‹›››* = fastify()
+• **app**: *[FastifyInstance](interfaces/_fastify_.fastifyinstance.md)‹Server‹›, IncomingMessage‹›, ServerResponse‹›, FastifyLoggerInstance›* = fastify()
 
-*Defined in [__tests__/metrics.spec.ts:4](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/__tests__/metrics.spec.ts#L4)*
+*Defined in [src/__tests__/metrics.spec.ts:4](https://github.com/SkeLLLa/fastify-metrics/blob/6036ae1/src/__tests__/metrics.spec.ts#L4)*
 
 ___
 
 ###  fastifyPlugin
 
-• **fastifyPlugin**: *FastifyPlugin‹[PluginOptions](interfaces/pluginoptions.md)›*
+• **fastifyPlugin**: *function | function*
 
-*Defined in [__tests__/exports.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/__tests__/exports.spec.ts#L1)*
+*Defined in [src/__tests__/exports.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/6036ae1/src/__tests__/exports.spec.ts#L1)*
 
-*Defined in [__tests__/metrics.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/__tests__/metrics.spec.ts#L1)*
+*Defined in [src/__tests__/metrics.spec.ts:1](https://github.com/SkeLLLa/fastify-metrics/blob/6036ae1/src/__tests__/metrics.spec.ts#L1)*
 
 ## Functions
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **fastifyMetricsPlugin**(`fastify`: [FastifyInstance](interfaces/_fastify_.fastifyinstance.md), `__namedParameters`: object): *Promise‹void›*
 
-*Defined in [index.ts:44](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/index.ts#L44)*
+*Defined in [src/index.ts:44](https://github.com/SkeLLLa/fastify-metrics/blob/6036ae1/src/index.ts#L44)*
 
 Fastify metrics plugin
 
