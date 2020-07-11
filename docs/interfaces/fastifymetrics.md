@@ -28,7 +28,7 @@ Additional objects to store your metrics, registries, etc.
 
 • **client**: *typeof promClient*
 
-*Defined in [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/plugin.ts#L27)*
+*Defined in [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/plugin.ts#L27)*
 
 Prom-client
 
@@ -38,7 +38,7 @@ Prom-client
 
 ▸ **clearRegister**(): *void*
 
-*Defined in [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/6f6803a/src/plugin.ts#L31)*
+*Defined in [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/2cbd68f/src/plugin.ts#L31)*
 
 Expose register clear function if register was provided
 

@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.4...v6.0.0) (2020-07-11)
+
 ## [6.0.0-rc.4](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.0-rc.3...v6.0.0-rc.4) (2020-06-06)
 
 
