@@ -18,6 +18,6 @@
 
 • **metrics**: *[FastifyMetrics](fastifymetrics.md)*
 
-*Defined in [src/index.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/6036ae1/src/index.ts#L16)*
+*Defined in [src/index.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/index.ts#L16)*
 
 Metrics interface
