@@ -125,24 +125,6 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
     const routeHist = new client.Histogram(opts.histogram);
     const routeSum = new client.Summary(opts.summary);
 
-    if (endpoint) {
-      fastify.route({
-        url: endpoint,
-        method: 'GET',
-        schema: {
-          // hide route from swagger plugins
-          hide: true,
-        },
-        handler: (_, reply) => {
-          const data = register
-            ? register.metrics()
-            : client.register.metrics();
-
-          void reply.type('text/plain').send(data);
-        },
-      });
-    }
-
     fastify.addHook('onRequest', (request, _, next) => {
       if (request.raw.url && collectMetricsForUrl(request.raw.url)) {
         request.metrics = {
@@ -179,6 +161,22 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
         });
       }
       next();
+    });
+  }
+
+  if (endpoint) {
+    fastify.route({
+      url: endpoint,
+      method: 'GET',
+      schema: {
+        // hide route from swagger plugins
+        hide: true,
+      },
+      handler: (_, reply) => {
+        const data = register ? register.metrics() : client.register.metrics();
+
+        void reply.type('text/plain').send(data);
+      },
     });
   }
 
