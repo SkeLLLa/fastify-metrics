@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.3](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.2...v6.0.3) (2020-10-29)
+
+
+### Misc
+
+* **deps:** bump node-fetch from 2.6.0 to 2.6.1 ([9816312](https://github.com/SkeLLLa/fastify-metrics/commit/98163125492d65c899afff8f578bd8c7275919eb))
+* **deps:** update ([f16f34e](https://github.com/SkeLLLa/fastify-metrics/commit/f16f34e2bd0698675c96a3dfef35f428b65a4358))
+
 ### [6.0.2](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.1...v6.0.2) (2020-08-15)
 
 

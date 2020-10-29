@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › ["fastify"](_fastify_.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / "fastify"
 
 # Module: "fastify"
 

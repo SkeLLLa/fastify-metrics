@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › [MetricConfig](metricconfig.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / MetricConfig
 
 # Interface: MetricConfig
 
@@ -15,20 +17,20 @@
 
 ## Properties
 
-###  histogram
+### histogram
 
-• **histogram**: *HistogramConfiguration‹string›*
+•  **histogram**: HistogramConfiguration\<string>
 
-*Defined in [src/plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L16)*
+*Defined in [src/plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L16)*
 
 Histogram config
 
 ___
 
-###  summary
+### summary
 
-• **summary**: *SummaryConfiguration‹string›*
+•  **summary**: SummaryConfiguration\<string>
 
-*Defined in [src/plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L20)*
+*Defined in [src/plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L20)*
 
 Summary config

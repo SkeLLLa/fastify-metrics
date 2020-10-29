@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [FastifyInstance](_fastify_.fastifyinstance.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / ["fastify"](../modules/_fastify_.md) / FastifyInstance
 
 # Interface: FastifyInstance
 
@@ -14,10 +16,10 @@
 
 ## Properties
 
-###  metrics
+### metrics
 
-• **metrics**: *[FastifyMetrics](fastifymetrics.md)*
+•  **metrics**: [FastifyMetrics](fastifymetrics.md)
 
-*Defined in [src/index.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/index.ts#L16)*
+*Defined in [src/index.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/index.ts#L16)*
 
 Metrics interface

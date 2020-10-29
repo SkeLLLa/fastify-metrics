@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [FastifyRequest](_fastify_.fastifyrequest.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / ["fastify"](../modules/_fastify_.md) / FastifyRequest
 
 # Interface: FastifyRequest
 
@@ -10,12 +12,12 @@
 
 ### Properties
 
-* [metrics](_fastify_.fastifyrequest.md#optional-metrics)
+* [metrics](_fastify_.fastifyrequest.md#metrics)
 
 ## Properties
 
-### `Optional` metrics
+### metrics
 
-• **metrics**? : *undefined | object*
+• `Optional` **metrics**: undefined \| { hist: (labels?: LabelValues\<string>) => void ; sum: (labels?: LabelValues\<string>) => void  }
 
-*Defined in [src/index.ts:25](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/index.ts#L25)*
+*Defined in [src/index.ts:25](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/index.ts#L25)*

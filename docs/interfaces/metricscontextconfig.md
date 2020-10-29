@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › [MetricsContextConfig](metricscontextconfig.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / MetricsContextConfig
 
 # Interface: MetricsContextConfig
 
@@ -10,21 +12,21 @@
 
 ### Properties
 
-* [statsId](metricscontextconfig.md#optional-statsid)
-* [url](metricscontextconfig.md#optional-url)
+* [statsId](metricscontextconfig.md#statsid)
+* [url](metricscontextconfig.md#url)
 
 ## Properties
 
-### `Optional` statsId
+### statsId
 
-• **statsId**? : *undefined | string*
+• `Optional` **statsId**: undefined \| string
 
-*Defined in [src/plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L9)*
+*Defined in [src/plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L9)*
 
 ___
 
-### `Optional` url
+### url
 
-• **url**? : *undefined | string*
+• `Optional` **url**: undefined \| string
 
-*Defined in [src/plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L8)*
+*Defined in [src/plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L8)*

@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › ["fastify"](../modules/_fastify_.md) › [FastifySchema](_fastify_.fastifyschema.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / ["fastify"](../modules/_fastify_.md) / FastifySchema
 
 # Interface: FastifySchema
 
@@ -10,14 +12,14 @@
 
 ### Properties
 
-* [hide](_fastify_.fastifyschema.md#optional-hide)
+* [hide](_fastify_.fastifyschema.md#hide)
 
 ## Properties
 
-### `Optional` hide
+### hide
 
-• **hide**? : *undefined | false | true*
+• `Optional` **hide**: undefined \| false \| true
 
-*Defined in [src/index.ts:22](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/index.ts#L22)*
+*Defined in [src/index.ts:22](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/index.ts#L22)*
 
 Hides metric route from swagger/openapi documentation

@@ -1,4 +1,6 @@
-[fastify-metrics](../README.md) › [FastifyMetrics](fastifymetrics.md)
+**[fastify-metrics](../README.md)**
+
+> [Globals](../README.md) / FastifyMetrics
 
 # Interface: FastifyMetrics
 
@@ -8,7 +10,7 @@
 
 ## Indexable
 
-* \[ **key**: *string*\]: unknown
+▪ [key: string]: unknown
 
 Additional objects to store your metrics, registries, etc.
 
@@ -24,22 +26,22 @@ Additional objects to store your metrics, registries, etc.
 
 ## Properties
 
-###  client
+### client
 
-• **client**: *typeof promClient*
+•  **client**: *typeof* promClient
 
-*Defined in [src/plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L27)*
+*Defined in [src/plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L27)*
 
 Prom-client
 
 ## Methods
 
-###  clearRegister
+### clearRegister
 
-▸ **clearRegister**(): *void*
+▸ **clearRegister**(): void
 
-*Defined in [src/plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/d193ecd/src/plugin.ts#L31)*
+*Defined in [src/plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L31)*
 
 Expose register clear function if register was provided
 
-**Returns:** *void*
+**Returns:** void
