@@ -172,10 +172,10 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
         // hide route from swagger plugins
         hide: true,
       },
-      handler: (_, reply) => {
+      handler: async (_, reply) => {
         const data = register ? register.metrics() : client.register.metrics();
 
-        void reply.type('text/plain').send(data);
+        void reply.type('text/plain').send(await data);
       },
     });
   }
