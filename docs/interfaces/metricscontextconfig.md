@@ -21,7 +21,7 @@
 
 • `Optional` **statsId**: undefined \| string
 
-*Defined in [src/plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L9)*
+*Defined in [src/plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/plugin.ts#L9)*
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 • `Optional` **url**: undefined \| string
 
-*Defined in [src/plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L8)*
+*Defined in [src/plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/plugin.ts#L8)*

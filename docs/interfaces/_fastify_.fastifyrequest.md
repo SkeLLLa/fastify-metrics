@@ -20,4 +20,4 @@
 
 • `Optional` **metrics**: undefined \| { hist: (labels?: LabelValues\<string>) => void ; sum: (labels?: LabelValues\<string>) => void  }
 
-*Defined in [src/index.ts:25](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/index.ts#L25)*
+*Defined in [src/index.ts:25](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/index.ts#L25)*

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.3...v7.0.0) (2021-02-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* update prom-client to ^13.0.0
+
+### Misc
+
+* **deps:** bump find-my-way from 3.0.4 to 3.0.5 ([0e445eb](https://github.com/SkeLLLa/fastify-metrics/commit/0e445eb58afde7789c5e57fcb81af647e6b6b406))
+* **deps:** bump highlight.js from 10.3.1 to 10.4.1 ([aa85074](https://github.com/SkeLLLa/fastify-metrics/commit/aa850741d0ec6577bd4d73615d8d39be75325546))
+* **deps:** bump ini from 1.3.5 to 1.3.7 ([209bea8](https://github.com/SkeLLLa/fastify-metrics/commit/209bea83de14711ad715895cf47ac2b90ffe9342))
+* **deps:** bump node-notifier from 8.0.0 to 8.0.1 ([69fed6f](https://github.com/SkeLLLa/fastify-metrics/commit/69fed6f4461c8c7ef6adabbc8340d9ed0bb8dd79))
+* update prom-client to ^13.0.0 ([40183ea](https://github.com/SkeLLLa/fastify-metrics/commit/40183ea3983603a1793f37bd8e7b9901cc6449d8))
+
 ### [6.0.3](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.2...v6.0.3) (2020-10-29)
 
 

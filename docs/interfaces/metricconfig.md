@@ -21,7 +21,7 @@
 
 •  **histogram**: HistogramConfiguration\<string>
 
-*Defined in [src/plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L16)*
+*Defined in [src/plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/plugin.ts#L16)*
 
 Histogram config
 
@@ -31,6 +31,6 @@ ___
 
 •  **summary**: SummaryConfiguration\<string>
 
-*Defined in [src/plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/plugin.ts#L20)*
+*Defined in [src/plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/plugin.ts#L20)*
 
 Summary config

@@ -20,6 +20,6 @@
 
 • `Optional` **hide**: undefined \| false \| true
 
-*Defined in [src/index.ts:22](https://github.com/SkeLLLa/fastify-metrics/blob/f16f34e/src/index.ts#L22)*
+*Defined in [src/index.ts:22](https://github.com/SkeLLLa/fastify-metrics/blob/0e445eb/src/index.ts#L22)*
 
 Hides metric route from swagger/openapi documentation
