@@ -48,6 +48,7 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
     enableRouteMetrics = true,
     groupStatusCodes = false,
     pluginName = 'metrics',
+    invalidRouteGroup,
     blacklist,
     register,
     prefix,
@@ -140,10 +141,11 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastif
         const context: FastifyContext<MetricsContextConfig> = reply.context as FastifyContext<
           MetricsContextConfig
         >;
-        let routeId = context.config.url || request.raw.url;
-        if (context.config.statsId) {
-          routeId = context.config.statsId;
-        }
+        const routeId =
+          context.config.statsId ||
+          context.config.url ||
+          invalidRouteGroup ||
+          request.raw.url;
         const method = request.raw.method;
         const statusCode = groupStatusCodes
           ? `${Math.floor(reply.raw.statusCode / 100)}xx`

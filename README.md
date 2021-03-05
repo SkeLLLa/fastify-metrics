@@ -109,6 +109,7 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 | `metrics`              | Object                   | Allows override default metrics config. See section below.                                            | `{}`        |
 | `blacklist`            | String, RegExp, String[] | Skip metrics collection for blacklisted routes                                                        | `undefined` |
 | `groupStatusCodes`     | Boolean                  | Groups status codes (e.g. 2XX) if `true`                                                              | `false`     |
+| `invalidRouteGroup`    | String                   | If set, group any urls not matching a valid fastify route together rather than report individually.   | `undefined` |
 
 #### Metrics details
 

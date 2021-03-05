@@ -52,6 +52,10 @@ export interface PluginOptions {
    */
   groupStatusCodes?: boolean;
   /**
+   * Groups urls that are not mapped onto valid routes together
+   */
+  invalidRouteGroup?: string;
+  /**
    * Plugin name that will be registered in fastify
    * @default metrics
    */
