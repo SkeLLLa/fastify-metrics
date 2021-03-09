@@ -26,5 +26,15 @@
     "jest.config.js",
     "example/**/*",
     ".*"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts", "src/plugin.ts"],
+    "out": "docs",
+    "name": "Fastify metrics",
+    "excludeExternals": true,
+    "includeVersion": true,
+    "hideGenerator": true,
+    "excludePrivate": true,
+    "readme": "none"
+  }
 }
