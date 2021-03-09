@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.0.0...v7.1.0) (2021-03-09)
+
+
+### Features
+
+* add ability to group all invalid routes ([39a4f54](https://github.com/SkeLLLa/fastify-metrics/commit/39a4f545f615284e464798e903f67d971ed46416))
+
+
+### Misc
+
+* **deps:** update ([7450a43](https://github.com/SkeLLLa/fastify-metrics/commit/7450a436ee8f3eacd53ee89d824fc59d4e16afdf))
+* **deps:** update typedoc ([e814d55](https://github.com/SkeLLLa/fastify-metrics/commit/e814d55efe7b95541dc59846d65dbe81785badb9))
+
 ## [7.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v6.0.3...v7.0.0) (2021-02-21)
 
 

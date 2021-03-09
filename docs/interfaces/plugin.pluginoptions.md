@@ -29,7 +29,7 @@
 
 • `Optional` **blacklist**: string \| RegExp \| string[]
 
-*Defined in [plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L66)*
+*Defined in [plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L66)*
 
 Routes blacklist that will be excluded from metrics collection
 
@@ -39,7 +39,7 @@ ___
 
 • `Optional` **enableDefaultMetrics**: boolean
 
-*Defined in [plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L43)*
+*Defined in [plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L43)*
 
 Enable default prom-client metrics
 
@@ -51,7 +51,7 @@ ___
 
 • `Optional` **enableRouteMetrics**: boolean
 
-*Defined in [plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L48)*
+*Defined in [plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L48)*
 
 Enable fastify route metrics
 
@@ -63,7 +63,7 @@ ___
 
 • `Optional` **endpoint**: string
 
-*Defined in [plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L78)*
+*Defined in [plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L78)*
 
 Metrics endpoint for Prometheus
 
@@ -73,7 +73,7 @@ ___
 
 • `Optional` **groupStatusCodes**: boolean
 
-*Defined in [plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L53)*
+*Defined in [plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L53)*
 
 Groups status code labels by first digit 200 -> 2XX
 
@@ -85,7 +85,7 @@ ___
 
 • `Optional` **invalidRouteGroup**: string
 
-*Defined in [plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L57)*
+*Defined in [plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L57)*
 
 Groups urls that are not mapped onto valid routes together
 
@@ -95,7 +95,7 @@ ___
 
 • `Optional` **metrics**: Partial\<[MetricConfig](plugin.metricconfig.md)>
 
-*Defined in [plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L82)*
+*Defined in [plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L82)*
 
 HTTP metrics overrides
 
@@ -105,7 +105,7 @@ ___
 
 • `Optional` **pluginName**: string
 
-*Defined in [plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L62)*
+*Defined in [plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L62)*
 
 Plugin name that will be registered in fastify
 
@@ -117,7 +117,7 @@ ___
 
 • `Optional` **prefix**: string
 
-*Defined in [plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L74)*
+*Defined in [plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L74)*
 
 Metrics prefix
 
@@ -127,6 +127,6 @@ ___
 
 • `Optional` **register**: Registry
 
-*Defined in [plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/39a4f54/src/plugin.ts#L70)*
+*Defined in [plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L70)*
 
 Prom client registry for default metrics and route metrics
