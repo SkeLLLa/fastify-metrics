@@ -41,149 +41,151 @@ declare module 'fastify' {
  * Fastify metrics plugin
  * @param {FastifyInstance} fastify - Fastify instance asdfasdf asdf asdf
  */
-const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> = async function fastifyMetrics(
-  fastify: FastifyInstance,
-  {
-    enableDefaultMetrics = true,
-    enableRouteMetrics = true,
-    groupStatusCodes = false,
-    pluginName = 'metrics',
-    invalidRouteGroup,
-    blacklist,
-    register,
-    prefix,
-    endpoint,
-    metrics = {},
-  }: PluginOptions = {}
-) {
-  const plugin: FastifyMetrics = {
-    client,
-    clearRegister: function () {
-      // dummy fn;
-    },
-  };
-  const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
-
-  if (register) {
-    plugin.clearRegister = () => {
-      register.clear();
-    };
-    defaultOpts.register = register;
-  }
-
-  if (prefix) {
-    defaultOpts.prefix = prefix;
-  }
-
-  if (enableDefaultMetrics) {
-    client.collectDefaultMetrics(defaultOpts);
-  }
-
-  if (enableRouteMetrics) {
-    const collectMetricsForUrl = (url: string) => {
-      const queryIndex = url.indexOf('?');
-      url = queryIndex === -1 ? url : url.substring(0, queryIndex);
-      if (!blacklist) {
-        return true;
-      }
-      if (Array.isArray(blacklist)) {
-        return blacklist.indexOf(url) === -1;
-      }
-      if (typeof blacklist === 'string') {
-        return blacklist !== url;
-      }
-      if (typeof blacklist.test === 'function') {
-        return !blacklist.test(url);
-      }
-      return false;
-    };
-
-    const opts: MetricConfig = {
-      histogram: {
-        name: 'http_request_duration_seconds',
-        help: 'request duration in seconds',
-        labelNames: ['status_code', 'method', 'route'],
-        buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
-        ...metrics.histogram,
-      },
-      summary: {
-        name: 'http_request_summary_seconds',
-        help: 'request duration in seconds summary',
-        labelNames: ['status_code', 'method', 'route'],
-        percentiles: [0.5, 0.9, 0.95, 0.99],
-        ...metrics.summary,
+const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> =
+  async function fastifyMetrics(
+    fastify: FastifyInstance,
+    {
+      enableDefaultMetrics = true,
+      enableRouteMetrics = true,
+      groupStatusCodes = false,
+      pluginName = 'metrics',
+      invalidRouteGroup,
+      blacklist,
+      register,
+      prefix,
+      endpoint,
+      metrics = {},
+    }: PluginOptions = {}
+  ) {
+    const plugin: FastifyMetrics = {
+      client,
+      clearRegister: function () {
+        // dummy fn;
       },
     };
+    const defaultOpts: client.DefaultMetricsCollectorConfiguration = {};
+
     if (register) {
-      opts.histogram.registers = [register];
-      opts.summary.registers = [register];
+      plugin.clearRegister = () => {
+        register.clear();
+      };
+      defaultOpts.register = register;
     }
+
     if (prefix) {
-      opts.histogram.name = `${prefix}${opts.histogram.name}`;
-      opts.summary.name = `${prefix}${opts.summary.name}`;
+      defaultOpts.prefix = prefix;
     }
 
-    const routeHist = new client.Histogram(opts.histogram);
-    const routeSum = new client.Summary(opts.summary);
+    if (enableDefaultMetrics) {
+      client.collectDefaultMetrics(defaultOpts);
+    }
 
-    fastify.addHook('onRequest', (request, _, next) => {
-      if (request.raw.url && collectMetricsForUrl(request.raw.url)) {
-        request.metrics = {
-          hist: routeHist.startTimer(),
-          sum: routeSum.startTimer(),
-        };
+    if (enableRouteMetrics) {
+      const collectMetricsForUrl = (url: string) => {
+        const queryIndex = url.indexOf('?');
+        url = queryIndex === -1 ? url : url.substring(0, queryIndex);
+        if (!blacklist) {
+          return true;
+        }
+        if (Array.isArray(blacklist)) {
+          return blacklist.indexOf(url) === -1;
+        }
+        if (typeof blacklist === 'string') {
+          return blacklist !== url;
+        }
+        if (typeof blacklist.test === 'function') {
+          return !blacklist.test(url);
+        }
+        return false;
+      };
+
+      const opts: MetricConfig = {
+        histogram: {
+          name: 'http_request_duration_seconds',
+          help: 'request duration in seconds',
+          labelNames: ['status_code', 'method', 'route'],
+          buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
+          ...metrics.histogram,
+        },
+        summary: {
+          name: 'http_request_summary_seconds',
+          help: 'request duration in seconds summary',
+          labelNames: ['status_code', 'method', 'route'],
+          percentiles: [0.5, 0.9, 0.95, 0.99],
+          ...metrics.summary,
+        },
+      };
+      if (register) {
+        opts.histogram.registers = [register];
+        opts.summary.registers = [register];
       }
-      next();
-    });
-
-    fastify.addHook('onResponse', function (request, reply, next) {
-      if (request.metrics) {
-        const context: FastifyContext<MetricsContextConfig> = reply.context as FastifyContext<
-          MetricsContextConfig
-        >;
-        const routeId =
-          context.config.statsId ||
-          context.config.url ||
-          invalidRouteGroup ||
-          request.raw.url;
-        const method = request.raw.method;
-        const statusCode = groupStatusCodes
-          ? `${Math.floor(reply.raw.statusCode / 100)}xx`
-          : reply.raw.statusCode;
-
-        request.metrics.sum({
-          method: method || 'UNKNOWN',
-          route: routeId,
-          status_code: statusCode,
-        });
-        request.metrics.hist({
-          method: method || 'UNKNOWN',
-          route: routeId,
-          status_code: statusCode,
-        });
+      if (prefix) {
+        opts.histogram.name = `${prefix}${opts.histogram.name}`;
+        opts.summary.name = `${prefix}${opts.summary.name}`;
       }
-      next();
-    });
-  }
 
-  if (endpoint) {
-    fastify.route({
-      url: endpoint,
-      method: 'GET',
-      schema: {
-        // hide route from swagger plugins
-        hide: true,
-      },
-      handler: async (_, reply) => {
-        const data = register ? register.metrics() : client.register.metrics();
+      const routeHist = new client.Histogram(opts.histogram);
+      const routeSum = new client.Summary(opts.summary);
 
-        void reply.type('text/plain').send(await data);
-      },
-    });
-  }
+      fastify.addHook('onRequest', (request, _, next) => {
+        if (request.raw.url && collectMetricsForUrl(request.raw.url)) {
+          request.metrics = {
+            hist: routeHist.startTimer(),
+            sum: routeSum.startTimer(),
+          };
+        }
+        next();
+      });
 
-  fastify.decorate(pluginName, plugin);
-};
+      fastify.addHook('onResponse', function (request, reply, next) {
+        if (request.metrics) {
+          const context: FastifyContext<MetricsContextConfig> =
+            reply.context as FastifyContext<MetricsContextConfig>;
+          const routeId =
+            context.config.statsId ||
+            context.config.url ||
+            invalidRouteGroup ||
+            request.raw.url;
+          const method = request.raw.method;
+          const statusCode = groupStatusCodes
+            ? `${Math.floor(reply.raw.statusCode / 100)}xx`
+            : reply.raw.statusCode;
+
+          request.metrics.sum({
+            method: method || 'UNKNOWN',
+            route: routeId,
+            status_code: statusCode,
+          });
+          request.metrics.hist({
+            method: method || 'UNKNOWN',
+            route: routeId,
+            status_code: statusCode,
+          });
+        }
+        next();
+      });
+    }
+
+    if (endpoint) {
+      fastify.route({
+        url: endpoint,
+        method: 'GET',
+        schema: {
+          // hide route from swagger plugins
+          hide: true,
+        },
+        handler: async (_, reply) => {
+          const data = register
+            ? register.metrics()
+            : client.register.metrics();
+
+          void reply.type('text/plain').send(await data);
+        },
+      });
+    }
+
+    fastify.decorate(pluginName, plugin);
+  };
 
 export = fastifyPlugin(fastifyMetricsPlugin, {
   fastify: '>=3.0.0',
