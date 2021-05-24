@@ -1,12 +1,10 @@
-**[Fastify metrics - v7.0.0](README.md)**
+Fastify metrics - v7.1.0
 
-> Globals
+# Fastify metrics - v7.1.0
 
-# Fastify metrics - v7.0.0
-
-## Index
+## Table of contents
 
 ### Modules
 
-* [index](modules/index.md)
-* [plugin](modules/plugin.md)
+- [index](modules/index.md)
+- [plugin](modules/plugin.md)

@@ -1,32 +1,28 @@
-**[Fastify metrics - v7.0.0](../README.md)**
-
-> [Globals](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
+[Fastify metrics - v7.1.0](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
 
 # Interface: MetricsContextConfig
 
-## Hierarchy
+[plugin](../modules/plugin.md).MetricsContextConfig
 
-* **MetricsContextConfig**
-
-## Index
+## Table of contents
 
 ### Properties
 
-* [statsId](plugin.metricscontextconfig.md#statsid)
-* [url](plugin.metricscontextconfig.md#url)
+- [statsId](plugin.metricscontextconfig.md#statsid)
+- [url](plugin.metricscontextconfig.md#url)
 
 ## Properties
 
 ### statsId
 
-• `Optional` **statsId**: string
+• `Optional` **statsId**: *string*
 
-*Defined in [plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L9)*
+Defined in: [plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L9)
 
 ___
 
 ### url
 
-• `Optional` **url**: string
+• `Optional` **url**: *string*
 
-*Defined in [plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L8)*
+Defined in: [plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L8)

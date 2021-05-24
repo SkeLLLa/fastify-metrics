@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.1.0...v7.2.0) (2021-05-24)
+
+
+### Features
+
+* **metrics:** disable info logging ([e61d18e](https://github.com/SkeLLLa/fastify-metrics/commit/e61d18ed13da2539e89f2d305faa2ffda0d60cd8))
+
+
+### Misc
+
+* **deps:** bump handlebars from 4.7.6 to 4.7.7 ([0d5c5b7](https://github.com/SkeLLLa/fastify-metrics/commit/0d5c5b7955679461524ab8169833e29b6e16b574))
+* **deps:** bump hosted-git-info from 2.8.8 to 2.8.9 ([008d0b9](https://github.com/SkeLLLa/fastify-metrics/commit/008d0b98ab3a867c6dac60e2d1bb3c16bc7132dc))
+* **deps:** bump y18n from 4.0.0 to 4.0.1 ([f0955a8](https://github.com/SkeLLLa/fastify-metrics/commit/f0955a8190b5356dc8a867c975d201525f331d5c))
+
 ## [7.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.0.0...v7.1.0) (2021-03-09)
 
 

@@ -1,17 +1,15 @@
-**[Fastify metrics - v7.0.0](../README.md)**
-
-> [Globals](../README.md) / index
+[Fastify metrics - v7.1.0](../README.md) / index
 
 # Module: index
 
-## Index
+## Table of contents
 
 ### Properties
 
-* [export=](index.md#export&#x3D;)
+- [export&#x3D;](index.md#export&#x3D;)
 
 ## Properties
 
 ### export&#x3D;
 
-•  **export=**: FastifyPluginCallback\<[PluginOptions](../interfaces/plugin.pluginoptions.md), Server>
+• **export=**: *FastifyPluginCallback*<[*PluginOptions*](../interfaces/plugin.pluginoptions.md), Server\>

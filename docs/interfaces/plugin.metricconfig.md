@@ -1,36 +1,32 @@
-**[Fastify metrics - v7.0.0](../README.md)**
-
-> [Globals](../README.md) / [plugin](../modules/plugin.md) / MetricConfig
+[Fastify metrics - v7.1.0](../README.md) / [plugin](../modules/plugin.md) / MetricConfig
 
 # Interface: MetricConfig
 
-## Hierarchy
+[plugin](../modules/plugin.md).MetricConfig
 
-* **MetricConfig**
-
-## Index
+## Table of contents
 
 ### Properties
 
-* [histogram](plugin.metricconfig.md#histogram)
-* [summary](plugin.metricconfig.md#summary)
+- [histogram](plugin.metricconfig.md#histogram)
+- [summary](plugin.metricconfig.md#summary)
 
 ## Properties
 
 ### histogram
 
-•  **histogram**: HistogramConfiguration\<string>
-
-*Defined in [plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L16)*
+• **histogram**: *HistogramConfiguration*<string\>
 
 Histogram config
+
+Defined in: [plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L16)
 
 ___
 
 ### summary
 
-•  **summary**: SummaryConfiguration\<string>
-
-*Defined in [plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L20)*
+• **summary**: *SummaryConfiguration*<string\>
 
 Summary config
+
+Defined in: [plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L20)

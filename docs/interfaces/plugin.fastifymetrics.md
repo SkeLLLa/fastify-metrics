@@ -1,47 +1,43 @@
-**[Fastify metrics - v7.0.0](../README.md)**
-
-> [Globals](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
+[Fastify metrics - v7.1.0](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
 
 # Interface: FastifyMetrics
 
-## Hierarchy
-
-* **FastifyMetrics**
+[plugin](../modules/plugin.md).FastifyMetrics
 
 ## Indexable
 
-▪ [key: string]: unknown
+▪ [key: *string*]: *unknown*
 
 Additional objects to store your metrics, registries, etc.
 
-## Index
+## Table of contents
 
 ### Properties
 
-* [client](plugin.fastifymetrics.md#client)
+- [client](plugin.fastifymetrics.md#client)
 
 ### Methods
 
-* [clearRegister](plugin.fastifymetrics.md#clearregister)
+- [clearRegister](plugin.fastifymetrics.md#clearregister)
 
 ## Properties
 
 ### client
 
-•  **client**: \_\_module
-
-*Defined in [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L27)*
+• **client**: \_\_module
 
 Prom-client
+
+Defined in: [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L27)
 
 ## Methods
 
 ### clearRegister
 
-▸ **clearRegister**(): void
-
-*Defined in [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/e814d55/src/plugin.ts#L31)*
+▸ **clearRegister**(): *void*
 
 Expose register clear function if register was provided
 
-**Returns:** void
+**Returns:** *void*
+
+Defined in: [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L31)
