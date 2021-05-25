@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.0...v7.2.1) (2021-05-25)
+
+
+### Bug fixes
+
+* metric route log level ([a847821](https://github.com/SkeLLLa/fastify-metrics/commit/a8478213c51cad301f1a182a7efd14ccd14e04f8))
+
 ## [7.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.1.0...v7.2.0) (2021-05-24)
 
 

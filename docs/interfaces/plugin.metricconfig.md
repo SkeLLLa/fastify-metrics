@@ -1,4 +1,4 @@
-[Fastify metrics - v7.1.0](../README.md) / [plugin](../modules/plugin.md) / MetricConfig
+[Fastify metrics - v7.2.0](../README.md) / [plugin](../modules/plugin.md) / MetricConfig
 
 # Interface: MetricConfig
 
@@ -19,7 +19,7 @@
 
 Histogram config
 
-Defined in: [plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L16)
+Defined in: [plugin.ts:16](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L16)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 Summary config
 
-Defined in: [plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/e61d18e/src/plugin.ts#L20)
+Defined in: [plugin.ts:20](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L20)
