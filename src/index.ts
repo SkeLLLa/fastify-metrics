@@ -170,6 +170,7 @@ const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> =
       fastify.route({
         url: endpoint,
         method: 'GET',
+        logLevel: 'fatal',
         schema: {
           // hide route from swagger plugins
           hide: true,
