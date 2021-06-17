@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.0](../README.md) / [plugin](../modules/plugin.md) / PluginOptions
+[Fastify metrics - v7.2.1](../README.md) / [plugin](../modules/plugin.md) / PluginOptions
 
 # Interface: PluginOptions
 
@@ -23,106 +23,126 @@
 
 ### blacklist
 
-• `Optional` **blacklist**: *string* \| *RegExp* \| *string*[]
+• `Optional` **blacklist**: `string` \| `RegExp` \| `string`[]
 
 Routes blacklist that will be excluded from metrics collection
 
-Defined in: [plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L66)
+#### Defined in
+
+[plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L66)
 
 ___
 
 ### enableDefaultMetrics
 
-• `Optional` **enableDefaultMetrics**: *boolean*
+• `Optional` **enableDefaultMetrics**: `boolean`
 
 Enable default prom-client metrics
 
 **`default`** true
 
-Defined in: [plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L43)
+#### Defined in
+
+[plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L43)
 
 ___
 
 ### enableRouteMetrics
 
-• `Optional` **enableRouteMetrics**: *boolean*
+• `Optional` **enableRouteMetrics**: `boolean`
 
 Enable fastify route metrics
 
 **`default`** true
 
-Defined in: [plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L48)
+#### Defined in
+
+[plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L48)
 
 ___
 
 ### endpoint
 
-• `Optional` **endpoint**: *string*
+• `Optional` **endpoint**: `string`
 
 Metrics endpoint for Prometheus
 
-Defined in: [plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L78)
+#### Defined in
+
+[plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L78)
 
 ___
 
 ### groupStatusCodes
 
-• `Optional` **groupStatusCodes**: *boolean*
+• `Optional` **groupStatusCodes**: `boolean`
 
 Groups status code labels by first digit 200 -> 2XX
 
 **`default`** false
 
-Defined in: [plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L53)
+#### Defined in
+
+[plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L53)
 
 ___
 
 ### invalidRouteGroup
 
-• `Optional` **invalidRouteGroup**: *string*
+• `Optional` **invalidRouteGroup**: `string`
 
 Groups urls that are not mapped onto valid routes together
 
-Defined in: [plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L57)
+#### Defined in
+
+[plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L57)
 
 ___
 
 ### metrics
 
-• `Optional` **metrics**: *Partial*<[*MetricConfig*](plugin.metricconfig.md)\>
+• `Optional` **metrics**: `Partial`<[MetricConfig](plugin.metricconfig.md)\>
 
 HTTP metrics overrides
 
-Defined in: [plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L82)
+#### Defined in
+
+[plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L82)
 
 ___
 
 ### pluginName
 
-• `Optional` **pluginName**: *string*
+• `Optional` **pluginName**: `string`
 
 Plugin name that will be registered in fastify
 
 **`default`** metrics
 
-Defined in: [plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L62)
+#### Defined in
+
+[plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L62)
 
 ___
 
 ### prefix
 
-• `Optional` **prefix**: *string*
+• `Optional` **prefix**: `string`
 
 Metrics prefix
 
-Defined in: [plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L74)
+#### Defined in
+
+[plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L74)
 
 ___
 
 ### register
 
-• `Optional` **register**: *Registry*
+• `Optional` **register**: `Registry`
 
 Prom client registry for default metrics and route metrics
 
-Defined in: [plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L70)
+#### Defined in
+
+[plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L70)

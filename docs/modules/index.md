@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.0](../README.md) / index
+[Fastify metrics - v7.2.1](../README.md) / index
 
 # Module: index
 
@@ -12,4 +12,4 @@
 
 ### export&#x3D;
 
-• **export=**: *FastifyPluginCallback*<[*PluginOptions*](../interfaces/plugin.pluginoptions.md), Server\>
+• **export=**: `FastifyPluginCallback`<[PluginOptions](../interfaces/plugin.pluginoptions.md), Server\>

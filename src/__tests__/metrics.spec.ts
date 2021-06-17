@@ -1,3 +1,11 @@
+import {
+  describe,
+  test,
+  expect,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
 import fastifyPlugin = require('../index');
 import fastify from 'fastify';
 
@@ -28,7 +36,7 @@ describe('metrics plugin', () => {
     app.metrics.client.register.resetMetrics();
   });
 
-  it('should register default metrics', async () => {
+  test('should register default metrics', async () => {
     await app.inject({
       method: 'GET',
       url: '/test',
@@ -82,7 +90,7 @@ describe('metrics plugin', () => {
     );
   });
 
-  it('should register default metrics for 4xx request', async () => {
+  test('should register default metrics for 4xx request', async () => {
     await app.inject({
       method: 'GET',
       url: '/not-exists',

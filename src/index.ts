@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPlugin, FastifyContext } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync, FastifyContext } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import client, { LabelValues } from 'prom-client';
 import {
@@ -41,7 +41,7 @@ declare module 'fastify' {
  * Fastify metrics plugin
  * @param {FastifyInstance} fastify - Fastify instance asdfasdf asdf asdf
  */
-const fastifyMetricsPlugin: FastifyPlugin<PluginOptions> =
+const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
   async function fastifyMetrics(
     fastify: FastifyInstance,
     {

@@ -1,3 +1,11 @@
+import {
+  describe,
+  test,
+  expect,
+  beforeAll,
+  afterAll,
+  afterEach,
+} from '@jest/globals';
 import fastifyPlugin = require('../index');
 import fastify from 'fastify';
 
@@ -29,7 +37,7 @@ describe('metrics plugin', () => {
     app.metrics.client.register.resetMetrics();
   });
 
-  it('should not register route metrics when enableRouteMetrics is false', async () => {
+  test('should not register route metrics when enableRouteMetrics is false', async () => {
     await app.inject({
       method: 'GET',
       url: '/test',
