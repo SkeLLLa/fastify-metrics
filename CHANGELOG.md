@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.3](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.2...v7.2.3) (2021-06-17)
+
+
+### Bug fixes
+
+* version file fix ([23c4bbd](https://github.com/SkeLLLa/fastify-metrics/commit/23c4bbde43d28ae7214fd0abe38ba660ac222577))
+
+
+### Misc
+
+* docs update ([d2338ed](https://github.com/SkeLLLa/fastify-metrics/commit/d2338ed080fb0ac5ca5bd09ef3f9768e7756726b))
+
 ### [7.2.2](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.1...v7.2.2) (2021-06-17)
 
 
