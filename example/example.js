@@ -5,7 +5,7 @@ const app = fastify({
 });
 
 const metricsPlugin = require('../');
-app.register(metricsPlugin, {endpoint: '/metrics'});
+app.register(metricsPlugin, { endpoint: '/metrics' });
 app.get(
   '/:id',
   {
@@ -30,15 +30,15 @@ app.get(
       },
     },
   },
-  function(request, reply) {
-    const {id} = request.params;
+  function (request, reply) {
+    const { id } = request.params;
     reply.code(200);
     const delay = Math.random() * 10000;
 
     setTimeout(() => {
-      reply.send({id, delay});
+      reply.send({ id, delay });
     }, delay);
-  },
+  }
 );
 
 app.get(
@@ -60,13 +60,13 @@ app.get(
       },
     },
   },
-  function(_, reply) {
+  function (_, reply) {
     reply.code(200);
     const delay = Math.random() * 10000;
     setTimeout(() => {
-      reply.send({data: 'hello', delay});
+      reply.send({ data: 'hello', delay });
     }, delay);
-  },
+  }
 );
 
 (async () => {
@@ -74,6 +74,6 @@ app.get(
     await Promise.all([app.listen(3333), app.ready()]);
   } catch (ex) {
     app.log.error('Fatal error', ex.message, ex.stack);
-    process.exit(1);
+    process.extest(1);
   }
 })();

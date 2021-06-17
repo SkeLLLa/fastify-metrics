@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.0](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
+[Fastify metrics - v7.2.1](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
 
 # Interface: MetricsContextConfig
 
@@ -15,14 +15,18 @@
 
 ### statsId
 
-• `Optional` **statsId**: *string*
+• `Optional` **statsId**: `string`
 
-Defined in: [plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L9)
+#### Defined in
+
+[plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L9)
 
 ___
 
 ### url
 
-• `Optional` **url**: *string*
+• `Optional` **url**: `string`
 
-Defined in: [plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L8)
+#### Defined in
+
+[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L8)

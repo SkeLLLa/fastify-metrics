@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.0](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
+[Fastify metrics - v7.2.1](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
 
 # Interface: FastifyMetrics
 
@@ -6,7 +6,7 @@
 
 ## Indexable
 
-▪ [key: *string*]: *unknown*
+▪ [key: `string`]: `unknown`
 
 Additional objects to store your metrics, registries, etc.
 
@@ -24,20 +24,26 @@ Additional objects to store your metrics, registries, etc.
 
 ### client
 
-• **client**: \_\_module
+• **client**: `\_\_module`
 
 Prom-client
 
-Defined in: [plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L27)
+#### Defined in
+
+[plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L27)
 
 ## Methods
 
 ### clearRegister
 
-▸ **clearRegister**(): *void*
+▸ **clearRegister**(): `void`
 
 Expose register clear function if register was provided
 
-**Returns:** *void*
+#### Returns
 
-Defined in: [plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/a847821/src/plugin.ts#L31)
+`void`
+
+#### Defined in
+
+[plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L31)

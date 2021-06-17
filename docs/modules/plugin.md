@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.0](../README.md) / plugin
+[Fastify metrics - v7.2.1](../README.md) / plugin
 
 # Module: plugin
 
