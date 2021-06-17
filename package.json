@@ -26,15 +26,17 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:node",
+    "build:node": "tsc -p tsconfig.json",
     "get-changelog": "conventional-changelog -r 2 -p angular",
     "lint": "eslint .",
-    "prerelease": "npm run typedoc",
+    "prerelease": "npm run typedoc && git add -A ./docs",
     "release": "git add -A && standard-version -a",
     "test": "npm audit --production && npm run lint && npm run unit",
-    "typedoc": "rm -rf ./docs/* && typedoc --theme markdown --out ./docs",
+    "typedoc": "rm -rf ./docs/* && typedoc && pretty-quick",
     "unit": "jest",
-    "postunit": "codecov || true"
+    "postunit": "codecov || true",
+    "version:update": "echo v$npm_package_version > VERSION"
   },
   "dependencies": {
     "fastify-plugin": "^3.0.0",
