@@ -19,9 +19,9 @@
 
 #### Defined in
 
-[plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L9)
+[plugin.ts:9](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L9)
 
-___
+---
 
 ### url
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L8)
+[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L8)

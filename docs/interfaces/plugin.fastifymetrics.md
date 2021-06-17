@@ -30,7 +30,7 @@ Prom-client
 
 #### Defined in
 
-[plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L27)
+[plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L27)
 
 ## Methods
 
@@ -46,4 +46,4 @@ Expose register clear function if register was provided
 
 #### Defined in
 
-[plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/989ebec/src/plugin.ts#L31)
+[plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L31)

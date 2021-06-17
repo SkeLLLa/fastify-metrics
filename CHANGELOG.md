@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.2](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.1...v7.2.2) (2021-06-17)
+
+
+### Tests
+
+* refactor to jest 27 ([023dac3](https://github.com/SkeLLLa/fastify-metrics/commit/023dac34b6674848f091d5da0e22f9d7a6aa606e))
+
+
+### Misc
+
+* fix package lock ([050167e](https://github.com/SkeLLLa/fastify-metrics/commit/050167e5e6a9e330d61e70daeabc70c5e7bb7385))
+* update scripts ([aacc1f9](https://github.com/SkeLLLa/fastify-metrics/commit/aacc1f9fe2b91f2e829b0b085dd26eae6362417c))
+* **deps:** bump ws from 7.4.5 to 7.4.6 ([989ebec](https://github.com/SkeLLLa/fastify-metrics/commit/989ebec46341274155589c6e9da669592d3e76d2))
+
 ### [7.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.0...v7.2.1) (2021-05-25)
 
 

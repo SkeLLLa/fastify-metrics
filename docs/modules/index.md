@@ -6,10 +6,10 @@
 
 ### Properties
 
-- [export&#x3D;](index.md#export&#x3D;)
+- [export&#x3D;](index.md#export=)
 
 ## Properties
 
 ### export&#x3D;
 
-• **export=**: `FastifyPluginCallback`<[PluginOptions](../interfaces/plugin.pluginoptions.md), Server\>
+• **export=**: `FastifyPluginAsync`<[PluginOptions](../interfaces/plugin.pluginoptions.md), Server\>
