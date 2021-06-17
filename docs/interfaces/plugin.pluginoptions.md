@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.1](../README.md) / [plugin](../modules/plugin.md) / PluginOptions
+[Fastify metrics - v7.2.2](../README.md) / [plugin](../modules/plugin.md) / PluginOptions
 
 # Interface: PluginOptions
 
@@ -29,7 +29,7 @@ Routes blacklist that will be excluded from metrics collection
 
 #### Defined in
 
-[plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L66)
+[plugin.ts:66](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L66)
 
 ---
 
@@ -43,7 +43,7 @@ Enable default prom-client metrics
 
 #### Defined in
 
-[plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L43)
+[plugin.ts:43](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L43)
 
 ---
 
@@ -57,7 +57,7 @@ Enable fastify route metrics
 
 #### Defined in
 
-[plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L48)
+[plugin.ts:48](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L48)
 
 ---
 
@@ -69,7 +69,7 @@ Metrics endpoint for Prometheus
 
 #### Defined in
 
-[plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L78)
+[plugin.ts:78](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L78)
 
 ---
 
@@ -83,7 +83,7 @@ Groups status code labels by first digit 200 -> 2XX
 
 #### Defined in
 
-[plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L53)
+[plugin.ts:53](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L53)
 
 ---
 
@@ -95,7 +95,7 @@ Groups urls that are not mapped onto valid routes together
 
 #### Defined in
 
-[plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L57)
+[plugin.ts:57](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L57)
 
 ---
 
@@ -107,7 +107,7 @@ HTTP metrics overrides
 
 #### Defined in
 
-[plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L82)
+[plugin.ts:82](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L82)
 
 ---
 
@@ -121,7 +121,7 @@ Plugin name that will be registered in fastify
 
 #### Defined in
 
-[plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L62)
+[plugin.ts:62](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L62)
 
 ---
 
@@ -133,7 +133,7 @@ Metrics prefix
 
 #### Defined in
 
-[plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L74)
+[plugin.ts:74](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L74)
 
 ---
 
@@ -145,4 +145,4 @@ Prom client registry for default metrics and route metrics
 
 #### Defined in
 
-[plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/aacc1f9/src/plugin.ts#L70)
+[plugin.ts:70](https://github.com/SkeLLLa/fastify-metrics/blob/23c4bbd/src/plugin.ts#L70)
