@@ -80,4 +80,12 @@ export interface PluginOptions {
    * HTTP metrics overrides
    */
   metrics?: Partial<MetricConfig>;
+  /**
+   * Label Overrides
+   */
+  labelOverrides?: {
+    method?: string;
+    route?: string;
+    status?: string;
+  };
 }

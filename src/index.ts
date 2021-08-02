@@ -39,7 +39,7 @@ declare module 'fastify' {
 
 /**
  * Fastify metrics plugin
- * @param {FastifyInstance} fastify - Fastify instance asdfasdf asdf asdf
+ * @param {FastifyInstance} fastify - Fastify instance
  */
 const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
   async function fastifyMetrics(
@@ -55,6 +55,7 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
       prefix,
       endpoint,
       metrics = {},
+      labelOverrides = {},
     }: PluginOptions = {}
   ) {
     const plugin: FastifyMetrics = {
@@ -80,6 +81,12 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
       client.collectDefaultMetrics(defaultOpts);
     }
 
+    const labelNames = {
+      method: labelOverrides?.method ? labelOverrides?.method : 'method',
+      status: labelOverrides?.status ? labelOverrides?.status : 'status_code',
+      route: labelOverrides?.route ? labelOverrides?.route : 'route',
+    };
+
     if (enableRouteMetrics) {
       const collectMetricsForUrl = (url: string) => {
         const queryIndex = url.indexOf('?');
@@ -103,14 +110,14 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
         histogram: {
           name: 'http_request_duration_seconds',
           help: 'request duration in seconds',
-          labelNames: ['status_code', 'method', 'route'],
+          labelNames: [labelNames.status, labelNames.method, labelNames.route],
           buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
           ...metrics.histogram,
         },
         summary: {
           name: 'http_request_summary_seconds',
           help: 'request duration in seconds summary',
-          labelNames: ['status_code', 'method', 'route'],
+          labelNames: [labelNames.status, labelNames.method, labelNames.route],
           percentiles: [0.5, 0.9, 0.95, 0.99],
           ...metrics.summary,
         },
@@ -151,16 +158,13 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
             ? `${Math.floor(reply.raw.statusCode / 100)}xx`
             : reply.raw.statusCode;
 
-          request.metrics.sum({
-            method: method || 'UNKNOWN',
-            route: routeId,
-            status_code: statusCode,
-          });
-          request.metrics.hist({
-            method: method || 'UNKNOWN',
-            route: routeId,
-            status_code: statusCode,
-          });
+          const labels = {
+            [labelNames.method]: method,
+            [labelNames.route]: routeId,
+            [labelNames.status]: statusCode,
+          };
+          request.metrics.sum(labels);
+          request.metrics.hist(labels);
         }
         next();
       });
