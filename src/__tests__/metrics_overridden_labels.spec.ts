@@ -1,13 +1,13 @@
 import {
-  describe,
-  test,
-  expect,
-  beforeAll,
   afterAll,
   afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
 } from '@jest/globals';
-import fastifyPlugin = require('../index');
 import fastify from 'fastify';
+import fastifyPlugin = require('../index');
 
 const app = fastify();
 
