@@ -21,7 +21,6 @@ module.exports = {
   },
   plugins: ['prettier', '@typescript-eslint'],
   rules: {
-    'prettier/prettier': 'error',
     'new-cap': ['error', { capIsNewExceptions: ['ObjectId', 'Fastify'] }],
     'prettier/prettier': 'error',
     '@typescript-eslint/require-await': 'off',
