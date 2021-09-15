@@ -1,4 +1,3 @@
-// import promClient from 'prom-client';
 import promClient, {
   HistogramConfiguration,
   SummaryConfiguration,
