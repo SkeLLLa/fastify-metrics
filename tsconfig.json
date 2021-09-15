@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
@@ -18,7 +17,6 @@
     "strictNullChecks": true,
     "target": "es2018"
   },
-  "include": ["src/**/*"],
   "exclude": [
     "dist/**/*",
     "coverage/**/*",
@@ -27,6 +25,7 @@
     "example/**/*",
     ".*"
   ],
+  "include": ["src/**/*"],
   "typedocOptions": {
     "entryPoints": ["src/index.ts", "src/plugin.ts"],
     "out": "docs",
