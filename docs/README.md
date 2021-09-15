@@ -1,6 +1,6 @@
-Fastify metrics - v7.2.3
+Fastify metrics - v7.3.0
 
-# Fastify metrics - v7.2.3
+# Fastify metrics - v7.3.0
 
 ## Table of contents
 

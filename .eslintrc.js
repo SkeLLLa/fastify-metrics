@@ -19,11 +19,11 @@ module.exports = {
     node: true,
     jest: false,
   },
-  plugins: ['prettier', 'sort-requires', '@typescript-eslint'],
+  plugins: ['prettier', '@typescript-eslint'],
   rules: {
+    'prettier/prettier': 'error',
     'new-cap': ['error', { capIsNewExceptions: ['ObjectId', 'Fastify'] }],
     'prettier/prettier': 'error',
-    'sort-requires/sort-requires': 'error',
     '@typescript-eslint/require-await': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
