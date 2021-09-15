@@ -1,4 +1,4 @@
-import { describe, test, expect } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import fastifyPlugin = require('../index');
 
 describe('exports plugin', () => {

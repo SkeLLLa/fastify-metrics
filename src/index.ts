@@ -1,11 +1,11 @@
-import { FastifyInstance, FastifyPluginAsync, FastifyContext } from 'fastify';
+import { FastifyContext, FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import client, { LabelValues } from 'prom-client';
 import {
-  PluginOptions,
   FastifyMetrics,
-  MetricsContextConfig,
   MetricConfig,
+  MetricsContextConfig,
+  PluginOptions,
 } from './plugin';
 
 declare module 'fastify' {
@@ -48,6 +48,7 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
       enableDefaultMetrics = true,
       enableRouteMetrics = true,
       groupStatusCodes = false,
+      ignoreHeadRequests = false,
       pluginName = 'metrics',
       invalidRouteGroup,
       blacklist,
@@ -135,12 +136,21 @@ const fastifyMetricsPlugin: FastifyPluginAsync<PluginOptions> =
       const routeSum = new client.Summary(opts.summary);
 
       fastify.addHook('onRequest', (request, _, next) => {
-        if (request.raw.url && collectMetricsForUrl(request.raw.url)) {
-          request.metrics = {
-            hist: routeHist.startTimer(),
-            sum: routeSum.startTimer(),
-          };
+        if (
+          ignoreHeadRequests === true &&
+          request.method.toLowerCase() === 'head'
+        ) {
+          next();
+          return;
         }
+        if (!request.raw.url || !collectMetricsForUrl(request.raw.url)) {
+          next();
+          return;
+        }
+        request.metrics = {
+          hist: routeHist.startTimer(),
+          sum: routeSum.startTimer(),
+        };
         next();
       });
 
