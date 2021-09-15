@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.3...v7.3.0) (2021-09-15)
+
+
+### Features
+
+* making label names overridable ([ace7f0d](https://github.com/SkeLLLa/fastify-metrics/commit/ace7f0daaae52287f7abe212ce3ffe09194e2433))
+
 ### [7.2.3](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.2...v7.2.3) (2021-06-17)
 
 

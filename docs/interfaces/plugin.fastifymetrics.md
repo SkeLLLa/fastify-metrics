@@ -1,4 +1,4 @@
-[Fastify metrics - v7.2.2](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
+[Fastify metrics - v7.2.3](../README.md) / [plugin](../modules/plugin.md) / FastifyMetrics
 
 # Interface: FastifyMetrics
 
@@ -30,7 +30,7 @@ Prom-client
 
 #### Defined in
 
-[plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/d2338ed/src/plugin.ts#L27)
+[plugin.ts:27](https://github.com/SkeLLLa/fastify-metrics/blob/ace7f0d/src/plugin.ts#L27)
 
 ## Methods
 
@@ -46,4 +46,4 @@ Expose register clear function if register was provided
 
 #### Defined in
 
-[plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/d2338ed/src/plugin.ts#L31)
+[plugin.ts:31](https://github.com/SkeLLLa/fastify-metrics/blob/ace7f0d/src/plugin.ts#L31)
