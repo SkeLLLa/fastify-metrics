@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.4.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.3.0...v7.4.0) (2021-09-15)
+
+
+### Features
+
+* **metrics:** add option to ignore head requests ([7b7da8d](https://github.com/SkeLLLa/fastify-metrics/commit/7b7da8d4122bfeb5264bdb3b955451d13a003472))
+
+
+### Misc
+
+* **deps:** update & fix docs ([bf8dfe7](https://github.com/SkeLLLa/fastify-metrics/commit/bf8dfe77147b5ff23bbe28b01fa6f8222878bbbb))
+* remove dups ([badf815](https://github.com/SkeLLLa/fastify-metrics/commit/badf815d4473e150b602514283c73b1772a5b5e7))
+
+
+### Tests
+
+* add head ignore tests ([78d68c3](https://github.com/SkeLLLa/fastify-metrics/commit/78d68c3d290a09a8541df2ec42a61f75751b6f18))
+
 ## [7.3.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.2.3...v7.3.0) (2021-09-15)
 
 

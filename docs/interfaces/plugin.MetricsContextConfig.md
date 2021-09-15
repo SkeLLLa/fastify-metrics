@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/c351f80/src/plugin.ts#L8)
+[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/78d68c3/src/plugin.ts#L8)
 
 ---
 
@@ -29,4 +29,4 @@
 
 #### Defined in
 
-[plugin.ts:7](https://github.com/SkeLLLa/fastify-metrics/blob/c351f80/src/plugin.ts#L7)
+[plugin.ts:7](https://github.com/SkeLLLa/fastify-metrics/blob/78d68c3/src/plugin.ts#L7)
