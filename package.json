@@ -1,6 +1,6 @@
 {
   "name": "fastify-metrics",
-  "version": "7.4.0",
+  "version": "8.0.0",
   "description": "Prometheus metrics exporter for Fastify",
   "keywords": [
     "fastify-plugin",

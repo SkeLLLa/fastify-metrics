@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.4.0...v8.0.0) (2021-09-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** prom-client v14 might be breaking
+
+### Features
+
+* **deps:** bump prom-client to v14 ([409f574](https://github.com/SkeLLLa/fastify-metrics/commit/409f57496e5d8f475dbaebaae180873933bfaa99))
+
 ## [7.4.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.3.0...v7.4.0) (2021-09-15)
 
 

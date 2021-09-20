@@ -1,4 +1,4 @@
-[Fastify metrics - v7.3.0](../README.md) / index
+[Fastify metrics - v7.4.0](../README.md) / index
 
 # Module: index
 

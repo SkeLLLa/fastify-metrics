@@ -1,4 +1,4 @@
-[Fastify metrics - v7.3.0](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
+[Fastify metrics - v7.4.0](../README.md) / [plugin](../modules/plugin.md) / MetricsContextConfig
 
 # Interface: MetricsContextConfig
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/78d68c3/src/plugin.ts#L8)
+[plugin.ts:8](https://github.com/SkeLLLa/fastify-metrics/blob/409f574/src/plugin.ts#L8)
 
 ---
 
@@ -29,4 +29,4 @@
 
 #### Defined in
 
-[plugin.ts:7](https://github.com/SkeLLLa/fastify-metrics/blob/78d68c3/src/plugin.ts#L7)
+[plugin.ts:7](https://github.com/SkeLLLa/fastify-metrics/blob/409f574/src/plugin.ts#L7)
