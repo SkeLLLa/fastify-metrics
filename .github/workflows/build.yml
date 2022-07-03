@@ -68,8 +68,6 @@ jobs:
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
-      - name: Store version
-        run: pnpm run version:update
       - name: Commit version changes
         if: ${{ github.ref == 'refs/heads/master' }}
         run: |

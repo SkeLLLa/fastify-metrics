@@ -36,10 +36,9 @@
     "example:ts": "ts-node examples/example.ts",
     "get-changelog": "conventional-changelog -r 2 -p angular",
     "lint": "eslint .",
-    "release": "pnpm run docs && git add -A && standard-version -a",
+    "release": "pnpm run docs && git add -A && standard-version -a --dry-run",
     "test": "pnpm audit --production && pnpm run lint && pnpm run unit",
-    "unit": "jest",
-    "version:update": "echo v$npm_package_version > VERSION"
+    "unit": "jest"
   },
   "dependencies": {
     "fastify-plugin": "^3.0.1",

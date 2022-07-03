@@ -1,14 +1,29 @@
 {
-  "types": [
-    { "type": "feat", "section": "Features" },
-    { "type": "fix", "section": "Bug fixes" },
-    { "type": "style", "section": "Codestyle" },
-    { "type": "test", "section": "Tests" },
-    { "type": "chore", "section": "Misc" }
-  ],
   "scripts": {
-    "prerelease": "npm test",
-    "postbump": "echo Version: v$npm_package_version",
+    "prerelease": "pnpm test",
+    "postbump": "echo v$npm_package_version > VERSION",
     "posttag": "git push --follow-tags"
-  }
+  },
+  "types": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug fixes"
+    },
+    {
+      "type": "style",
+      "section": "Codestyle"
+    },
+    {
+      "type": "test",
+      "section": "Tests"
+    },
+    {
+      "type": "chore",
+      "section": "Misc"
+    }
+  ]
 }
