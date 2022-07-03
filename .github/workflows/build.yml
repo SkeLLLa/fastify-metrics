@@ -35,13 +35,13 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm run build
       - name: Audit
         run: pnpm audit --production
       - name: Lint
-        run: pnpm run lint --if-present
+        run: pnpm run lint
       - name: Test
-        run: pnpm run unit --if-present -- --coverage
+        run: pnpm run unit  -- --coverage
       - name: Archive code coverage results
         if: matrix.node-version == '18.x'
         uses: actions/upload-artifact@v1

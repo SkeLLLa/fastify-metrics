@@ -79,7 +79,7 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm run build
       - name: Publish
         run: pnpm publish --tag next
         env:

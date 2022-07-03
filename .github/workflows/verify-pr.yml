@@ -26,7 +26,7 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm run build
       - name: Audit
         run: pnpm audit --production
       - name: lint
@@ -36,7 +36,7 @@ jobs:
           reporter: github-pr-review
           eslint_flags: '. --ext js,jsx,ts,tsx'
       - name: Test
-        run: pnpm run unit --if-present
+        run: pnpm run unit
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:

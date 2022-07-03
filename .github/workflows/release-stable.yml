@@ -77,7 +77,7 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm run build
       - name: Publish
         run: pnpm publish --tag latest
         env:
@@ -94,7 +94,7 @@ jobs:
   #     - name: Install dependencies
   #       run: pnpm ci
   #     - name: Build
-  #       run: pnpm run build --if-present
+  #       run: pnpm run build
   #     - name: Get pnpm tag
   #       id: npm_tag
   #       run: |
