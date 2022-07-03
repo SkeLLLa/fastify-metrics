@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v8.0.0...v9.0.0) (2022-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **upgrade:** new configuration (incompatible with all previous versions)
+
+### Features
+
+* **upgrade:** fastify v4 support ([b7f7bb6](https://github.com/SkeLLLa/fastify-metrics/commit/b7f7bb65157dff4e7993c76ef0e72135a610f5b2)), closes [#44](https://github.com/SkeLLLa/fastify-metrics/issues/44) [#41](https://github.com/SkeLLLa/fastify-metrics/issues/41) [#10](https://github.com/SkeLLLa/fastify-metrics/issues/10)
+
+
+### Misc
+
+* add ignore ([bdcdd9a](https://github.com/SkeLLLa/fastify-metrics/commit/bdcdd9ae2b224b4dc4ea652bc7d24da9ee8bece6))
+* rebuild ([07504bf](https://github.com/SkeLLLa/fastify-metrics/commit/07504bf9aa0e4df74f0a6bf6412935fb3fba7ca6))
+* version bump ([05cc7eb](https://github.com/SkeLLLa/fastify-metrics/commit/05cc7ebebf837bebd85c71801cd102c37fd6a271))
+
 ## [8.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v7.4.0...v8.0.0) (2021-09-20)
 
 
