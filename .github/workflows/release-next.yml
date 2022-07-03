@@ -24,13 +24,17 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Get latest changelog
         id: Changelog
         run: |
-          changelog=$(npm run --silent get-changelog | tail -n +1)
+          changelog=$(pnpm run --silent get-changelog | tail -n +1)
           echo $changelog
           changelog="${changelog//'%'/'%25'}"
           changelog="${changelog//$'\n'/'%0A'}"
@@ -64,13 +68,17 @@ jobs:
           ref: refs/heads/next
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: npm run build --if-present
+        run: pnpm run build --if-present
       - name: Publish
-        run: npm publish --tag next
+        run: pnpm publish --tag next
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

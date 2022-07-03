@@ -71,7 +71,7 @@ app.get(
 
 (async () => {
   try {
-    await Promise.all([app.listen(3333), app.ready()]);
+    await Promise.all([app.listen({ port: 3333 }), app.ready()]);
   } catch (ex) {
     app.log.error('Fatal error', ex.message, ex.stack);
     process.extest(1);

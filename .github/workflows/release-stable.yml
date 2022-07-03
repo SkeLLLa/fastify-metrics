@@ -24,13 +24,17 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Get latest changelog
         id: Changelog
         run: |
-          changelog=$(npm run --silent get-changelog -- --skipUnstable | tail -n +1)
+          changelog=$(pnpm run --silent get-changelog -- --skipUnstable | tail -n +1)
           echo $changelog
           changelog="${changelog//'%'/'%25'}"
           changelog="${changelog//$'\n'/'%0A'}"
@@ -62,14 +66,18 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: npm run build --if-present
+        run: pnpm run build --if-present
       - name: Publish
-        run: npm publish --tag latest
+        run: pnpm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
   # publish-gh:
@@ -79,17 +87,17 @@ jobs:
   #     - uses: actions/checkout@v2
   #     - uses: actions/setup-node@v1
   #       with:
-  #         node-version: 14
+  #         node-version: 18
   #         registry-url: https://npm.pkg.github.com/
   #     - name: Install dependencies
-  #       run: npm ci
+  #       run: pnpm ci
   #     - name: Build
-  #       run: npm run build --if-present
-  #     - name: Get npm tag
+  #       run: pnpm run build --if-present
+  #     - name: Get pnpm tag
   #       id: npm_tag
   #       run: |
   #         NPM_TAG=$([[ ${{ github.ref }} == *"-rc"* ]] && echo "next" || echo "latest")
   #         echo "::set-output name=tag::$NPM_TAG"
-  #     - run: npm publish --access public
+  #     - run: pnpm publish --access public
   #       env:
   #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

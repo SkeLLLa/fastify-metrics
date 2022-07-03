@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "plugins": [
+    "./node_modules/prettier-plugin-organize-imports",
+    "./node_modules/prettier-plugin-packagejson",
+    "./node_modules/prettier-plugin-sort-json",
+    "./node_modules/prettier-plugin-jsdoc"
+  ],
+  "printWidth": 80,
+  "quoteProps": "consistent",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "tsdoc": true,
+  "useTabs": false
+}
