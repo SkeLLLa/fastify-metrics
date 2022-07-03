@@ -2,7 +2,7 @@
 .vscode/
 coverage/
 docs/
-example/
+examples/
 src/
 .*
 *config.js*

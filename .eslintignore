@@ -6,6 +6,6 @@ node_modules/
 static/
 **/*.xxx.*
 dist/
-example/**/*
+examples/**/*
 .eslintrc.js
 jest.config.js

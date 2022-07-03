@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import fastifyMetrics from '../';
+import fastifyMetrics from '../dist';
 
 const app = fastify({
   ignoreTrailingSlash: true,
