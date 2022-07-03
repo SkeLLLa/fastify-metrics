@@ -189,11 +189,12 @@ app.register(metricsPlugin, {endpoint: '/metrics', {
 
 The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
 
-| metric                                 | labels                           | description                             |
-| -------------------------------------- | -------------------------------- | --------------------------------------- |
-| `http_request_duration_seconds_count`  | `method`, `route`, `status_code` | Requests total count                    |
-| `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket            |
-| `http_request_duration_seconds_sum`    | `method`, `route`, `status_code` | Requests duration summaries by quantile |
+| metric                                 | labels                           | description                   |
+| -------------------------------------- | -------------------------------- | ----------------------------- |
+| `http_request_duration_seconds_count`  | `method`, `route`, `status_code` | Requests total count          |
+| `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket  |
+| `http_request_summary_seconds`         | `method`, `route`, `status_code` | Requests duration percentiles |
+| `http_request_summary_seconds_count`   | `method`, `route`, `status_code` | Requests total count          |
 
 <sub>[Back to top](#toc)</sub>
 
