@@ -1,7 +1,5 @@
-nginx/
-build/
+dist/
 coverage/
-static/
 node_modules/
-**/*.conf
 **/*.min.*
+pnpm-lock.yaml

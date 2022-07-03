@@ -1,8 +1,4 @@
-.idea
-node_modules
-deploy
-build
-coverage
-config/local.*
-**/*.xxx.js  
 dist/
+temp/
+node_modules/
+etc/*

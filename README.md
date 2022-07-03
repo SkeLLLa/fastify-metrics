@@ -28,14 +28,19 @@ This plugin also adds 2 http metrics for your routes:
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
   - [Notable changes](#notable-changes)
+    - [v9.x.x](#v9xx)
     - [v6.x.x](#v6xx)
   - [Installation](#installation)
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
     - [Plugin options](#plugin-options)
-      - [Metrics details](#metrics-details)
-    - [HTTP routes metrics](#http-routes-metrics)
-  - [Docs](#docs)
+      - [Route metrics](#route-metrics)
+        - [Route metrics overrides](#route-metrics-overrides)
+          - [Labels](#labels)
+          - [Request durations summary](#request-durations-summary)
+          - [Request durations histogram](#request-durations-histogram)
+    - [HTTP routes metrics in Prometheus](#http-routes-metrics-in-prometheus)
+  - [API Docs](#api-docs)
   - [Changelog](#changelog)
   - [See also](#see-also)
   - [License](#license)
@@ -46,8 +51,21 @@ This plugin also adds 2 http metrics for your routes:
 - **v4.x.x** - supports `fastify-2.x` `prom-client-11.x`
 - **v5.x.x** - supports `fastify-2.x` `prom-client-12.x`
 - **v6.x.x** - supports `fastify-3.x`
+- **v9.x.x** - supports `fastify-4.x` `prom-client-14.x`
 
 ## Notable changes
+
+### v9.x.x
+
+- Fastify v4 support.
+- Complete config rewrite, default behaviour changed.
+- Support disabling metrics in route config.
+- Now collects metrics only for registered routes by default.
+- Unknown routes metrics collection disabled by default.
+- Removed `metrics` from `request`. Now it uses `WeakMap` and not exposed.
+- Add balcklisting possibility for request methods.
+- Registry overrides moved to metric configuration.
+- Support overriding all Summary and Histogram options for default route metrics.
 
 ### v6.x.x
 
@@ -60,6 +78,7 @@ This plugin also adds 2 http metrics for your routes:
 
 ```sh
 npm i fastify-metrics --save
+pnpm i fastify-metrics --save
 ```
 
 <sub>[Back to top](#toc)</sub>
@@ -72,8 +91,8 @@ npm i fastify-metrics --save
 
 ---
 
-- Requires fastify `>=3.0.0`.
-- Node.js `>=10.0.0`.
+- Requires fastify `>=4.0.0`.
+- Node.js `>=16.0.0`.
 
 <sub>[Back to top](#toc)</sub>
 
@@ -97,43 +116,30 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 
 ### Plugin options
 
-| parameter              | type                     | description                                                                                           | default     |
-| ---------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- | ----------- |
-| `enableDefaultMetrics` | Boolean                  | Enables collection of default prom-client metrics.                                                    | `true`      |
-| `enableRouteMetrics`   | Boolean                  | Enables collection of fastify route metrics.                                                          | `true`      |
-| `pluginName`           | String                   | Change name which you'll use to access prometheus client instance in fastify.                         | `metrics`   |
-| `interval`             | Number                   | Default metrics collection interval in ms.                                                            | `5000`      |
-| `register`             | Object                   | Custom prom-client metrics registry.                                                                  | `undefined` |
-| `prefix`               | String                   | Custom default metrics prefix.                                                                        | `""`        |
-| `endpoint`             | String                   | If set, fastify route will be added to expose metrics. If not set you may manually add it afterwards. | `undefined` |
-| `metrics`              | Object                   | Allows override default metrics config. See section below.                                            | `{}`        |
-| `blacklist`            | String, RegExp, String[] | Skip metrics collection for blacklisted routes                                                        | `undefined` |
-| `groupStatusCodes`     | Boolean                  | Groups status codes (e.g. 2XX) if `true`                                                              | `false`     |
-| `invalidRouteGroup`    | String                   | If set, group any urls not matching a valid fastify route together rather than report individually.   | `undefined` |
+See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
 
-#### Metrics details
+| Property                                                                          | Type                                                                     | Default Value       |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------- |
+| [defaultMetrics?](./docs/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/fastify-metrics.idefaultmetricsconfig.md) | `{ enabled: true }` |
+| [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null                                                           | `'/metrics'`        |
+| [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                   | `'metrics'`         |
+| [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)     | `{ enabled: true }` |
+
+#### Route metrics
+
+| Property                                                                                    | Type                                                                       | Default Value                           |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------- |
+| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean                                                                    | `true`                                  |
+| [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                    | `false`                                 |
+| [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                     | `'__unknown__'`                         |
+| [methodBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.methodblacklist.md)           | readonly string\[\]                                                        | `['HEAD','OPTIONS','TRACE','CONNECT',]` |
+| [overrides?](./docs/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/fastify-metrics.iroutemetricsoverrides.md) |
+| [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                    | `true`                                  |
+| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly string\[\]                                                        | `[]`                                    |
+
+##### Route metrics overrides
 
 You may override default metrics settings. You may provide overrides for two metrics tracking http request durations: `histogram` and `summary`.
-Default values:
-
-```js
-{
-  histogram: {
-    name: 'http_request_duration_seconds',
-    help: 'request duration in seconds',
-    labelNames: ['status_code', 'method', 'route'],
-    buckets: [0.05, 0.1, 0.5, 1, 3, 5, 10],
-  },
-  summary: {
-    name: 'http_request_summary_seconds',
-    help: 'request duration in seconds summary',
-    labelNames: ['status_code', 'method', 'route'],
-    percentiles: [0.5, 0.9, 0.95, 0.99],
-  },
-}
-```
-
-You may also provide registers there or use it instead of prefix. Override should look like:
 
 ```js
 const fastify = require('fastify');
@@ -153,9 +159,33 @@ app.register(metricsPlugin, {endpoint: '/metrics', {
 }});
 ```
 
+###### Labels
+
+| Property                                                          | Type   | Default value   |
+| ----------------------------------------------------------------- | ------ | --------------- |
+| [method?](./docs/fastify-metrics.iroutelabelsoverrides.method.md) | string | `'method'`      |
+| [route?](./docs/fastify-metrics.iroutelabelsoverrides.route.md)   | string | `'route'`       |
+| [status?](./docs/fastify-metrics.iroutelabelsoverrides.status.md) | string | `'status_code'` |
+
+###### Request durations summary
+
+| Property                                                                | Type       | Default value                            |
+| ----------------------------------------------------------------------- | ---------- | ---------------------------------------- |
+| [name?](./docs/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`         |
+| [help?](./docs/fastify-metrics.isummaryoverrides.help.md)               | string     | `'rrequest duration in seconds summary'` |
+| [percentiles?](./docs/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                 |
+
+###### Request durations histogram
+
+| Property                                                          | Type       | Default value                     |
+| ----------------------------------------------------------------- | ---------- | --------------------------------- |
+| [name?](./docs/fastify-metrics.ihistogramoverrides.name.md)       | string     | `'http_request_duration_seconds'` |
+| [help?](./docs/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'request duration in seconds'`   |
+| [buckets?](./docs/fastify-metrics.ihistogramoverrides.buckets.md) | number\[\] | `[0.05, 0.1, 0.5, 1, 3, 5, 10]`   |
+
 <sub>[Back to top](#toc)</sub>
 
-### HTTP routes metrics
+### HTTP routes metrics in Prometheus
 
 The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
 
@@ -167,9 +197,9 @@ The following table shows what metrics will be available in Prometheus. Note suf
 
 <sub>[Back to top](#toc)</sub>
 
-## Docs
+## API Docs
 
-See [docs](docs/README.md).
+See [docs](docs/index.md).
 
 <sub>[Back to top](#toc)</sub>
 

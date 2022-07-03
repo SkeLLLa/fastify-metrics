@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
+        node-version: [16.x, 18.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -28,19 +28,21 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: npm run build --if-present
+        run: pnpm run build --if-present
       - name: Audit
-        run: npm audit --production
+        run: pnpm audit --production
       - name: Lint
-        run: npm run lint --if-present
+        run: pnpm run lint --if-present
       - name: Test
-        run: npm run unit --if-present -- --coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: pnpm run unit --if-present -- --coverage
       - name: Archive code coverage results
-        if: matrix.node-version == '14.x'
+        if: matrix.node-version == '18.x'
         uses: actions/upload-artifact@v1
         with:
           name: code-coverage-report
@@ -57,20 +59,24 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 18
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Store version
-        run: npm run version:update
+        run: pnpm run version:update
       - name: Commit version changes
         if: ${{ github.ref == 'refs/heads/master' }}
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email '2273103+SkeLLLa@users.noreply.github.com'
-          npm run release
+          pnpm run release
       - name: Commit version changes
         if: ${{ github.ref == 'refs/heads/next' }}
         run: |
           git config --global user.name 'Release Bot'
           git config --global user.email '2273103+SkeLLLa@users.noreply.github.com'
-          npm run release -- --prerelease rc --skip.changelog
+          pnpm run release -- --prerelease rc --skip.changelog

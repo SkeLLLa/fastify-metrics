@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
+        node-version: [16.x, 18.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -19,11 +19,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: npm ci
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
       - name: Build
-        run: npm run build --if-present
+        run: pnpm run build --if-present
       - name: Audit
-        run: npm audit --production
+        run: pnpm audit --production
       - name: lint
         uses: reviewdog/action-eslint@v1
         with:
@@ -31,7 +35,7 @@ jobs:
           reporter: github-pr-review
           eslint_flags: '. --ext js,jsx,ts,tsx'
       - name: Test
-        run: npm run unit --if-present
+        run: pnpm run unit --if-present
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:

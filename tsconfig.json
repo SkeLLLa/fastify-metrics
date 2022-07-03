@@ -1,21 +1,21 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "newLine": "LF",
     "noErrorTruncation": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "lib": ["es2018"],
     "outDir": "dist",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es2018"
+    "target": "ES2020"
   },
   "exclude": [
     "dist/**/*",
@@ -25,15 +25,5 @@
     "example/**/*",
     ".*"
   ],
-  "include": ["src/**/*"],
-  "typedocOptions": {
-    "entryPoints": ["src/index.ts", "src/plugin.ts"],
-    "out": "docs",
-    "name": "Fastify metrics",
-    "excludeExternals": true,
-    "includeVersion": true,
-    "hideGenerator": true,
-    "excludePrivate": true,
-    "readme": "none"
-  }
+  "include": ["src/**/*"]
 }
