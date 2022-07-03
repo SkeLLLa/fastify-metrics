@@ -26,14 +26,14 @@
   "directories": {
     "lib": "src",
     "doc": "docs",
-    "example": "example",
+    "example": "examples",
     "test": "src/__tests__"
   },
   "scripts": {
     "build": "pnpm run build:node",
     "build:node": "tsc -p tsconfig.json",
     "docs": "pnpm run build && api-extractor run -l && api-documenter markdown -i ./temp -o ./docs && pretty-quick",
-    "example:ts": "ts-node example/example.ts",
+    "example:ts": "ts-node examples/example.ts",
     "get-changelog": "conventional-changelog -r 2 -p angular",
     "lint": "eslint .",
     "release": "pnpm run docs && git add -A && standard-version -a",
