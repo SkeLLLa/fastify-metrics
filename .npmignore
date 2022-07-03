@@ -12,3 +12,5 @@ logo.*
 **/__tests__/
 **/__mocks__/
 **/__snapshots__/
+api-extractor.json
+temp/
