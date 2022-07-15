@@ -150,18 +150,17 @@ export class FastifyMetrics {
     const defaultRegistries = this.getCustomDefaultMetricsRegistries();
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
-    const merged = this.deps.client.Registry.merge([
-      globalRegistry,
-      ...defaultRegistries,
-      ...routeRegistries,
-    ]);
-
     this.deps.fastify.route({
       url: endpoint ?? '/metrics',
       method: 'GET',
       logLevel: 'fatal',
       exposeHeadRoute: false,
       handler: async (_, reply) => {
+        const merged = this.deps.client.Registry.merge([
+          globalRegistry,
+          ...defaultRegistries,
+          ...routeRegistries,
+        ]);
         const data = await merged.metrics();
         return reply.type('text/plain').send(data);
       },
