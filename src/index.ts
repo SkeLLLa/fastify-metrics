@@ -59,7 +59,8 @@ export default fastifyPlugin<IMetricsPluginOptions>(
 
     const fm = new FastifyMetrics({ client, fastify, options });
     fastify.decorate<IFastifyMetrics>(name, fm);
-  },
-
-  '>=4.0.0'
+  }, {
+    fastify: '>=4.0.0',
+    name: 'metrics',
+  }
 );
