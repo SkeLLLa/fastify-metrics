@@ -36,7 +36,7 @@
     "example:ts": "ts-node examples/example.ts",
     "get-changelog": "conventional-changelog -r 2 -p angular",
     "lint": "eslint .",
-    "release": "pnpm run docs && git add -A && standard-version -a --dry-run",
+    "release": "pnpm run docs && git add -A && standard-version -a",
     "test": "pnpm audit --production && pnpm run lint && pnpm run unit",
     "unit": "jest"
   },
