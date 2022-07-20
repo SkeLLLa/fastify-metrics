@@ -1,11 +1,4 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
 import fastify from 'fastify';
 import promClient from 'prom-client';
 import fastifyPlugin from '../';
@@ -16,13 +9,14 @@ describe('route metrics', () => {
   });
 
   describe('{ }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
       });
@@ -125,7 +119,7 @@ describe('route metrics', () => {
       );
     });
 
-    test('metrics not exposed with custom route name in config', async () => {
+    test('metrics exposed with custom route name in config', async () => {
       await expect(
         app.inject({
           method: 'GET',
@@ -152,13 +146,15 @@ describe('route metrics', () => {
   });
 
   describe('{ enabled = false }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
@@ -210,13 +206,15 @@ describe('route metrics', () => {
   });
 
   describe('{ registeredRoutesOnly = false }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
@@ -268,13 +266,15 @@ describe('route metrics', () => {
   });
 
   describe(`{ registeredRoutesOnly = false, invalidRouteGroup = 'foo' }`, () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
@@ -327,13 +327,15 @@ describe('route metrics', () => {
   });
 
   describe(`{ routeBlacklist = ['/test'] }`, () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
@@ -390,13 +392,15 @@ describe('route metrics', () => {
   });
 
   describe(`{ methodBlacklist = ['GET'] }`, () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
@@ -450,13 +454,15 @@ describe('route metrics', () => {
   });
 
   describe(`{ groupStatusCodes = true }`, () => {
-    const app = fastify();
+    let app = fastify();
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {

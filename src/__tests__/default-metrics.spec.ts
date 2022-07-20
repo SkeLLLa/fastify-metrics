@@ -1,7 +1,7 @@
 import {
   afterAll,
   afterEach,
-  beforeAll,
+  beforeEach,
   describe,
   expect,
   test,
@@ -16,9 +16,10 @@ describe('default metrics', () => {
   });
 
   describe('{ }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         defaultMetrics: {
@@ -56,9 +57,11 @@ describe('default metrics', () => {
   });
 
   describe('{ enabled = true; register = new Registry() }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         defaultMetrics: {
@@ -72,7 +75,7 @@ describe('default metrics', () => {
       await app.ready();
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
@@ -97,9 +100,11 @@ describe('default metrics', () => {
   });
 
   describe('{ enabled = true; endoint = null }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: null,
         defaultMetrics: {
@@ -112,7 +117,7 @@ describe('default metrics', () => {
       await app.ready();
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
@@ -145,9 +150,11 @@ describe('default metrics', () => {
   });
 
   describe('{ enabled = false }', () => {
-    const app = fastify();
+    let app = fastify();
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+      app = fastify();
+
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         defaultMetrics: {
@@ -160,7 +167,7 @@ describe('default metrics', () => {
       await app.ready();
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 

@@ -224,5 +224,11 @@ export interface IMetricsPluginOptions {
  * @public
  */
 export interface IFastifyMetrics {
+  /** Prom-client instance */
   client: typeof client;
+  /**
+   * Initialize metrics in registries. Useful if you call `registry.clear()` to
+   * register metrics in regisitries once again
+   */
+  initMetricsInRegistry(): void;
 }
