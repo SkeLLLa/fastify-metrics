@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.1](https://github.com/SkeLLLa/fastify-metrics/compare/v9.0.0...v9.0.1) (2022-07-20)
+
+
+### Misc
+
+* **deps:** update dependencies ([a50d379](https://github.com/SkeLLLa/fastify-metrics/commit/a50d37933f6de3213de3fc2deb43248375ff8993))
+
 ## [9.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v8.0.0...v9.0.0) (2022-07-03)
 
 
