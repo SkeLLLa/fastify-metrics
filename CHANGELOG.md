@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.0.2...v9.1.0) (2022-07-20)
+
+
+### Features
+
+* add initMetricsInRegistry function ([e37a028](https://github.com/SkeLLLa/fastify-metrics/commit/e37a0286297b5b0a4e5b0fec58dba186f4e158b8))
+
+
+### Bug fixes
+
+* **metrics:** add initMetricsInRegistry method ([dafbb59](https://github.com/SkeLLLa/fastify-metrics/commit/dafbb5921c18900a16f655297f5f03169eb8ef2f))
+
+
+### Misc
+
+* **release:** 9.0.3 ([56ae239](https://github.com/SkeLLLa/fastify-metrics/commit/56ae239ce6e646b34c21b3eacea931700bf37e36))
+
 ### [9.0.3](https://github.com/SkeLLLa/fastify-metrics/compare/v9.0.2...v9.0.3) (2022-07-20)
 
 
