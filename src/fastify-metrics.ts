@@ -1,6 +1,11 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import promClient, { LabelValues, Registry } from 'prom-client';
-import { IMetricsPluginOptions } from './types';
+import promClient, {
+  Histogram,
+  LabelValues,
+  Registry,
+  Summary,
+} from 'prom-client';
+import { IFastifyMetrics, IMetricsPluginOptions } from './types';
 
 /**
  * Plugin constructor
@@ -21,12 +26,18 @@ interface IReqMetrics<T extends string> {
   sum: (labels?: LabelValues<T>) => void;
 }
 
+interface IRouteMetrics {
+  routeHist: Histogram<string>;
+  routeSum: Summary<string>;
+  labelNames: { method: string; status: string; route: string };
+}
+
 /**
  * Fastify metrics handler class
  *
  * @public
  */
-export class FastifyMetrics {
+export class FastifyMetrics implements IFastifyMetrics {
   private static getRouteSlug(args: { method: string; url: string }): string {
     return `[${args.method}] ${args.url}`;
   }
@@ -38,6 +49,9 @@ export class FastifyMetrics {
   private readonly routesWhitelist = new Set<string>();
   private readonly methodBlacklist = new Set<string>();
 
+  private routeMetrics: IRouteMetrics;
+
+  /** Prom-client instance */
   public readonly client: typeof promClient;
 
   /** Creates metrics collector instance */
@@ -47,8 +61,15 @@ export class FastifyMetrics {
     this.setMethodBlacklist();
     this.setRouteWhitelist();
 
-    this.collectDefaultMetrics();
-    this.collectRouteMetrics();
+    if (!(this.deps.options.defaultMetrics?.enabled === false)) {
+      this.collectDefaultMetrics();
+    }
+
+    if (!(this.deps.options.routeMetrics?.enabled === false)) {
+      this.routeMetrics = this.registerRouteMetrics();
+      this.collectRouteMetrics();
+    }
+
     this.exposeMetrics();
   }
 
@@ -150,40 +171,32 @@ export class FastifyMetrics {
     const defaultRegistries = this.getCustomDefaultMetricsRegistries();
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
-    const merged = this.deps.client.Registry.merge([
-      globalRegistry,
-      ...defaultRegistries,
-      ...routeRegistries,
-    ]);
-
     this.deps.fastify.route({
       url: endpoint ?? '/metrics',
       method: 'GET',
       logLevel: 'fatal',
       exposeHeadRoute: false,
       handler: async (_, reply) => {
+        const merged = this.deps.client.Registry.merge([
+          globalRegistry,
+          ...defaultRegistries,
+          ...routeRegistries,
+        ]);
+
         const data = await merged.metrics();
-        return reply.type('text/plain').send(data);
+        return reply.type(merged.contentType).send(data);
       },
     });
   }
 
   /** Collect default prom-client metrics */
   private collectDefaultMetrics(): void {
-    if (this.deps.options.defaultMetrics?.enabled === false) {
-      return;
-    }
     this.deps.client.collectDefaultMetrics({
       ...this.deps.options.defaultMetrics,
     });
   }
 
-  /** Collect per-route metrics */
-  private collectRouteMetrics(): void {
-    if (this.deps.options.routeMetrics?.enabled === false) {
-      return;
-    }
-
+  private registerRouteMetrics(): IRouteMetrics {
     const labelNames = {
       method:
         this.deps.options.routeMetrics?.overrides?.labels?.method ?? 'method',
@@ -222,6 +235,13 @@ export class FastifyMetrics {
         labelNames.status,
       ] as const,
     });
+
+    return { routeHist, routeSum, labelNames };
+  }
+
+  /** Collect per-route metrics */
+  private collectRouteMetrics(): void {
+    const { routeHist, routeSum, labelNames } = this.routeMetrics;
 
     this.deps.fastify
       .addHook('onRequest', (request, _, done) => {
@@ -292,5 +312,18 @@ export class FastifyMetrics {
 
         done();
       });
+  }
+
+  /**
+   * Initialize metrics in registries. Useful if you call `registry.clear()` to
+   * register metrics in regisitries once again
+   */
+  public initMetricsInRegistry(): void {
+    if (!(this.deps.options.defaultMetrics?.enabled === false)) {
+      this.collectDefaultMetrics();
+    }
+    if (!(this.deps.options.routeMetrics?.enabled === false)) {
+      this.routeMetrics = this.registerRouteMetrics();
+    }
   }
 }
