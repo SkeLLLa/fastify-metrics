@@ -38,7 +38,8 @@
     "lint": "eslint .",
     "release": "pnpm run docs && git add -A && standard-version -a",
     "test": "pnpm audit --production && pnpm run lint && pnpm run unit",
-    "unit": "jest"
+    "unit": "jest",
+    "version:update": "echo v$npm_package_version > VERSION"
   },
   "dependencies": {
     "fastify-plugin": "^4.0.0",
