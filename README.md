@@ -17,7 +17,7 @@
 
 This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood.
 
-This plugin also adds 2 http metrics for your routes:
+This plugin also adds two http metrics for your routes:
 
 - Requests duration histogram
 - Requests duration summary
