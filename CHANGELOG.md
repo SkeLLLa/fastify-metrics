@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.1.1](https://github.com/SkeLLLa/fastify-metrics/compare/v9.1.0...v9.1.1) (2022-07-20)
+
+
+### Misc
+
+* rebuild version ([d22752e](https://github.com/SkeLLLa/fastify-metrics/commit/d22752e7cf369b220ceaf0e30da781f28fede817))
+
 ## [9.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.0.2...v9.1.0) (2022-07-20)
 
 
