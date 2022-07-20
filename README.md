@@ -33,6 +33,7 @@ This plugin also adds 2 http metrics for your routes:
   - [Installation](#installation)
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
+    - [Registry clear](#registry-clear)
     - [Plugin options](#plugin-options)
       - [Route metrics](#route-metrics)
         - [Route metrics overrides](#route-metrics-overrides)
@@ -111,6 +112,10 @@ app.register(metricsPlugin, { endpoint: '/metrics' });
 It also exports client to fastify instance `fastify.metrics.client` which you may use it in your routes.
 
 You may create your metrics when app starts and store it in `fastify.metrics` object and reuse them in multiple routes.
+
+### Registry clear
+
+After calling `registry.clear()` all metrics are removed from registry. In order to add them again to the registry, call `fastify.mterics.initMetricsInRegistry`.
 
 <sub>[Back to top](#toc)</sub>
 
