@@ -30,8 +30,8 @@ export interface IDefaultMetricsConfig
 
 // @public
 export interface IFastifyMetrics {
-  // (undocumented)
   client: typeof client;
+  initMetricsInRegistry(): void;
 }
 
 // @public

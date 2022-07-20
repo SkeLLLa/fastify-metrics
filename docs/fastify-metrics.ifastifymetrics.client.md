@@ -4,6 +4,8 @@
 
 ## IFastifyMetrics.client property
 
+Prom-client instance
+
 <b>Signature:</b>
 
 ```typescript

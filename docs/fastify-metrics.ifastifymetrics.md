@@ -14,6 +14,12 @@ export interface IFastifyMetrics
 
 ## Properties
 
-| Property                                              | Modifiers | Type          | Description |
-| ----------------------------------------------------- | --------- | ------------- | ----------- |
-| [client](./fastify-metrics.ifastifymetrics.client.md) |           | typeof client |             |
+| Property                                              | Modifiers | Type          | Description          |
+| ----------------------------------------------------- | --------- | ------------- | -------------------- |
+| [client](./fastify-metrics.ifastifymetrics.client.md) |           | typeof client | Prom-client instance |
+
+## Methods
+
+| Method                                                                                | Description                                                                                                                      |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [initMetricsInRegistry()](./fastify-metrics.ifastifymetrics.initmetricsinregistry.md) | Initialize metrics in registries. Useful if you call <code>registry.clear()</code> to register metrics in regisitries once again |
