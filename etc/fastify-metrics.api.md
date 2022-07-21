@@ -44,6 +44,7 @@ export interface IHistogramOverrides
 
 // @public
 export interface IMetricsPluginOptions {
+  clearRegisterOnInit?: boolean;
   defaultMetrics?: IDefaultMetricsConfig;
   endpoint?: string | null;
   name?: string;
