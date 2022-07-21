@@ -71,11 +71,11 @@ export class FastifyMetrics implements IFastifyMetrics {
     }
   }
 
-  public async init() {
+  public async init(): Promise<void> {
     await this.configureBasicAuth();
-    await this.exposeMetrics();
+    this.exposeMetrics();
   }
-  private async configureBasicAuth() {
+  private async configureBasicAuth(): Promise<void> {
     const { basicAuth } = this.deps.options;
     const fastify = this.deps.fastify;
 
@@ -178,7 +178,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
 
   /** Register route to expose metrics */
-  private async exposeMetrics(): Promise<void> {
+  private exposeMetrics(): void {
     const { endpoint, basicAuth } = this.deps.options;
     if (endpoint === null) {
       return;
