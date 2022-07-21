@@ -216,6 +216,13 @@ export interface IMetricsPluginOptions {
    * @defaultValue `{ enabled: true }`
    */
   routeMetrics?: IRouteMetricsConfig;
+
+  /**
+   * Clears the prom-client global registry before adding metrics. Default to `false`
+   *
+   * @defaultValue `false`
+   */
+  clearRegisterOnInit?: boolean;
 }
 
 /**

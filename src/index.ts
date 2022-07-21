@@ -55,9 +55,11 @@ export * from './types';
  */
 export default fastifyPlugin<IMetricsPluginOptions>(
   async (fastify, options) => {
-    const { name = 'metrics' } = options;
+    const { name = 'metrics', clearRegisterOnInit = false } = options;
 
-    client.register.clear();
+    if (clearRegisterOnInit) {
+      client.register.clear();
+    }
 
     const fm = new FastifyMetrics({ client, fastify, options });
     fastify.decorate<IFastifyMetrics>(name, fm);
