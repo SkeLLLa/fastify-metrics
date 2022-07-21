@@ -129,6 +129,7 @@ See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
 | [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null                                                           | `'/metrics'`        |
 | [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                   | `'metrics'`         |
 | [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)     | `{ enabled: true }` |
+| [basicAuth?](./docs/fastify-metrics.imetricspluginoptions.basicauth.md)     | [IBasicAuthConfig](./docs/fastify-metrics.ibasicauthconfig.md)     | `undefined` |
 
 #### Route metrics
 
