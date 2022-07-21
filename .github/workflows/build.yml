@@ -48,6 +48,9 @@ jobs:
         with:
           name: code-coverage-report
           path: coverage
+      - name: Upload coverage to Codecov
+        if: matrix.node-version == '18.x'
+        uses: codecov/codecov-action@v3
   bump-version:
     name: Bump version
     runs-on: ubuntu-latest
