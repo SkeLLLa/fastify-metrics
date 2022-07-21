@@ -23,6 +23,12 @@ const _default: FastifyPluginAsync<
 export default _default;
 
 // @public
+export interface IBasicAuthConfig {
+  password: string;
+  username: string;
+}
+
+// @public
 export interface IDefaultMetricsConfig
   extends DefaultMetricsCollectorConfiguration {
   enabled?: boolean;
@@ -44,6 +50,7 @@ export interface IHistogramOverrides
 
 // @public
 export interface IMetricsPluginOptions {
+  basicAuth?: IBasicAuthConfig;
   clearRegisterOnInit?: boolean;
   defaultMetrics?: IDefaultMetricsConfig;
   endpoint?: string | null;

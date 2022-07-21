@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyRequest, RouteOptions } from 'fastify';
 import promClient, {
   Histogram,
   LabelValues,
@@ -6,7 +6,7 @@ import promClient, {
   Summary,
 } from 'prom-client';
 import { IFastifyMetrics, IMetricsPluginOptions } from './types';
-
+import fastifyBasicAuth from '@fastify/basic-auth';
 /**
  * Plugin constructor
  *
@@ -69,10 +69,27 @@ export class FastifyMetrics implements IFastifyMetrics {
       this.routeMetrics = this.registerRouteMetrics();
       this.collectRouteMetrics();
     }
-
-    this.exposeMetrics();
   }
 
+  public async init() {
+    await this.configureBasicAuth();
+    await this.exposeMetrics();
+  }
+  private async configureBasicAuth() {
+    const { basicAuth } = this.deps.options;
+    const fastify = this.deps.fastify;
+
+    if (basicAuth) {
+      const { username, password } = basicAuth;
+      await fastify.register(fastifyBasicAuth, {
+        async validate(this, user, pass) {
+          if (username !== user || password !== pass) {
+            return new Error('Bad credentials provided.');
+          }
+        },
+      });
+    }
+  }
   /** Populates methods blacklist to exclude them from metrics collection */
   private setMethodBlacklist(): void {
     if (this.deps.options.routeMetrics?.enabled === false) {
@@ -161,8 +178,8 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
 
   /** Register route to expose metrics */
-  private exposeMetrics(): void {
-    const { endpoint } = this.deps.options;
+  private async exposeMetrics(): Promise<void> {
+    const { endpoint, basicAuth } = this.deps.options;
     if (endpoint === null) {
       return;
     }
@@ -171,7 +188,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     const defaultRegistries = this.getCustomDefaultMetricsRegistries();
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
-    this.deps.fastify.route({
+    const routeOptions: RouteOptions = {
       url: endpoint ?? '/metrics',
       method: 'GET',
       logLevel: 'fatal',
@@ -186,7 +203,12 @@ export class FastifyMetrics implements IFastifyMetrics {
         const data = await merged.metrics();
         return reply.type(merged.contentType).send(data);
       },
-    });
+    };
+
+    if (basicAuth) {
+      routeOptions.onRequest = this.deps.fastify.basicAuth;
+    }
+    this.deps.fastify.route(routeOptions);
   }
 
   /** Collect default prom-client metrics */
