@@ -57,6 +57,8 @@ export default fastifyPlugin<IMetricsPluginOptions>(
   async (fastify, options) => {
     const { name = 'metrics' } = options;
 
+    client.register.clear();
+
     const fm = new FastifyMetrics({ client, fastify, options });
     fastify.decorate<IFastifyMetrics>(name, fm);
   },
