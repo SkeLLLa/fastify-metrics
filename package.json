@@ -42,6 +42,7 @@
     "version:update": "echo v$npm_package_version > VERSION"
   },
   "dependencies": {
+    "@fastify/basic-auth": "^4.0.0",
     "fastify-plugin": "^4.0.0",
     "prom-client": "^14.0.1"
   },

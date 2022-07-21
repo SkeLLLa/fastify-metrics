@@ -183,6 +183,27 @@ export interface IRouteMetricsConfig {
 }
 
 /**
+ * Route metrics configuration
+ *
+ * @public
+ */
+export interface IBasicAuthConfig {
+  /**
+   * Username
+   *
+   * @defaultValue `null`
+   */
+  username: string;
+
+  /**
+   * Password
+   *
+   * @defaultValue `null`
+   */
+  password: string;
+}
+
+/**
  * Metrics plugin config
  *
  * @public
@@ -223,6 +244,13 @@ export interface IMetricsPluginOptions {
    * @defaultValue `false`
    */
   clearRegisterOnInit?: boolean;
+
+  /**
+   * Basic Auth config
+   *
+   * @defaultValue `{ enabled: true }`
+   */
+  basicAuth?: IBasicAuthConfig;
 }
 
 /**
