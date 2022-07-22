@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyRequest, RouteOptions } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  RouteOptions,
+} from 'fastify';
 import promClient, {
   Histogram,
   LabelValues,
@@ -179,35 +184,46 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   /** Register route to expose metrics */
   private exposeMetrics(): void {
-    const { endpoint, basicAuth } = this.deps.options;
-    if (endpoint === null) {
-      return;
-    }
-
     const globalRegistry = this.deps.client.register;
     const defaultRegistries = this.getCustomDefaultMetricsRegistries();
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
-    const routeOptions: RouteOptions = {
-      url: endpoint ?? '/metrics',
-      method: 'GET',
-      logLevel: 'fatal',
-      exposeHeadRoute: false,
-      handler: async (_, reply) => {
-        const merged = this.deps.client.Registry.merge([
-          globalRegistry,
-          ...defaultRegistries,
-          ...routeRegistries,
-        ]);
+    const routeHandler = async (_: FastifyRequest, reply: FastifyReply) => {
+      const merged = this.deps.client.Registry.merge([
+        globalRegistry,
+        ...defaultRegistries,
+        ...routeRegistries,
+      ]);
 
-        const data = await merged.metrics();
-        return reply.type(merged.contentType).send(data);
-      },
+      const data = await merged.metrics();
+      return reply.type(merged.contentType).send(data);
     };
+    let routeOptions: RouteOptions;
+    const { endpoint, basicAuth } = this.deps.options;
+    if (endpoint === null) {
+      return;
+    }
+    if (typeof endpoint === 'string' || endpoint === undefined) {
+      routeOptions = {
+        url: endpoint ?? '/metrics',
+        method: 'GET',
+        logLevel: 'fatal',
+        exposeHeadRoute: false,
+        handler: routeHandler,
+      };
+    } else {
+      // endpoint is of type RouteOptions
+      routeOptions = endpoint;
+      // do not override the method
+      routeOptions.method = 'GET';
+      routeOptions.handler = routeHandler;
+    }
 
     if (basicAuth) {
+      // Configure basicAuth
       routeOptions.onRequest = this.deps.fastify.basicAuth;
     }
+    // Add route
     this.deps.fastify.route(routeOptions);
   }
 
