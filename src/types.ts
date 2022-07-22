@@ -1,4 +1,4 @@
-import { HTTPMethods } from 'fastify';
+import { HTTPMethods, RouteOptions } from 'fastify';
 import client, {
   DefaultMetricsCollectorConfiguration,
   HistogramConfiguration,
@@ -214,7 +214,7 @@ export interface IMetricsPluginOptions {
    *
    * @defaultValue `/metrics`
    */
-  endpoint?: string | null;
+  endpoint?: string | null | RouteOptions;
 
   /**
    * Plugin name that will be registered in fastify instance.

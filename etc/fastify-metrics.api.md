@@ -11,6 +11,7 @@ import { FastifyPluginAsync } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
 import { HistogramConfiguration } from 'prom-client';
 import { HTTPMethods } from 'fastify';
+import { RouteOptions } from 'fastify';
 import { Server } from 'http';
 import { SummaryConfiguration } from 'prom-client';
 
@@ -53,7 +54,7 @@ export interface IMetricsPluginOptions {
   basicAuth?: IBasicAuthConfig;
   clearRegisterOnInit?: boolean;
   defaultMetrics?: IDefaultMetricsConfig;
-  endpoint?: string | null;
+  endpoint?: string | null | RouteOptions;
   name?: string;
   routeMetrics?: IRouteMetricsConfig;
 }
