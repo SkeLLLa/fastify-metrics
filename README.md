@@ -126,7 +126,7 @@ See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
 | Property                                                                          | Type                                                                                                           | Default Value       |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------- |
 | [defaultMetrics?](./docs/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/fastify-metrics.idefaultmetricsconfig.md)                                       | `{ enabled: true }` |
-| [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://github.com/fastify/fastify/blob/main/types/route.d.ts#L121) | `'/metrics'`        |
+| [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
 | [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                         | `'metrics'`         |
 | [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)                                           | `{ enabled: true }` |
 
