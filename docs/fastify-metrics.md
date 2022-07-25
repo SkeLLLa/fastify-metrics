@@ -10,7 +10,6 @@ Prometheus metrics exporter for Fastify. Based on [prom-client](https://example.
 
 | Interface                                                                     | Description                             |
 | ----------------------------------------------------------------------------- | --------------------------------------- |
-| [IBasicAuthConfig](./fastify-metrics.ibasicauthconfig.md)                     | Route metrics configuration             |
 | [IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md)           | Default prom-client metrics config      |
 | [IFastifyMetrics](./fastify-metrics.ifastifymetrics.md)                       | Plugin decorator                        |
 | [IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)               | Request time histofram config overrides |
