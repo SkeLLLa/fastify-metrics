@@ -73,9 +73,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       this.routeMetrics = this.registerRouteMetrics();
       this.collectRouteMetrics();
     }
-  }
 
-  public async init(): Promise<void> {
     this.exposeMetrics();
   }
   /** Populates methods blacklist to exclude them from metrics collection */
