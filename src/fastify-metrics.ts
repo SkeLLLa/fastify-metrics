@@ -11,7 +11,6 @@ import promClient, {
   Summary,
 } from 'prom-client';
 import { IFastifyMetrics, IMetricsPluginOptions } from './types';
-import fastifyBasicAuth from '@fastify/basic-auth';
 /**
  * Plugin constructor
  *
@@ -77,23 +76,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
 
   public async init(): Promise<void> {
-    await this.configureBasicAuth();
     this.exposeMetrics();
-  }
-  private async configureBasicAuth(): Promise<void> {
-    const { basicAuth } = this.deps.options;
-    const fastify = this.deps.fastify;
-
-    if (basicAuth) {
-      const { username, password } = basicAuth;
-      await fastify.register(fastifyBasicAuth, {
-        async validate(this, user, pass) {
-          if (username !== user || password !== pass) {
-            return new Error('Bad credentials provided.');
-          }
-        },
-      });
-    }
   }
   /** Populates methods blacklist to exclude them from metrics collection */
   private setMethodBlacklist(): void {
@@ -199,7 +182,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       return reply.type(merged.contentType).send(data);
     };
     let routeOptions: RouteOptions;
-    const { endpoint, basicAuth } = this.deps.options;
+    const { endpoint } = this.deps.options;
     if (endpoint === null) {
       return;
     }
@@ -217,11 +200,6 @@ export class FastifyMetrics implements IFastifyMetrics {
       // do not override the method
       routeOptions.method = 'GET';
       routeOptions.handler = routeHandler;
-    }
-
-    if (basicAuth) {
-      // Configure basicAuth
-      routeOptions.onRequest = this.deps.fastify.basicAuth;
     }
     // Add route
     this.deps.fastify.route(routeOptions);
