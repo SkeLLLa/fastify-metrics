@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.1.3...v9.2.0) (2022-07-26)
+
+
+### Features
+
+* support endpoint option as object ([a993277](https://github.com/SkeLLLa/fastify-metrics/commit/a99327723a51b015c64859d18bb42dd2c3e266ba))
+
 ### [9.1.3](https://github.com/SkeLLLa/fastify-metrics/compare/v9.1.2...v9.1.3) (2022-07-21)
 
 ### [9.1.2](https://github.com/SkeLLLa/fastify-metrics/compare/v9.1.1...v9.1.2) (2022-07-21)
