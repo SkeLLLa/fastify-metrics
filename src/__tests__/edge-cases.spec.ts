@@ -103,4 +103,51 @@ describe('edge cases', () => {
       // );
     });
   });
+
+  describe('default labels', () => {
+    const app = fastify();
+
+    afterAll(async () => {
+      await app.close();
+    });
+
+    beforeAll(async () => {
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+      });
+      app.metrics.client.register.setDefaultLabels({ foo: 'bar' });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      await app.ready();
+    });
+
+    test('added labels present in metrics', async () => {
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/test',
+        })
+      ).resolves.toBeDefined();
+
+      const metrics = await app.inject({
+        method: 'GET',
+        url: '/metrics',
+      });
+
+      expect(typeof metrics.payload).toBe('string');
+
+      const lines = metrics.payload.split('\n');
+
+      expect(lines).toEqual(
+        expect.arrayContaining([
+          expect.stringMatching(
+            /process_cpu_user_seconds_total\{foo="bar"\} \d+/
+          ),
+          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200",foo="bar"} 1',
+          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200",foo="bar"} 1',
+        ])
+      );
+    });
+  });
 });
