@@ -169,12 +169,17 @@ export class FastifyMetrics implements IFastifyMetrics {
     const defaultRegistries = this.getCustomDefaultMetricsRegistries();
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
+    const regisitriesToMerge = Array.from(
+      new Set([globalRegistry, ...defaultRegistries, ...routeRegistries])
+    );
+
     const routeHandler = async (_: FastifyRequest, reply: FastifyReply) => {
-      const merged = this.deps.client.Registry.merge([
-        globalRegistry,
-        ...defaultRegistries,
-        ...routeRegistries,
-      ]);
+      if (regisitriesToMerge.length === 1) {
+        const data = await regisitriesToMerge[0].metrics();
+        return reply.type(regisitriesToMerge[0].contentType).send(data);
+      }
+      // WARN: Looses default labels
+      const merged = this.deps.client.Registry.merge(regisitriesToMerge);
 
       const data = await merged.metrics();
       return reply.type(merged.contentType).send(data);
