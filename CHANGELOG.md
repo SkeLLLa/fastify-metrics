@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.0...v9.2.1) (2022-07-28)
+
+
+### Bug fixes
+
+* **registries:** add workaround to save default labels ([51247ce](https://github.com/SkeLLLa/fastify-metrics/commit/51247cec3b2167e820d799d669a77961f74bac5c))
+
+
+### Misc
+
+* **deps:** update ([68d80a7](https://github.com/SkeLLLa/fastify-metrics/commit/68d80a72809c45969445e5ac92a9530c457feef2))
+
 ## [9.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.1.3...v9.2.0) (2022-07-26)
 
 
