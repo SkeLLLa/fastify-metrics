@@ -12,7 +12,7 @@ Request time histofram config overrides
 export interface IHistogramOverrides extends Partial<HistogramConfiguration<string>>
 ```
 
-<b>Extends:</b> Partial&lt;HistogramConfiguration
+<b>Extends:</b> Partial&lt;HistogramConfiguration&lt;string&gt;&gt;
 
 ## Properties
 
