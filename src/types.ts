@@ -29,8 +29,6 @@ export interface IDefaultMetricsConfig
    * Enables collection of default prom-client metrics (e.g. node.js vitals like
    * cpu, memory, etc.)
    *
-   * @remarks
-   * Foobar
    * @defaultValue `true`
    */
   enabled?: boolean;
