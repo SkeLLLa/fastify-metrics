@@ -20,6 +20,10 @@ export interface IMetricsRouteContextConfig {
 /**
  * Default prom-client metrics config
  *
+ * @remarks
+ * Extends the
+ * {@link https://github.com/siimon/prom-client#default-metrics | prom-client}
+ * interface. So it accepts all options from it and pass to default metrics.
  * @public
  * @see {@link https://github.com/siimon/prom-client#default-metrics | prom-client} for extra options
  */

@@ -11,7 +11,3 @@ Enables collection of default prom-client metrics (e.g. node.js vitals like cpu,
 ```typescript
 enabled?: boolean;
 ```
-
-## Remarks
-
-Foobar

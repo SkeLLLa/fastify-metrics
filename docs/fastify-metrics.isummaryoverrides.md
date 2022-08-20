@@ -12,7 +12,7 @@ Request time summary config overrides
 export interface ISummaryOverrides extends Partial<SummaryConfiguration<string>>
 ```
 
-<b>Extends:</b> Partial&lt;SummaryConfiguration
+<b>Extends:</b> Partial&lt;SummaryConfiguration&lt;string&gt;&gt;
 
 ## Properties
 

@@ -14,6 +14,10 @@ export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfigurat
 
 <b>Extends:</b> DefaultMetricsCollectorConfiguration
 
+## Remarks
+
+Extends the [prom-client](https://github.com/siimon/prom-client#default-metrics) interface. So it accepts all options from it and pass to default metrics.
+
 ## Properties
 
 | Property                                                       | Modifiers | Type    | Description                                                                                                      |
