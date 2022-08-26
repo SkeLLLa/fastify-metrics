@@ -57,8 +57,6 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   /**
    * Prom-client instance.
-   *
-   * {@inheritDoc IFastifyMetrics.client}
    */
   public readonly client: typeof promClient;
 
