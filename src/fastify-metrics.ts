@@ -55,9 +55,7 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   private routeMetrics: IRouteMetrics;
 
-  /**
-   * Prom-client instance.
-   */
+  /** Prom-client instance. */
   public readonly client: typeof promClient;
 
   /** Creates metrics collector instance */
