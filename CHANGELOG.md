@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.2](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.1...v9.2.2) (2022-08-28)
+
+
+### Bug fixes
+
+* add plugin name for dependencies ([ec7b04a](https://github.com/SkeLLLa/fastify-metrics/commit/ec7b04ac752fa6a724991dba966683063f2c999e))
+
+
+### Misc
+
+* **deps:** update ([78c86ed](https://github.com/SkeLLLa/fastify-metrics/commit/78c86edf403f33f86ecb5ddae9954b3ff0b147d3))
+
+
+### Codestyle
+
+* lint fix ([2a429cd](https://github.com/SkeLLLa/fastify-metrics/commit/2a429cd13d7fe254cef2d61f90002c4084d0815d))
+
 ### [9.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.0...v9.2.1) (2022-07-28)
 
 

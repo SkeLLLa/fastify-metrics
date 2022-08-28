@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "fastify-metrics",
-  "version": "9.2.1",
+  "version": "9.2.2",
   "description": "Prometheus metrics exporter for Fastify",
   "keywords": [
     "fastify-plugin",
