@@ -2,3 +2,4 @@ dist/
 temp/
 node_modules/
 coverage/
+/.idea/
