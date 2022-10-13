@@ -53,7 +53,7 @@ export * from './types';
  *      .listen(3000)
  * ```
  */
-export default fastifyPlugin<IMetricsPluginOptions>(
+export default fastifyPlugin<Partial<IMetricsPluginOptions>>(
   async (fastify, options) => {
     const { name = 'metrics', clearRegisterOnInit = false } = options;
 
