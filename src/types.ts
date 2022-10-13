@@ -35,7 +35,7 @@ export interface IDefaultMetricsConfig
    *
    * @defaultValue `true`
    */
-  enabled?: boolean;
+  enabled: boolean;
 }
 
 /**
@@ -141,7 +141,7 @@ export interface IRouteMetricsConfig {
    *
    * @defaultValue `false`
    */
-  enabled?: boolean;
+  enabled: boolean;
 
   /**
    * Collect metrics only for registered routes. If `false`, then metrics for
@@ -195,14 +195,14 @@ export interface IMetricsPluginOptions {
    *
    * @defaultValue `/metrics`
    */
-  endpoint?: string | null | RouteOptions;
+  endpoint: string | null | RouteOptions;
 
   /**
    * Plugin name that will be registered in fastify instance.
    *
    * @defaultValue `metrics`
    */
-  name?: string;
+  name: string;
 
   /**
    * Default prom-client metrics config. Collect prometheus recommended and
@@ -210,21 +210,21 @@ export interface IMetricsPluginOptions {
    *
    * @defaultValue `{ enabled: true }`
    */
-  defaultMetrics?: IDefaultMetricsConfig;
+  defaultMetrics: IDefaultMetricsConfig;
 
   /**
    * Per route metrics config. Collect response time metric on requests
    *
    * @defaultValue `{ enabled: true }`
    */
-  routeMetrics?: IRouteMetricsConfig;
+  routeMetrics: IRouteMetricsConfig;
 
   /**
    * Clears the prom-client global registry before adding metrics. Default to `false`
    *
    * @defaultValue `false`
    */
-  clearRegisterOnInit?: boolean;
+  clearRegisterOnInit: boolean;
 }
 
 /**
