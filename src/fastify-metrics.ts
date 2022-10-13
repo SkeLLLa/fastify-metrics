@@ -22,7 +22,7 @@ interface IConstructiorDeps {
   /** Fastify instance */
   fastify: FastifyInstance;
   /** Metric plugin options */
-  options: IMetricsPluginOptions;
+  options: Partial<IMetricsPluginOptions>;
 }
 
 interface IReqMetrics<T extends string> {
