@@ -141,7 +141,7 @@ export interface IRouteMetricsConfig {
    *
    * @defaultValue `false`
    */
-  enabled: boolean;
+  enabled?: boolean;
 
   /**
    * Collect metrics only for registered routes. If `false`, then metrics for
