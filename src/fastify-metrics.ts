@@ -41,12 +41,12 @@ export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   endpoint: '/metrics',
   clearRegisterOnInit: false,
   routeMetrics: {
-    enabled: true
+    enabled: true,
   },
   defaultMetrics: {
-    enabled: true
-  }
-}
+    enabled: true,
+  },
+};
 
 /**
  * Fastify metrics handler class
@@ -66,8 +66,8 @@ export class FastifyMetrics implements IFastifyMetrics {
   private readonly methodBlacklist = new Set<string>();
 
   private routeMetrics: IRouteMetrics;
-  private readonly options: IMetricsPluginOptions
-  private readonly routeFallback: string
+  private readonly options: IMetricsPluginOptions;
+  private readonly routeFallback: string;
 
   /** Prom-client instance. */
   public readonly client: typeof promClient;
@@ -77,9 +77,10 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.client = this.deps.client;
     this.options = {
       ...DEFAULT_OPTIONS,
-      ...this.options
-    }
-    this.routeFallback = this.options.routeMetrics.invalidRouteGroup ?? '__unknown__'
+      ...this.options,
+    };
+    this.routeFallback =
+      this.options.routeMetrics.invalidRouteGroup ?? '__unknown__';
 
     this.setMethodBlacklist();
     this.setRouteWhitelist();
@@ -131,9 +132,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       // routeOptions.prefix;
 
       if (
-        this.options.routeMetrics.routeBlacklist?.includes(
-          routeOptions.url
-        )
+        this.options.routeMetrics.routeBlacklist?.includes(routeOptions.url)
       ) {
         return;
       }
@@ -236,13 +235,10 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   private registerRouteMetrics(): IRouteMetrics {
     const labelNames = {
-      method:
-        this.options.routeMetrics.overrides?.labels?.method ?? 'method',
+      method: this.options.routeMetrics.overrides?.labels?.method ?? 'method',
       status:
-        this.options.routeMetrics.overrides?.labels?.status ??
-        'status_code',
-      route:
-        this.options.routeMetrics.overrides?.labels?.route ?? 'route',
+        this.options.routeMetrics.overrides?.labels?.status ?? 'status_code',
+      route: this.options.routeMetrics.overrides?.labels?.route ?? 'route',
     };
 
     const routeHist = new this.deps.client.Histogram<string>({
@@ -329,7 +325,8 @@ export class FastifyMetrics implements IFastifyMetrics {
             : reply.statusCode;
         const route =
           request.context.config.statsId ??
-          request.routerPath ?? this.routeFallback;
+          request.routerPath ??
+          this.routeFallback;
         const method = request.routerMethod ?? request.method;
 
         const labels = {
