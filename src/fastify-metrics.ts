@@ -77,7 +77,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.client = this.deps.client;
     this.options = {
       ...DEFAULT_OPTIONS,
-      ...this.options,
+      ...deps.options,
     };
     this.routeFallback =
       this.options.routeMetrics.invalidRouteGroup ?? '__unknown__';
