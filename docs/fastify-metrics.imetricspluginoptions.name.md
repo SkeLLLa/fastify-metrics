@@ -9,5 +9,5 @@ Plugin name that will be registered in fastify instance.
 <b>Signature:</b>
 
 ```typescript
-name?: string;
+name: string;
 ```

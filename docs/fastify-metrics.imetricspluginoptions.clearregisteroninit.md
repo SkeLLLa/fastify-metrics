@@ -9,5 +9,5 @@ Clears the prom-client global registry before adding metrics. Default to `false`
 <b>Signature:</b>
 
 ```typescript
-clearRegisterOnInit?: boolean;
+clearRegisterOnInit: boolean;
 ```

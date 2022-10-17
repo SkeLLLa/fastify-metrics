@@ -9,5 +9,5 @@ Default prom-client metrics config. Collect prometheus recommended and node.js s
 <b>Signature:</b>
 
 ```typescript
-defaultMetrics?: IDefaultMetricsConfig;
+defaultMetrics: IDefaultMetricsConfig;
 ```

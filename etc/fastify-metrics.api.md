@@ -17,7 +17,7 @@ import { SummaryConfiguration } from 'prom-client';
 
 // @public
 const _default: FastifyPluginAsync<
-  IMetricsPluginOptions,
+  Partial<IMetricsPluginOptions>,
   Server,
   FastifyTypeProviderDefault
 >;
@@ -26,7 +26,7 @@ export default _default;
 // @public
 export interface IDefaultMetricsConfig
   extends DefaultMetricsCollectorConfiguration {
-  enabled?: boolean;
+  enabled: boolean;
 }
 
 // @public
@@ -45,11 +45,11 @@ export interface IHistogramOverrides
 
 // @public
 export interface IMetricsPluginOptions {
-  clearRegisterOnInit?: boolean;
-  defaultMetrics?: IDefaultMetricsConfig;
-  endpoint?: string | null | RouteOptions;
-  name?: string;
-  routeMetrics?: IRouteMetricsConfig;
+  clearRegisterOnInit: boolean;
+  defaultMetrics: IDefaultMetricsConfig;
+  endpoint: string | null | RouteOptions;
+  name: string;
+  routeMetrics: IRouteMetricsConfig;
 }
 
 // @public

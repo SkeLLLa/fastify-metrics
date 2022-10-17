@@ -9,5 +9,5 @@ Per route metrics config. Collect response time metric on requests
 <b>Signature:</b>
 
 ```typescript
-routeMetrics?: IRouteMetricsConfig;
+routeMetrics: IRouteMetricsConfig;
 ```

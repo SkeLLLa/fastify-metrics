@@ -9,5 +9,5 @@ Enables collection of default prom-client metrics (e.g. node.js vitals like cpu,
 <b>Signature:</b>
 
 ```typescript
-enabled?: boolean;
+enabled: boolean;
 ```

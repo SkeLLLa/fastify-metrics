@@ -20,6 +20,6 @@ Extends the [prom-client](https://github.com/siimon/prom-client#default-metrics)
 
 ## Properties
 
-| Property                                                       | Modifiers | Type    | Description                                                                                                      |
-| -------------------------------------------------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
-| [enabled?](./fastify-metrics.idefaultmetricsconfig.enabled.md) |           | boolean | <i>(Optional)</i> Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.) |
+| Property                                                      | Modifiers | Type    | Description                                                                                    |
+| ------------------------------------------------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
+| [enabled](./fastify-metrics.idefaultmetricsconfig.enabled.md) |           | boolean | Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.) |

@@ -10,7 +10,7 @@ Metric plugin
 
 ```typescript
 _default: import('fastify').FastifyPluginAsync<
-  IMetricsPluginOptions,
+  Partial<IMetricsPluginOptions>,
   import('http').Server,
   import('fastify').FastifyTypeProviderDefault
 >;
