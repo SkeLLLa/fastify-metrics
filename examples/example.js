@@ -5,71 +5,72 @@ const app = fastify({
 });
 
 const metricsPlugin = require('../');
-app.register(metricsPlugin, { endpoint: '/metrics' });
-app.get(
-  '/:id',
-  {
-    schema: {
-      params: {
-        id: {
-          type: 'string',
-        },
-      },
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            id: {
-              type: 'string',
-            },
-            delay: {
-              type: 'number',
-            },
-          },
-        },
-      },
-    },
-  },
-  function (request, reply) {
-    const { id } = request.params;
-    reply.code(200);
-    const delay = Math.random() * 10000;
-
-    setTimeout(() => {
-      reply.send({ id, delay });
-    }, delay);
-  }
-);
-
-app.get(
-  '/',
-  {
-    schema: {
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            data: {
-              type: 'string',
-            },
-            delay: {
-              type: 'number',
-            },
-          },
-        },
-      },
-    },
-  },
-  function (_, reply) {
-    reply.code(200);
-    const delay = Math.random() * 10000;
-    setTimeout(() => {
-      reply.send({ data: 'hello', delay });
-    }, delay);
-  }
-);
 
 (async () => {
+  await app.register(metricsPlugin, { endpoint: '/metrics' });
+  app.get(
+    '/:id',
+    {
+      schema: {
+        params: {
+          id: {
+            type: 'string',
+          },
+        },
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              id: {
+                type: 'string',
+              },
+              delay: {
+                type: 'number',
+              },
+            },
+          },
+        },
+      },
+    },
+    function (request, reply) {
+      const { id } = request.params;
+      reply.code(200);
+      const delay = Math.random() * 10000;
+
+      setTimeout(() => {
+        reply.send({ id, delay });
+      }, delay);
+    }
+  );
+
+  app.get(
+    '/',
+    {
+      schema: {
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              data: {
+                type: 'string',
+              },
+              delay: {
+                type: 'number',
+              },
+            },
+          },
+        },
+      },
+    },
+    function (_, reply) {
+      reply.code(200);
+      const delay = Math.random() * 10000;
+      setTimeout(() => {
+        reply.send({ data: 'hello', delay });
+      }, delay);
+    }
+  );
+
   try {
     await Promise.all([app.listen({ port: 3333 }), app.ready()]);
   } catch (ex) {

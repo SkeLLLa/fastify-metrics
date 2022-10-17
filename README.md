@@ -106,7 +106,7 @@ const fastify = require('fastify');
 const app = fastify();
 
 const metricsPlugin = require('fastify-metrics');
-app.register(metricsPlugin, { endpoint: '/metrics' });
+await app.register(metricsPlugin, { endpoint: '/metrics' });
 ```
 
 It also exports client to fastify instance `fastify.metrics.client` which you may use it in your routes.
@@ -151,7 +151,7 @@ const fastify = require('fastify');
 const app = fastify();
 const metricsPlugin = require('fastify-metrics');
 
-app.register(metricsPlugin, {endpoint: '/metrics', {
+await app.register(metricsPlugin, {endpoint: '/metrics', {
   routeMetrics: {
     overrides: {
       histogram: {
