@@ -38,6 +38,7 @@
     "lint": "eslint .",
     "release": "pnpm run docs && git add -A && standard-version -a",
     "test": "pnpm audit --production && pnpm run lint && pnpm run unit",
+    "format": "npx prettier --write **/*.ts",
     "unit": "jest",
     "version:update": "echo v$npm_package_version > VERSION"
   },
