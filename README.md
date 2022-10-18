@@ -59,7 +59,7 @@ This plugin also adds two http metrics for your routes:
 
 ### v10.x.x
 
-- Replace route `context.config` with `routeConfig` due to deprecation in fastify v4 and removal in fastify v5. If you had `disableMetrics` option in you route `config`, update fastify and metrics plugin to latest version and move `disableMetrics` to new `routeConfig` property.
+- Replace route `context.config` with `routeConfig` due to deprecation in fastify v4 and removal in fastify v5. If you had `disableMetrics` option in you route `config`, update fastify to latest version.
 
 ### v9.x.x
 
