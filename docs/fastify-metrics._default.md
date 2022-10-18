@@ -11,7 +11,7 @@ Metric plugin
 ```typescript
 _default: import('fastify').FastifyPluginAsync<
   Partial<IMetricsPluginOptions>,
-  import('http').Server,
+  import('fastify').RawServerDefault,
   import('fastify').FastifyTypeProviderDefault
 >;
 ```

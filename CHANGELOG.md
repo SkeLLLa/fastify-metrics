@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.4...v10.0.0) (2022-10-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace context config with routeConfig
+
+### Features
+
+* add notes for v10 ([46beccf](https://github.com/SkeLLLa/fastify-metrics/commit/46beccffe09d0e5456e7813d23927d13df421c13))
+
+
+### Misc
+
+* **deps:** update dependencies ([ca7efa5](https://github.com/SkeLLLa/fastify-metrics/commit/ca7efa5f3607997d12599bc122d41fccb878e8b8))
+* **deps:** update lockfile ([25dbda9](https://github.com/SkeLLLa/fastify-metrics/commit/25dbda973351fc46c5159dcfb74d5962f2b398bf))
+
+
+### Codestyle
+
+* **lint:** fix lint ([9fee64e](https://github.com/SkeLLLa/fastify-metrics/commit/9fee64edd985b3326fae339a538930bb530386ac))
+
 ### [9.2.4](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.3...v9.2.4) (2022-10-17)
 
 ### [9.2.3](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.2...v9.2.3) (2022-10-17)
