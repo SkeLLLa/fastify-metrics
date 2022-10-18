@@ -191,7 +191,8 @@ export interface IRouteMetricsConfig {
  */
 export interface IMetricsPluginOptions {
   /**
-   * Endpoint to expose metrics in prometheus format. `null` - disables metrics exposure
+   * Endpoint to expose metrics in prometheus format. `null` - disables metrics
+   * exposure
    *
    * @defaultValue `/metrics`
    */
@@ -220,7 +221,8 @@ export interface IMetricsPluginOptions {
   routeMetrics: IRouteMetricsConfig;
 
   /**
-   * Clears the prom-client global registry before adding metrics. Default to `false`
+   * Clears the prom-client global registry before adding metrics. Default to
+   * `false`
    *
    * @defaultValue `false`
    */
