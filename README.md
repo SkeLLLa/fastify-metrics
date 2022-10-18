@@ -28,6 +28,7 @@ This plugin also adds two http metrics for your routes:
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
   - [Notable changes](#notable-changes)
+    - [v10.x.x](#v10xx)
     - [v9.x.x](#v9xx)
     - [v6.x.x](#v6xx)
   - [Installation](#installation)
@@ -55,6 +56,10 @@ This plugin also adds two http metrics for your routes:
 - **v9.x.x** - supports `fastify-4.x` `prom-client-14.x`
 
 ## Notable changes
+
+### v10.x.x
+
+- Replace route `context.config` with `routeConfig` due to deprecation in fastify v4 and removal in fastify v5.
 
 ### v9.x.x
 
@@ -123,12 +128,12 @@ After calling `registry.clear()` all metrics are removed from registry. In order
 
 See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
 
-| Property                                                                          | Type                                                                                                           | Default Value       |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------- |
-| [defaultMetrics?](./docs/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/fastify-metrics.idefaultmetricsconfig.md)                                       | `{ enabled: true }` |
+| Property                                                                          | Type                                                                                                            | Default Value       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------- |
+| [defaultMetrics?](./docs/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
 | [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
-| [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                         | `'metrics'`         |
-| [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)                                           | `{ enabled: true }` |
+| [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                          | `'metrics'`         |
+| [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
 
 #### Route metrics
 
