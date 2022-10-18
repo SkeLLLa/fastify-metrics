@@ -278,7 +278,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.deps.fastify
       .addHook('onRequest', (request, _, done) => {
         if (
-          request.context.config.disableMetrics === true ||
+          request.routeConfig.disableMetrics === true ||
           !request.raw.url
         ) {
           return done();
@@ -324,7 +324,7 @@ export class FastifyMetrics implements IFastifyMetrics {
             ? `${Math.floor(reply.statusCode / 100)}xx`
             : reply.statusCode;
         const route =
-          request.context.config.statsId ??
+          request.routeConfig.statsId ??
           request.routerPath ??
           this.routeFallback;
         const method = request.routerMethod ?? request.method;
