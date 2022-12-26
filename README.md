@@ -186,7 +186,7 @@ await app.register(metricsPlugin, {endpoint: '/metrics', {
 | Property                                                                | Type       | Default value                            |
 | ----------------------------------------------------------------------- | ---------- | ---------------------------------------- |
 | [name?](./docs/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`         |
-| [help?](./docs/fastify-metrics.isummaryoverrides.help.md)               | string     | `'rrequest duration in seconds summary'` |
+| [help?](./docs/fastify-metrics.isummaryoverrides.help.md)               | string     | `'request duration in seconds summary'` |
 | [percentiles?](./docs/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                 |
 
 ###### Request durations histogram
