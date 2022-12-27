@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.0...v10.0.1) (2022-12-27)
+
+
+### Bug fixes
+
+* fixes typo in README.md ([ae72c72](https://github.com/SkeLLLa/fastify-metrics/commit/ae72c7218e633419ad9feeee5e34ac116b96a9e6))
+
 ## [10.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v9.2.4...v10.0.0) (2022-10-18)
 
 
