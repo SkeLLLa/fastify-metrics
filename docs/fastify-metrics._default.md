@@ -25,7 +25,7 @@ _default: import('fastify').FastifyPluginAsync<
     const options: IMetricsPluginOptions = { endpoint: '/metrics' }
     fastify()
      .register(fastifyMetrics, options)
-     .get('/foo, (request, reply) => {
+     .get('/foo', (request, reply) => {
         reply.code(200);
         const delay = Math.random() * 10000;
         setTimeout(() => {
