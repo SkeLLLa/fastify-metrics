@@ -297,7 +297,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         if (
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
-              method: request.routerMethod,
+              method: request.method,
               url: request.routerPath,
             })
           )
@@ -324,7 +324,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           request.routeConfig.statsId ??
           request.routerPath ??
           this.routeFallback;
-        const method = request.routerMethod ?? request.method;
+        const method = request.method;
 
         const labels = {
           [this.routeMetrics.labelNames.method]: method,
