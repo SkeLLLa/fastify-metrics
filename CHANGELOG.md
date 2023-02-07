@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.0.3](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.2...v10.0.3) (2023-02-07)
+
+
+### Bug fixes
+
+* fix routes with array of method ([07ab256](https://github.com/SkeLLLa/fastify-metrics/commit/07ab2567c81c21071b4aa81cbd5a98babd896f23))
+
 ### [10.0.2](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.1...v10.0.2) (2023-01-05)
 
 ### [10.0.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.0...v10.0.1) (2022-12-27)
