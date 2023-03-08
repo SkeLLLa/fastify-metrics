@@ -156,7 +156,8 @@ const fastify = require('fastify');
 const app = fastify();
 const metricsPlugin = require('fastify-metrics');
 
-await app.register(metricsPlugin, {endpoint: '/metrics', {
+await app.register(metricsPlugin, {
+  endpoint: '/metrics',
   routeMetrics: {
     overrides: {
       histogram: {
@@ -170,7 +171,7 @@ await app.register(metricsPlugin, {endpoint: '/metrics', {
       },
     }
   }
-}});
+});
 ```
 
 ###### Labels
