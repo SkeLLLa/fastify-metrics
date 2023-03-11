@@ -14,8 +14,9 @@ export interface IRouteLabelsOverrides
 
 ## Properties
 
-| Property                                                     | Modifiers | Type   | Description                   |
-| ------------------------------------------------------------ | --------- | ------ | ----------------------------- |
-| [method?](./fastify-metrics.iroutelabelsoverrides.method.md) |           | string | <i>(Optional)</i> Method name |
-| [route?](./fastify-metrics.iroutelabelsoverrides.route.md)   |           | string | <i>(Optional)</i> Route name  |
-| [status?](./fastify-metrics.iroutelabelsoverrides.status.md) |           | string | <i>(Optional)</i> Status code |
+| Property                                                                   | Modifiers | Type                                   | Description                                                                                                                                                    |
+| -------------------------------------------------------------------------- | --------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [getRouteLabel?](./fastify-metrics.iroutelabelsoverrides.getroutelabel.md) |           | (request: FastifyRequest) =&gt; string | <i>(Optional)</i> Function that will return route value for metrics label. By default will use: <code>request.routeConfig.statsId ?? request.routerPath</code> |
+| [method?](./fastify-metrics.iroutelabelsoverrides.method.md)               |           | string                                 | <i>(Optional)</i> Method name                                                                                                                                  |
+| [route?](./fastify-metrics.iroutelabelsoverrides.route.md)                 |           | string                                 | <i>(Optional)</i> Route name                                                                                                                                   |
+| [status?](./fastify-metrics.iroutelabelsoverrides.status.md)               |           | string                                 | <i>(Optional)</i> Status code                                                                                                                                  |

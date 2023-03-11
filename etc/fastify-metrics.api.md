@@ -6,6 +6,7 @@
 import client from 'prom-client';
 import { DefaultMetricsCollectorConfiguration } from 'prom-client';
 import { FastifyPluginAsync } from 'fastify';
+import { FastifyRequest } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
 import { HistogramConfiguration } from 'prom-client';
 import { HTTPMethods } from 'fastify';
@@ -58,6 +59,7 @@ export interface IMetricsRouteContextConfig {
 
 // @public
 export interface IRouteLabelsOverrides {
+  getRouteLabel?: (request: FastifyRequest) => string;
   method?: string;
   route?: string;
   status?: string;
