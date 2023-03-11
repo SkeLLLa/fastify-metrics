@@ -320,10 +320,11 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.options.routeMetrics.groupStatusCodes === true
             ? `${Math.floor(reply.statusCode / 100)}xx`
             : reply.statusCode;
-        const route =
-          request.routeConfig.statsId ??
-          request.routerPath ??
-          this.routeFallback;
+        const route = this.options.routeMetrics.overrides?.labels?.getRouteLabel
+          ? this.options.routeMetrics.overrides?.labels?.getRouteLabel(request)
+          : request.routeConfig.statsId ??
+            request.routerPath ??
+            this.routeFallback;
         const method = request.method;
 
         const labels = {
