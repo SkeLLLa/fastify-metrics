@@ -1,4 +1,4 @@
-import { HTTPMethods, RouteOptions } from 'fastify';
+import { FastifyRequest, HTTPMethods, RouteOptions } from 'fastify';
 import client, {
   DefaultMetricsCollectorConfiguration,
   HistogramConfiguration,
@@ -94,6 +94,20 @@ export interface IHistogramOverrides
  * @public
  */
 export interface IRouteLabelsOverrides {
+  /**
+   * Function that will return route value for metrics label. By default will
+   * use: `request.routeConfig.statsId ?? request.routerPath`
+   *
+   * @example To use route full url as label:
+   *
+   * ```ts
+   * getRouteLabel: (request) => request.raw.url;
+   * ```
+   *
+   * @defaultValue `undefined`
+   */
+  getRouteLabel?: (request: FastifyRequest) => string;
+
   /**
    * Method name
    *
