@@ -68,6 +68,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   private routeMetrics: IRouteMetrics;
   private readonly options: IMetricsPluginOptions;
   private readonly routeFallback: string;
+  private readonly getRouteLabel: (request: FastifyRequest) => string;
 
   /** Prom-client instance. */
   public readonly client: typeof promClient;
@@ -81,6 +82,13 @@ export class FastifyMetrics implements IFastifyMetrics {
     };
     this.routeFallback =
       this.options.routeMetrics.invalidRouteGroup ?? '__unknown__';
+
+    // Setup route label getter
+    const defaultGetRouteLabel = (request: FastifyRequest): string =>
+      request.routeConfig.statsId ?? request.routerPath ?? this.routeFallback;
+    this.getRouteLabel =
+      this.options.routeMetrics.overrides?.labels?.getRouteLabel ??
+      defaultGetRouteLabel;
 
     this.setMethodBlacklist();
     this.setRouteWhitelist();
@@ -320,11 +328,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.options.routeMetrics.groupStatusCodes === true
             ? `${Math.floor(reply.statusCode / 100)}xx`
             : reply.statusCode;
-        const route = this.options.routeMetrics.overrides?.labels?.getRouteLabel
-          ? this.options.routeMetrics.overrides?.labels?.getRouteLabel(request)
-          : request.routeConfig.statsId ??
-            request.routerPath ??
-            this.routeFallback;
+        const route = this.getRouteLabel(request);
         const method = request.method;
 
         const labels = {
