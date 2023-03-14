@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.4...v10.1.0) (2023-03-14)
+
+
+### Features
+
+* configurable route label value override ([01134f9](https://github.com/SkeLLLa/fastify-metrics/commit/01134f9cbaf4fe18440f0ef99d48851434b5c0f1))
+* update docs ([6ccaade](https://github.com/SkeLLLa/fastify-metrics/commit/6ccaadeee53ef4e189a04f7cfe61106720432532))
+
 ### [10.0.4](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.3...v10.0.4) (2023-03-12)
 
 ### [10.0.3](https://github.com/SkeLLLa/fastify-metrics/compare/v10.0.2...v10.0.3) (2023-02-07)
