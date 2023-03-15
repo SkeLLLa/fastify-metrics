@@ -574,4 +574,56 @@ describe('route metrics', () => {
       );
     });
   });
+
+  describe(`customMetrics is defined`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          customLabels: {
+            foo: 'bar',
+            url: (request: FastifyRequest) => request.url,
+          },
+        },
+      });
+      app.get('*', async (_request, reply) => {
+        await reply.send('foo');
+      });
+      await app.ready();
+    });
+
+    test('metric has custom labels', async () => {
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/test',
+        })
+      ).resolves.toBeDefined();
+
+      const metrics = await app.inject({
+        method: 'GET',
+        url: '/metrics',
+      });
+
+      expect(typeof metrics.payload).toBe('string');
+
+      const lines = metrics.payload.split('\n');
+
+      expect(lines).toEqual(
+        expect.arrayContaining([
+          'http_request_duration_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
+          'http_request_summary_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
+        ])
+      );
+    });
+  });
 });
