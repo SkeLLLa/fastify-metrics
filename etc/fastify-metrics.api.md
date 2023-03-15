@@ -6,6 +6,7 @@
 import client from 'prom-client';
 import { DefaultMetricsCollectorConfiguration } from 'prom-client';
 import { FastifyPluginAsync } from 'fastify';
+import { FastifyReply } from 'fastify';
 import { FastifyRequest } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
 import { HistogramConfiguration } from 'prom-client';
@@ -67,6 +68,10 @@ export interface IRouteLabelsOverrides {
 
 // @public
 export interface IRouteMetricsConfig {
+  customLabels?: Record<
+    string,
+    string | ((request: FastifyRequest, reply: FastifyReply) => string)
+  >;
   enabled?: boolean;
   groupStatusCodes?: boolean;
   invalidRouteGroup?: string;

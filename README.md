@@ -137,15 +137,16 @@ See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
 
 #### Route metrics
 
-| Property                                                                                    | Type                                                                       | Default Value                           |
-| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------- |
-| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean                                                                    | `true`                                  |
-| [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                    | `false`                                 |
-| [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                     | `'__unknown__'`                         |
-| [methodBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.methodblacklist.md)           | readonly string\[\]                                                        | `['HEAD','OPTIONS','TRACE','CONNECT',]` |
-| [overrides?](./docs/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/fastify-metrics.iroutemetricsoverrides.md) |
-| [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                    | `true`                                  |
-| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly string\[\]                                                        | `[]`                                    |
+| Property                                                                                    | Type                                                                                          | Default Value                           |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean                                                                                       | `true`                                  |
+| [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                                       | `false`                                 |
+| [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                                        | `'__unknown__'`                         |
+| [methodBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.methodblacklist.md)           | readonly string\[\]                                                                           | `['HEAD','OPTIONS','TRACE','CONNECT',]` |
+| [overrides?](./docs/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/fastify-metrics.iroutemetricsoverrides.md)                    |                                         |
+| [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                                       | `true`                                  |
+| [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)                      | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | `undefined`                             |
+| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly string\[\]                                                                           | `[]`                                    |
 
 ##### Route metrics overrides
 
@@ -169,26 +170,27 @@ await app.register(metricsPlugin, {
         labelNames: ['status_code', 'method', 'route'],
         percentiles: [0.5, 0.75, 0.9, 0.95, 0.99],
       },
-    }
-  }
+    },
+  },
 });
 ```
 
 ###### Labels
 
-| Property                                                          | Type   | Default value   |
-| ----------------------------------------------------------------- | ------ | --------------- |
-| [method?](./docs/fastify-metrics.iroutelabelsoverrides.method.md) | string | `'method'`      |
-| [route?](./docs/fastify-metrics.iroutelabelsoverrides.route.md)   | string | `'route'`       |
-| [status?](./docs/fastify-metrics.iroutelabelsoverrides.status.md) | string | `'status_code'` |
+| Property                                                                   | Type                                   | Default value   |
+| -------------------------------------------------------------------------- | -------------------------------------- | --------------- |
+| [getRouteLabel?](./fastify-metrics.iroutelabelsoverrides.getroutelabel.md) | (request: FastifyRequest) =&gt; string | `undefined`     |
+| [method?](./docs/fastify-metrics.iroutelabelsoverrides.method.md)          | string                                 | `'method'`      |
+| [route?](./docs/fastify-metrics.iroutelabelsoverrides.route.md)            | string                                 | `'route'`       |
+| [status?](./docs/fastify-metrics.iroutelabelsoverrides.status.md)          | string                                 | `'status_code'` |
 
 ###### Request durations summary
 
-| Property                                                                | Type       | Default value                            |
-| ----------------------------------------------------------------------- | ---------- | ---------------------------------------- |
-| [name?](./docs/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`         |
+| Property                                                                | Type       | Default value                           |
+| ----------------------------------------------------------------------- | ---------- | --------------------------------------- |
+| [name?](./docs/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`        |
 | [help?](./docs/fastify-metrics.isummaryoverrides.help.md)               | string     | `'request duration in seconds summary'` |
-| [percentiles?](./docs/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                 |
+| [percentiles?](./docs/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                |
 
 ###### Request durations histogram
 
