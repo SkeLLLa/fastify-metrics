@@ -249,6 +249,10 @@ export class FastifyMetrics implements IFastifyMetrics {
       route: this.options.routeMetrics.overrides?.labels?.route ?? 'route',
     };
 
+    const customLabelNames: string[] = Object.keys(
+      this.options.routeMetrics.customLabels ?? {}
+    );
+
     const routeHist = new this.deps.client.Histogram<string>({
       ...this.options.routeMetrics.overrides?.histogram,
       name:
@@ -261,6 +265,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         labelNames.method,
         labelNames.route,
         labelNames.status,
+        ...customLabelNames,
       ] as const,
     });
     const routeSum = new this.deps.client.Summary<string>({
@@ -275,6 +280,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         labelNames.method,
         labelNames.route,
         labelNames.status,
+        ...customLabelNames,
       ] as const,
     });
 
@@ -335,12 +341,30 @@ export class FastifyMetrics implements IFastifyMetrics {
           [this.routeMetrics.labelNames.method]: method,
           [this.routeMetrics.labelNames.route]: route,
           [this.routeMetrics.labelNames.status]: statusCode,
+          ...this.collectCustomLabels(request, reply),
         };
         metrics.sum(labels);
         metrics.hist(labels);
 
         done();
       });
+  }
+
+  /** Get custom labels for route metrics */
+  private collectCustomLabels(
+    request: FastifyRequest,
+    reply: FastifyReply
+  ): Record<string, string> {
+    const customLabels = this.options.routeMetrics.customLabels ?? {};
+    const labels: Record<string, string> = {};
+    for (const [labelName, labelValue] of Object.entries(customLabels)) {
+      if (typeof labelValue === 'function') {
+        labels[labelName] = labelValue(request, reply);
+      } else {
+        labels[labelName] = labelValue;
+      }
+    }
+    return labels;
   }
 
   /**
