@@ -1,4 +1,9 @@
-import { FastifyRequest, HTTPMethods, RouteOptions } from 'fastify';
+import {
+  FastifyReply,
+  FastifyRequest,
+  HTTPMethods,
+  RouteOptions,
+} from 'fastify';
 import client, {
   DefaultMetricsCollectorConfiguration,
   HistogramConfiguration,
@@ -193,6 +198,25 @@ export interface IRouteMetricsConfig {
    * @defaultValue `__unknown__`
    */
   invalidRouteGroup?: string;
+
+  /**
+   * Custom labels to add to metrics
+   *
+   * @example
+   *
+   * ```ts
+   * customLabels: {
+   *  myLabel: 'my-value',
+   *  myLabel2: (request, reply) => request.headers['x-my-header'],
+   * }
+   * ```
+   *
+   * @defaultValue `undefined`
+   */
+  customLabels?: Record<
+    string,
+    string | ((request: FastifyRequest, reply: FastifyReply) => string)
+  >;
 
   /** Metric configuration overrides */
   overrides?: IRouteMetricsOverrides;
