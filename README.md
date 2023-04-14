@@ -126,14 +126,14 @@ After calling `registry.clear()` all metrics are removed from registry. In order
 
 ### Plugin options
 
-See for details [docs](docs/fastify-metrics.imetricspluginoptions.md)
+See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 
-| Property                                                                          | Type                                                                                                            | Default Value       |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------- |
-| [defaultMetrics?](./docs/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
-| [endpoint?](./docs/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
-| [name?](./docs/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                          | `'metrics'`         |
-| [routeMetrics?](./docs/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
+| Property                                                                              | Type                                                                                                                | Default Value       |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| [defaultMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/api/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
+| [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
+| [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                              | `'metrics'`         |
+| [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
 
 #### Route metrics
 
@@ -194,11 +194,11 @@ await app.register(metricsPlugin, {
 
 ###### Request durations histogram
 
-| Property                                                          | Type       | Default value                     |
-| ----------------------------------------------------------------- | ---------- | --------------------------------- |
-| [name?](./docs/fastify-metrics.ihistogramoverrides.name.md)       | string     | `'http_request_duration_seconds'` |
-| [help?](./docs/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'request duration in seconds'`   |
-| [buckets?](./docs/fastify-metrics.ihistogramoverrides.buckets.md) | number\[\] | `[0.05, 0.1, 0.5, 1, 3, 5, 10]`   |
+| Property                                                              | Type       | Default value                     |
+| --------------------------------------------------------------------- | ---------- | --------------------------------- |
+| [name?](./docs/api/fastify-metrics.ihistogramoverrides.name.md)       | string     | `'http_request_duration_seconds'` |
+| [help?](./docs/api/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'request duration in seconds'`   |
+| [buckets?](./docs/api/fastify-metrics.ihistogramoverrides.buckets.md) | number\[\] | `[0.05, 0.1, 0.5, 1, 3, 5, 10]`   |
 
 <sub>[Back to top](#toc)</sub>
 
@@ -217,7 +217,7 @@ The following table shows what metrics will be available in Prometheus. Note suf
 
 ## API Docs
 
-See [docs](docs/index.md).
+See [docs](docs/api/index.md).
 
 <sub>[Back to top](#toc)</sub>
 
