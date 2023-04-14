@@ -223,7 +223,7 @@ See [docs](docs/api/index.md).
 
 ## Changelog
 
-See [changelog](CHANGELOG.md).
+See [changelog](docs/CHANGELOG.md).
 
 <sub>[Back to top](#toc)</sub>
 
