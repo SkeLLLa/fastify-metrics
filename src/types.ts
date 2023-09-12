@@ -101,7 +101,7 @@ export interface IHistogramOverrides
 export interface IRouteLabelsOverrides {
   /**
    * Function that will return route value for metrics label. By default will
-   * use: `request.routeConfig.statsId ?? request.routerPath`
+   * use: `request.routeOptions.config.statsId ?? request.routeOptions.config.url`
    *
    * @example To use route full url as label:
    *

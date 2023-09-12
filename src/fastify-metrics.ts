@@ -85,7 +85,7 @@ export class FastifyMetrics implements IFastifyMetrics {
 
     // Setup route label getter
     const defaultGetRouteLabel = (request: FastifyRequest): string =>
-      request.routeConfig.statsId ?? request.routerPath ?? this.routeFallback;
+      request.routeOptions.config.statsId ?? request.routeOptions.config.url ?? this.routeFallback;
     this.getRouteLabel =
       this.options.routeMetrics.overrides?.labels?.getRouteLabel ??
       defaultGetRouteLabel;
@@ -291,13 +291,13 @@ export class FastifyMetrics implements IFastifyMetrics {
   private collectRouteMetrics(): void {
     this.deps.fastify
       .addHook('onRequest', (request, _, done) => {
-        if (request.routeConfig.disableMetrics === true || !request.raw.url) {
+        if (request.routeOptions.config.disableMetrics === true || !request.raw.url) {
           return done();
         }
 
         if (this.options.routeMetrics.registeredRoutesOnly === false) {
           if (
-            !this.methodBlacklist.has(request.routerMethod ?? request.method)
+            !this.methodBlacklist.has(request.routeOptions.config.method ?? request.method)
           ) {
             this.metricStorage.set(request, {
               hist: this.routeMetrics.routeHist.startTimer(),
@@ -312,7 +312,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
               method: request.method,
-              url: request.routerPath,
+              url: request.routeOptions.config.url,
             })
           )
         ) {
