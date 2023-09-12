@@ -4,7 +4,7 @@
 
 ## IRouteLabelsOverrides.getRouteLabel property
 
-Function that will return route value for metrics label. By default will use: `request.routeConfig.statsId ?? request.routerPath`
+Function that will return route value for metrics label. By default will use: `request.routeOptions.config.statsId ?? request.routeOptions.config.url`
 
 <b>Signature:</b>
 
