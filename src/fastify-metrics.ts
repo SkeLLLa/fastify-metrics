@@ -86,7 +86,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     // Setup route label getter
     const defaultGetRouteLabel = (request: FastifyRequest): string =>
       request.routeOptions.config.statsId ??
-      request.routerPath ??
+      request.routeOptions.url ??
       this.routeFallback;
     this.getRouteLabel =
       this.options.routeMetrics.overrides?.labels?.getRouteLabel ??
