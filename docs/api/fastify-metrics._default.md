@@ -12,7 +12,8 @@ Metric plugin
 _default: import('fastify').FastifyPluginAsync<
   Partial<IMetricsPluginOptions>,
   import('fastify').RawServerDefault,
-  import('fastify').FastifyTypeProviderDefault
+  import('fastify').FastifyTypeProviderDefault,
+  import('fastify').FastifyBaseLogger
 >;
 ```
 

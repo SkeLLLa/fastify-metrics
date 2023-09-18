@@ -1,3 +1,23 @@
+## [10.3.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.0...v10.3.1) (2023-09-18)
+
+
+### 🛠 Fixes
+
+* remove deprecation warning ([614111c](https://github.com/SkeLLLa/fastify-metrics/commit/614111cf6f0cf19433a319b818061dfd65e8c719))
+
+
+### 🧾 Other
+
+* update npmignore ([5a137e6](https://github.com/SkeLLLa/fastify-metrics/commit/5a137e62ec0cfc6ae6fc295fbf5e383acca08c30))
+* **deps-dev:** bump fastify from 4.9.2 to 4.10.2 ([a283793](https://github.com/SkeLLLa/fastify-metrics/commit/a283793ff77875398760de4788afb59df71bded9))
+* **deps-dev:** bump json5 from 1.0.1 to 1.0.2 ([7ceb72e](https://github.com/SkeLLLa/fastify-metrics/commit/7ceb72ef68407affaf35cfe08fc82addec3050e7))
+* **deps-dev:** bump word-wrap from 1.2.3 to 1.2.4 ([eb9c3a6](https://github.com/SkeLLLa/fastify-metrics/commit/eb9c3a676394472cacb274f2c7cbb7cfe8e53a67))
+
+
+### 📔 Docs
+
+* merge changelogs ([80cb7e1](https://github.com/SkeLLLa/fastify-metrics/commit/80cb7e1c3a4820ec4fa819b11322a991ad0c5427))
+
 ## [10.3.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.2.0...v10.3.0) (2023-04-14)
 
 ### 🛠 Fixes
