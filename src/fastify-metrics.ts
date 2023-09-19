@@ -293,7 +293,10 @@ export class FastifyMetrics implements IFastifyMetrics {
   private collectRouteMetrics(): void {
     this.deps.fastify
       .addHook('onRequest', (request, _, done) => {
-        if (request.routeConfig.disableMetrics === true || !request.raw.url) {
+        if (
+          request.routeOptions.config.disableMetrics === true ||
+          !request.raw.url
+        ) {
           return done();
         }
 
@@ -314,7 +317,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
               method: request.method,
-              url: request.routerPath,
+              url: request.routeOptions.url,
             })
           )
         ) {
