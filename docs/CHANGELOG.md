@@ -1,3 +1,10 @@
+## [10.3.2](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.1...v10.3.2) (2023-09-20)
+
+
+### 🛠 Fixes
+
+* **issue-86:** Use new fastify config ([de6a03c](https://github.com/SkeLLLa/fastify-metrics/commit/de6a03cf1e0a315e6900849a40c80b405a6a3157))
+
 ## [10.3.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.0...v10.3.1) (2023-09-18)
 
 
