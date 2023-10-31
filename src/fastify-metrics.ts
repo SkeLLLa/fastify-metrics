@@ -302,7 +302,11 @@ export class FastifyMetrics implements IFastifyMetrics {
 
         if (this.options.routeMetrics.registeredRoutesOnly === false) {
           if (
-            !this.methodBlacklist.has(request.routerMethod ?? request.method)
+            !this.methodBlacklist.has(
+              request.routeOptions?.method ??
+                request.routerMethod ??
+                request.method
+            )
           ) {
             this.metricStorage.set(request, {
               hist: this.routeMetrics.routeHist.startTimer(),
