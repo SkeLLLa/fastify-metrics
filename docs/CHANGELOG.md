@@ -1,3 +1,10 @@
+## [10.3.3](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.2...v10.3.3) (2023-10-31)
+
+
+### 🛠 Fixes
+
+* **deprecation:** prefer request.routeOptions.method over request.routerMethod ([#93](https://github.com/SkeLLLa/fastify-metrics/issues/93)) ([f8d5ed3](https://github.com/SkeLLLa/fastify-metrics/commit/f8d5ed373d57a0eae311cb988eb1d8f175a74ee3))
+
 ## [10.3.2](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.1...v10.3.2) (2023-09-20)
 
 
