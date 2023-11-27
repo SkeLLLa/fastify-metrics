@@ -108,7 +108,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
   /** Populates methods blacklist to exclude them from metrics collection */
   private setMethodBlacklist(): void {
-    if (this.options.routeMetrics.enabled === undefined) {
+    if (this.options.routeMetrics.enabled === false) {
       return;
     }
 
@@ -127,7 +127,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   /** Populates routes whitelist if */
   private setRouteWhitelist(): void {
     if (
-      this.options.routeMetrics.enabled === undefined ||
+      this.options.routeMetrics.enabled === false ||
       this.options.routeMetrics.registeredRoutesOnly === false
     ) {
       return;
@@ -182,7 +182,7 @@ export class FastifyMetrics implements IFastifyMetrics {
    */
   private getCustomRouteMetricsRegistries(): Registry[] {
     const { routeMetrics } = this.options;
-    if (routeMetrics.enabled === undefined) {
+    if (routeMetrics.enabled === false) {
       return [];
     }
     return [
@@ -398,7 +398,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     if (!(this.options.defaultMetrics.enabled === false)) {
       this.collectDefaultMetrics();
     }
-    if (!(this.options.routeMetrics.enabled === undefined)) {
+    if (!(this.options.routeMetrics.enabled === false)) {
       this.routeMetrics = this.registerRouteMetrics();
     }
   }
