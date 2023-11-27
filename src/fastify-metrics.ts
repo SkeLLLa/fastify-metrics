@@ -133,7 +133,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       return;
     }
 
-    this.deps.fastify.addHook('onRoute', (routeOptions) => {
+    this.deps.fastify.addHook('onRoute', function onRouteMetrics(routeOptions) {
       // routeOptions.method;
       // routeOptions.schema;
       // routeOptions.url; // the complete URL of the route, it will include the prefix if any
@@ -292,7 +292,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   /** Collect per-route metrics */
   private collectRouteMetrics(): void {
     this.deps.fastify
-      .addHook('onRequest', (request, _, done) => {
+      .addHook('onRequest', function onRequestMetrics(request, _, done) {
         if (
           request.routeOptions.config.disableMetrics === true ||
           !request.raw.url
