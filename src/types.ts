@@ -155,19 +155,24 @@ export interface IRouteMetricsOverrides {
  * @public
  */
 export interface IRouteMetricsConfig {
-  /**
-   * Enables collection of fastify routes metrics response time.
-   *
-   * @defaultValue `true`
-   */
-  enabled?: boolean;
-
-  /**
-   * Enables computation of summaries for response times.
-   *
-   * @defaultValue 'true'
-   */
-  enableSummaries?: boolean;
+  enabled?:
+    | boolean
+    | {
+        /**
+         * Enables collection of fastify routes metrics response time via
+         * histogram.
+         *
+         * @defaultValue `true`
+         */
+        histogram?: boolean;
+        /**
+         * Enables collection of fastify routes metrics response time via
+         * summary.
+         *
+         * @defaultValue `true`
+         */
+        summary?: boolean;
+      };
 
   /**
    * Collect metrics only for registered routes. If `false`, then metrics for

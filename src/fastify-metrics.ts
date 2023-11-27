@@ -42,7 +42,6 @@ export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   clearRegisterOnInit: false,
   routeMetrics: {
     enabled: true,
-    enableSummaries: true,
   },
   defaultMetrics: {
     enabled: true,
@@ -109,7 +108,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
   /** Populates methods blacklist to exclude them from metrics collection */
   private setMethodBlacklist(): void {
-    if (this.options.routeMetrics.enabled === false) {
+    if (this.options.routeMetrics.enabled === undefined) {
       return;
     }
 
@@ -128,7 +127,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   /** Populates routes whitelist if */
   private setRouteWhitelist(): void {
     if (
-      this.options.routeMetrics.enabled === false ||
+      this.options.routeMetrics.enabled === undefined ||
       this.options.routeMetrics.registeredRoutesOnly === false
     ) {
       return;
@@ -183,7 +182,7 @@ export class FastifyMetrics implements IFastifyMetrics {
    */
   private getCustomRouteMetricsRegistries(): Registry[] {
     const { routeMetrics } = this.options;
-    if (routeMetrics.enabled === false) {
+    if (routeMetrics.enabled === undefined) {
       return [];
     }
     return [
@@ -353,10 +352,22 @@ export class FastifyMetrics implements IFastifyMetrics {
           [this.routeMetrics.labelNames.status]: statusCode,
           ...this.collectCustomLabels(request, reply),
         };
-        if (!(this.options.routeMetrics.enableSummaries === false)) {
-          metrics.sum(labels);
+
+        if (this.options.routeMetrics.enabled instanceof Object) {
+          if (!(this.options.routeMetrics.enabled.summary === false)) {
+            metrics.sum(labels);
+          }
+          if (!(this.options.routeMetrics.enabled.histogram === false)) {
+            metrics.hist(labels);
+          }
+          done();
+          return;
         }
-        metrics.hist(labels);
+
+        if (!(this.options.routeMetrics.enabled === false)) {
+          metrics.sum(labels);
+          metrics.hist(labels);
+        }
 
         done();
       });
@@ -387,7 +398,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     if (!(this.options.defaultMetrics.enabled === false)) {
       this.collectDefaultMetrics();
     }
-    if (!(this.options.routeMetrics.enabled === false)) {
+    if (!(this.options.routeMetrics.enabled === undefined)) {
       this.routeMetrics = this.registerRouteMetrics();
     }
   }

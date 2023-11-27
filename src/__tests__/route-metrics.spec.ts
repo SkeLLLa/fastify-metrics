@@ -627,7 +627,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ routeMetrics: { enableSummaries: false } }`, () => {
+  describe(`{ routeMetrics: { enable: { summary: false } } }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -640,8 +640,9 @@ describe('route metrics', () => {
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
         routeMetrics: {
-          enabled: true,
-          enableSummaries: false,
+          enabled: {
+            summary: false,
+          },
           customLabels: {
             url: (request: FastifyRequest) => request.url,
           },

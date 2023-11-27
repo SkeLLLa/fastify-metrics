@@ -140,7 +140,7 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 
 | Property                                                                                    | Type                                                                                          | Default Value                           |
 | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean                                                                                       | `true`                                  |
+| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean \| { histogram: boolean, summary: boolean }                                           | `true`                                  |
 | [enableSummaries?](./docs/fastify-metrics.iroutemetricsconfig.enablesummaries.md)           | boolean                                                                                       | `true`                                  |
 | [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                                       | `false`                                 |
 | [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                                        | `'__unknown__'`                         |
@@ -149,6 +149,24 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                                       | `true`                                  |
 | [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)                      | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | `undefined`                             |
 | [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly string\[\]                                                                           | `[]`                                    |
+
+#### Route metrics enabled
+
+The `enabled` configuration option can be either a boolean which enables/disables generation of both histograms and summaries, or it can be set to an object that allows you to pick individually whether you want histograms or summaries to be generated, for example:
+
+```
+{
+  ...
+  routeMetrics: {
+    enabled: {
+      histogram: true,
+      summary: false
+    }
+  }
+}
+```
+
+would result in the library only generating histograms.
 
 ##### Route metrics overrides
 
