@@ -224,7 +224,7 @@ await app.register(metricsPlugin, {
 
 ### HTTP routes metrics in Prometheus
 
-The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically and `summary` type metrics will only be available if `{ routeMetrics: { enableSummaries: true } }`
+The following table shows what metrics will be available in Prometheus (subject to the `enabled` configuration option). Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
 
 | metric                                 | labels                           | description                   |
 | -------------------------------------- | -------------------------------- | ----------------------------- |
