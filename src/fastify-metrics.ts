@@ -42,6 +42,7 @@ export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   clearRegisterOnInit: false,
   routeMetrics: {
     enabled: true,
+    enableSummaries: true,
   },
   defaultMetrics: {
     enabled: true,
@@ -352,7 +353,9 @@ export class FastifyMetrics implements IFastifyMetrics {
           [this.routeMetrics.labelNames.status]: statusCode,
           ...this.collectCustomLabels(request, reply),
         };
-        metrics.sum(labels);
+        if (!(this.options.routeMetrics.enableSummaries === false)) {
+          metrics.sum(labels);
+        }
         metrics.hist(labels);
 
         done();

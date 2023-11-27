@@ -141,6 +141,7 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | Property                                                                                    | Type                                                                                          | Default Value                           |
 | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
 | [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean                                                                                       | `true`                                  |
+| [enableSummaries?](./docs/fastify-metrics.iroutemetricsconfig.enablesummaries.md)           | boolean                                                                                       | `true`                                  |
 | [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                                       | `false`                                 |
 | [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                                        | `'__unknown__'`                         |
 | [methodBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.methodblacklist.md)           | readonly string\[\]                                                                           | `['HEAD','OPTIONS','TRACE','CONNECT',]` |
@@ -205,7 +206,7 @@ await app.register(metricsPlugin, {
 
 ### HTTP routes metrics in Prometheus
 
-The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically.
+The following table shows what metrics will be available in Prometheus. Note suffixes like `_bucket`, `_sum`, `_count` are added automatically and `summary` type metrics will only be available if `{ routeMetrics: { enableSummaries: true } }`
 
 | metric                                 | labels                           | description                   |
 | -------------------------------------- | -------------------------------- | ----------------------------- |
