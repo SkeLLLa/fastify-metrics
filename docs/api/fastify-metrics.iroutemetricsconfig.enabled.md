@@ -4,10 +4,11 @@
 
 ## IRouteMetricsConfig.enabled property
 
-Enables collection of fastify routes metrics response time.
-
 <b>Signature:</b>
 
 ```typescript
-enabled?: boolean;
+enabled?: boolean | {
+        histogram?: boolean;
+        summary?: boolean;
+    };
 ```

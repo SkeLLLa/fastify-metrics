@@ -1,3 +1,10 @@
+## [10.4.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.3...v10.4.0) (2023-11-28)
+
+
+### 🚀 Features
+
+* add option to disable summary collection in routeMetrics config ([#96](https://github.com/SkeLLLa/fastify-metrics/issues/96)) ([c0cb240](https://github.com/SkeLLLa/fastify-metrics/commit/c0cb2400d61c109a74a27d6dfc608b4e6cab9cea))
+
 ## [10.3.3](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.2...v10.3.3) (2023-10-31)
 
 
