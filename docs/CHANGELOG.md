@@ -1,3 +1,18 @@
+## [10.4.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.4.0...v10.4.1) (2023-11-28)
+
+
+### 🛠 Fixes
+
+* only start timers if they are enabled via configuration option ([#97](https://github.com/SkeLLLa/fastify-metrics/issues/97)) ([6f0b8e2](https://github.com/SkeLLLa/fastify-metrics/commit/6f0b8e20a216376c3127e5621e8b27d760fbb07b))
+* rebuild ([a4fc811](https://github.com/SkeLLLa/fastify-metrics/commit/a4fc81179163e5af23dfe1752855dc75064b8a95))
+* rebuild ([82706e7](https://github.com/SkeLLLa/fastify-metrics/commit/82706e73ae915ace946207cbd733528b0f6e694b))
+* remove old badges ([0730c2a](https://github.com/SkeLLLa/fastify-metrics/commit/0730c2a78dda4c8c3de6e764a8febfcebfa3ae3f))
+
+
+### 🧾 Other
+
+* **deps-dev:** bump @babel/traverse from 7.19.4 to 7.23.2 ([#91](https://github.com/SkeLLLa/fastify-metrics/issues/91)) ([b069b47](https://github.com/SkeLLLa/fastify-metrics/commit/b069b477fcabbf850a141e710dfa15b1226f9232))
+
 ## [10.4.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.3.3...v10.4.0) (2023-11-28)
 
 
