@@ -26,8 +26,8 @@ interface IConstructiorDeps {
 }
 
 interface IReqMetrics<T extends string> {
-  hist: (labels?: LabelValues<T>) => number;
-  sum: (labels?: LabelValues<T>) => void;
+  hist?: (labels?: LabelValues<T>) => number;
+  sum?: (labels?: LabelValues<T>) => void;
 }
 
 interface IRouteMetrics {
@@ -289,6 +289,32 @@ export class FastifyMetrics implements IFastifyMetrics {
     return { routeHist, routeSum, labelNames };
   }
 
+  /**
+   * Create timers for histogram and summary based on enabled configuration
+   * option
+   */
+  private createTimers(request: FastifyRequest): void {
+    if (this.options.routeMetrics.enabled instanceof Object) {
+      this.metricStorage.set(request, {
+        hist: !(this.options.routeMetrics.enabled.histogram === false)
+          ? this.routeMetrics.routeHist.startTimer()
+          : undefined,
+        sum: !(this.options.routeMetrics.enabled.summary === false)
+          ? this.routeMetrics.routeSum.startTimer()
+          : undefined,
+      });
+      return;
+    }
+
+    if (!(this.options.routeMetrics.enabled === false)) {
+      this.metricStorage.set(request, {
+        hist: this.routeMetrics.routeHist.startTimer(),
+        sum: this.routeMetrics.routeSum.startTimer(),
+      });
+    }
+    return;
+  }
+
   /** Collect per-route metrics */
   private collectRouteMetrics(): void {
     this.deps.fastify
@@ -308,10 +334,7 @@ export class FastifyMetrics implements IFastifyMetrics {
                 request.method
             )
           ) {
-            this.metricStorage.set(request, {
-              hist: this.routeMetrics.routeHist.startTimer(),
-              sum: this.routeMetrics.routeSum.startTimer(),
-            });
+            this.createTimers(request);
           }
 
           return done();
@@ -325,10 +348,7 @@ export class FastifyMetrics implements IFastifyMetrics {
             })
           )
         ) {
-          this.metricStorage.set(request, {
-            hist: this.routeMetrics.routeHist.startTimer(),
-            sum: this.routeMetrics.routeSum.startTimer(),
-          });
+          this.createTimers(request);
         }
 
         return done();
@@ -353,21 +373,8 @@ export class FastifyMetrics implements IFastifyMetrics {
           ...this.collectCustomLabels(request, reply),
         };
 
-        if (this.options.routeMetrics.enabled instanceof Object) {
-          if (!(this.options.routeMetrics.enabled.summary === false)) {
-            metrics.sum(labels);
-          }
-          if (!(this.options.routeMetrics.enabled.histogram === false)) {
-            metrics.hist(labels);
-          }
-          done();
-          return;
-        }
-
-        if (!(this.options.routeMetrics.enabled === false)) {
-          metrics.sum(labels);
-          metrics.hist(labels);
-        }
+        if (metrics.hist) metrics.hist(labels);
+        if (metrics.sum) metrics.sum(labels);
 
         done();
       });
