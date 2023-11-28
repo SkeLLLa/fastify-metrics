@@ -626,4 +626,62 @@ describe('route metrics', () => {
       );
     });
   });
+
+  describe(`{ routeMetrics: { enable: { summary: false } } }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: {
+            summary: false,
+          },
+          customLabels: {
+            url: (request: FastifyRequest) => request.url,
+          },
+        },
+      });
+      app.get('*', async (_request, reply) => {
+        await reply.send('foo');
+      });
+      await app.ready();
+    });
+
+    test('summaries are not collected', async () => {
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/test',
+        })
+      ).resolves.toBeDefined();
+
+      const metrics = await app.inject({
+        method: 'GET',
+        url: '/metrics',
+      });
+
+      expect(typeof metrics.payload).toBe('string');
+
+      const lines = metrics.payload.split('\n');
+
+      expect(lines).toEqual(
+        expect.arrayContaining([
+          'http_request_duration_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+        ])
+      );
+
+      expect(lines).toEqual(
+        expect.not.arrayContaining([
+          'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+        ])
+      );
+    });
+  });
 });

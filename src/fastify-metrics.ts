@@ -352,8 +352,22 @@ export class FastifyMetrics implements IFastifyMetrics {
           [this.routeMetrics.labelNames.status]: statusCode,
           ...this.collectCustomLabels(request, reply),
         };
-        metrics.sum(labels);
-        metrics.hist(labels);
+
+        if (this.options.routeMetrics.enabled instanceof Object) {
+          if (!(this.options.routeMetrics.enabled.summary === false)) {
+            metrics.sum(labels);
+          }
+          if (!(this.options.routeMetrics.enabled.histogram === false)) {
+            metrics.hist(labels);
+          }
+          done();
+          return;
+        }
+
+        if (!(this.options.routeMetrics.enabled === false)) {
+          metrics.sum(labels);
+          metrics.hist(labels);
+        }
 
         done();
       });
