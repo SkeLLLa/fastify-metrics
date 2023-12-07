@@ -5,6 +5,7 @@
 ```ts
 import client from 'prom-client';
 import { DefaultMetricsCollectorConfiguration } from 'prom-client';
+import { FastifyBaseLogger } from 'fastify';
 import { FastifyPluginAsync } from 'fastify';
 import { FastifyReply } from 'fastify';
 import { FastifyRequest } from 'fastify';
@@ -19,7 +20,8 @@ import { SummaryConfiguration } from 'prom-client';
 const _default: FastifyPluginAsync<
   Partial<IMetricsPluginOptions>,
   RawServerDefault,
-  FastifyTypeProviderDefault
+  FastifyTypeProviderDefault,
+  FastifyBaseLogger
 >;
 export default _default;
 
@@ -72,13 +74,19 @@ export interface IRouteMetricsConfig {
     string,
     string | ((request: FastifyRequest, reply: FastifyReply) => string)
   >;
-  enabled?: boolean;
+  // (undocumented)
+  enabled?:
+    | boolean
+    | {
+        histogram?: boolean;
+        summary?: boolean;
+      };
   groupStatusCodes?: boolean;
   invalidRouteGroup?: string;
   methodBlacklist?: readonly HTTPMethods[];
   overrides?: IRouteMetricsOverrides;
   registeredRoutesOnly?: boolean;
-  routeBlacklist?: readonly string[];
+  routeBlacklist?: readonly (string | RegExp)[];
 }
 
 // @public

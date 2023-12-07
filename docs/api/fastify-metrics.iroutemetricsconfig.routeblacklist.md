@@ -9,5 +9,5 @@ A list of routes that will be excluded from metrics collection.
 <b>Signature:</b>
 
 ```typescript
-routeBlacklist?: readonly string[];
+routeBlacklist?: readonly (string | RegExp)[];
 ```
