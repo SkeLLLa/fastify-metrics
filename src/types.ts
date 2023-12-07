@@ -194,7 +194,7 @@ export interface IRouteMetricsConfig {
    *
    * @defaultValue `undefined`
    */
-  routeBlacklist?: readonly string[];
+  routeBlacklist?: readonly (string | RegExp)[];
 
   /**
    * A list of HTTP methods that will be excluded from metrics collection
