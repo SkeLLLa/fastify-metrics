@@ -451,6 +451,89 @@ describe('route metrics', () => {
     });
   });
 
+  describe(`{ routeBlacklist = [/^\\/api\\/documentation(\\/|$)/] }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          routeBlacklist: [/^\/api\/documentation(\/|$)/],
+        },
+      });
+      app.get('/api/documentation', async () => {
+        return 'Base documentation';
+      });
+      app.get('/api/documentation/json', async () => {
+        return 'JSON documentation';
+      });
+      app.get('/api/documentation/yaml', async () => {
+        return 'YAML documentation';
+      });
+      app.get('/api/other', async () => {
+        return 'Other API endpoint';
+      });
+      await app.ready();
+    });
+
+    test('metrics for regex matched routes in blacklist not exposed', async () => {
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/api/documentation',
+        })
+      ).resolves.toBeDefined();
+
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/api/documentation/json',
+        })
+      ).resolves.toBeDefined();
+
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/api/documentation/yaml',
+        })
+      ).resolves.toBeDefined();
+
+      await expect(
+        app.inject({
+          method: 'GET',
+          url: '/api/other',
+        })
+      ).resolves.toBeDefined();
+
+      const metrics = await app.inject({
+        method: 'GET',
+        url: '/metrics',
+      });
+
+      expect(typeof metrics.payload).toBe('string');
+
+      const lines = metrics.payload.split('\n');
+
+      expect(lines).toEqual(
+        expect.not.arrayContaining([
+          expect.stringContaining('route="/api/documentation"'),
+          expect.stringContaining('route="/api/documentation/json"'),
+          expect.stringContaining('route="/api/documentation/yaml"'),
+        ])
+      );
+      expect(lines).toEqual(
+        expect.arrayContaining([expect.stringContaining('route="/api/other"')])
+      );
+    });
+  });
+
   describe(`{ methodBlacklist = ['GET'] }`, () => {
     let app = fastify();
 
