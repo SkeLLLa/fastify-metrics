@@ -1,3 +1,10 @@
+## [10.5.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.4.1...v10.5.0) (2023-12-19)
+
+
+### 🚀 Features
+
+* support regular expressions in routeBlacklist values ([#98](https://github.com/SkeLLLa/fastify-metrics/issues/98)) ([fabf6d7](https://github.com/SkeLLLa/fastify-metrics/commit/fabf6d71e52873db67b7093df5d80005083cd010))
+
 ## [10.4.1](https://github.com/SkeLLLa/fastify-metrics/compare/v10.4.0...v10.4.1) (2023-11-28)
 
 
