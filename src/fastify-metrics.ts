@@ -141,9 +141,13 @@ export class FastifyMetrics implements IFastifyMetrics {
       // routeOptions.routePath; // the URL of the route without the prefix
       // routeOptions.prefix;
 
-      if (
-        this.options.routeMetrics.routeBlacklist?.includes(routeOptions.url)
-      ) {
+      const isRouteBlacklisted = this.options.routeMetrics.routeBlacklist?.some(
+        (pattern) =>
+          typeof pattern === 'string'
+            ? pattern === routeOptions.url
+            : pattern.test(routeOptions.url)
+      );
+      if (isRouteBlacklisted) {
         return;
       }
 

@@ -146,7 +146,7 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [overrides?](./docs/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/fastify-metrics.iroutemetricsoverrides.md)                    |                                         |
 | [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                                       | `true`                                  |
 | [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)                      | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | `undefined`                             |
-| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly string\[\]                                                                           | `[]`                                    |
+| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly (string \| RegExp)\[\]                                                               | `[]`                                    |
 
 #### Route metrics enabled
 
