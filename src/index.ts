@@ -57,11 +57,13 @@ export default fastifyPlugin<Partial<IMetricsPluginOptions>>(
   async (fastify, options) => {
     const { name = 'metrics', clearRegisterOnInit = false } = options;
 
+    const promClient = options.promClient ?? client;
+
     if (clearRegisterOnInit) {
-      client.register.clear();
+      promClient.register.clear();
     }
 
-    const fm = new FastifyMetrics({ client, fastify, options });
+    const fm = new FastifyMetrics({ client: promClient, fastify, options });
     fastify.decorate<IFastifyMetrics>(name, fm);
   },
   {
