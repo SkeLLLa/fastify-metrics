@@ -1,3 +1,10 @@
+## [10.6.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.5.0...v10.6.0) (2024-01-14)
+
+
+### 🚀 Features
+
+* add way to inject custom prom-client instance ([#100](https://github.com/SkeLLLa/fastify-metrics/issues/100)) ([aa873d8](https://github.com/SkeLLLa/fastify-metrics/commit/aa873d888eb5222cf66d3484231a516fb45b7603))
+
 ## [10.5.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.4.1...v10.5.0) (2023-12-19)
 
 
