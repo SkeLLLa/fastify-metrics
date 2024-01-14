@@ -241,6 +241,13 @@ export interface IRouteMetricsConfig {
  */
 export interface IMetricsPluginOptions {
   /**
+   * PromClient instance to override default internal promClient
+   *
+   * @defaultValue promClient
+   */
+  promClient: typeof client | null;
+
+  /**
    * Endpoint to expose metrics in prometheus format. `null` - disables metrics
    * exposure
    *

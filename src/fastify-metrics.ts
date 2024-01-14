@@ -46,6 +46,7 @@ export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   defaultMetrics: {
     enabled: true,
   },
+  promClient: null,
 };
 
 /**

@@ -133,6 +133,8 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
 | [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                              | `'metrics'`         |
 | [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
+| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)         | `prom-client` instance \| null                                                                                                    | `null`              |
+
 
 #### Route metrics
 
