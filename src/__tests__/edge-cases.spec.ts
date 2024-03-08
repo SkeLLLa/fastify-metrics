@@ -144,7 +144,7 @@ describe('edge cases', () => {
           expect.stringMatching(
             /process_cpu_user_seconds_total\{foo="bar"\} \d+/
           ),
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200",foo="bar"} 1',
+          'http_request_duration_seconds_count{foo="bar",method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200",foo="bar"} 1',
         ])
       );

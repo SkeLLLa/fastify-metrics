@@ -33,7 +33,7 @@ export interface IMetricsRouteContextConfig {
  * @see {@link https://github.com/siimon/prom-client#default-metrics | prom-client} for extra options
  */
 export interface IDefaultMetricsConfig
-  extends DefaultMetricsCollectorConfiguration {
+  extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> {
   /**
    * Enables collection of default prom-client metrics (e.g. node.js vitals like
    * cpu, memory, etc.)

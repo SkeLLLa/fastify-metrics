@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "fastify-plugin": "^4.3.0",
-    "prom-client": "^14.2.0"
+    "prom-client": "^15.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
