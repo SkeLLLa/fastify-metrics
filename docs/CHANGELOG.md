@@ -1,3 +1,19 @@
+## [11.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.6.0...v11.0.0) (2024-03-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for node 16
+
+### 🧾 Other
+
+* update missing doc generation ([1940c4d](https://github.com/SkeLLLa/fastify-metrics/commit/1940c4d505d800a4006b49090f79815fdaa4d49c))
+
+
+### ✂️ Refactor
+
+* upgrade to prom-client 15.1.0 ([bf31d38](https://github.com/SkeLLLa/fastify-metrics/commit/bf31d38f241680609f3c29efeeabf1a588fd716e))
+
 ## [10.6.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.5.0...v10.6.0) (2024-01-14)
 
 
