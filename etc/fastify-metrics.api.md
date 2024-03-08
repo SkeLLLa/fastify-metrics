@@ -51,6 +51,7 @@ export interface IMetricsPluginOptions {
   defaultMetrics: IDefaultMetricsConfig;
   endpoint: string | null | RouteOptions;
   name: string;
+  promClient: typeof client | null;
   routeMetrics: IRouteMetricsConfig;
 }
 
