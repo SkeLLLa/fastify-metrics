@@ -97,7 +97,7 @@ pnpm i fastify-metrics --save
 ---
 
 - Requires fastify `>=4.0.0`.
-- Node.js `>=16.0.0`.
+- Node.js `>=18.0.0`.
 
 <sub>[Back to top](#toc)</sub>
 

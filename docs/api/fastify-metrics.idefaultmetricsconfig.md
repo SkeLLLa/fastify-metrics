@@ -9,10 +9,10 @@ Default prom-client metrics config
 <b>Signature:</b>
 
 ```typescript
-export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration
+export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'>
 ```
 
-<b>Extends:</b> DefaultMetricsCollectorConfiguration
+<b>Extends:</b> DefaultMetricsCollectorConfiguration&lt;'text/plain; version=0.0.4; charset=utf-8'&gt;
 
 ## Remarks
 

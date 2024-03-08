@@ -27,7 +27,7 @@ export default _default;
 
 // @public
 export interface IDefaultMetricsConfig
-  extends DefaultMetricsCollectorConfiguration {
+  extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> {
   enabled: boolean;
 }
 

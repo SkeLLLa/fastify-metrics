@@ -7,6 +7,7 @@ import {
 import promClient, {
   Histogram,
   LabelValues,
+  PrometheusContentType,
   Registry,
   Summary,
 } from 'prom-client';
@@ -191,8 +192,10 @@ export class FastifyMetrics implements IFastifyMetrics {
       return [];
     }
     return [
-      ...(routeMetrics.overrides?.histogram?.registers ?? []),
-      ...(routeMetrics.overrides?.summary?.registers ?? []),
+      ...((routeMetrics.overrides?.histogram?.registers ??
+        []) as Registry<PrometheusContentType>[]),
+      ...((routeMetrics.overrides?.summary?.registers ??
+        []) as Registry<PrometheusContentType>[]),
     ];
   }
 
