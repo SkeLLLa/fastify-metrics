@@ -289,12 +289,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       help:
         this.options.routeMetrics.overrides?.counter?.help ??
         'counts requests per route',
-      labelNames: [
-        labelNames.method,
-        labelNames.route,
-        labelNames.status,
-        ...customLabelNames,
-      ] as const,
+      labelNames: [labelNames.route, labelNames.status] as const,
     });
 
     const routeSum = new this.deps.client.Summary<string>({
@@ -385,11 +380,16 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.options.routeMetrics.groupStatusCodes === true
             ? `${Math.floor(reply.statusCode / 100)}xx`
             : reply.statusCode;
-
-        this.routeMetrics.routeRequestCount.inc(
-          { route: request.url, status_code: statusCode },
-          1
-        );
+        if (
+          this.options.routeMetrics.enabled === true ||
+          (this.options.routeMetrics.enabled instanceof Object &&
+            this.options.routeMetrics.enabled.counter)
+        ) {
+          this.routeMetrics.routeRequestCount.inc(
+            { route: request.url, status_code: statusCode },
+            1
+          );
+        }
 
         const metrics = this.metricStorage.get(request);
         if (!metrics) {

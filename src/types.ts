@@ -178,6 +178,13 @@ export interface IRouteMetricsConfig {
          * @defaultValue `true`
          */
         summary?: boolean;
+        /**
+         * Enables collection of fastify routes metrics response time via
+         * counter.
+         *
+         * @defaultValue `true`
+         */
+        counter?: boolean;
       };
 
   /**
