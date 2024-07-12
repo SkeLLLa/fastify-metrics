@@ -5,6 +5,7 @@ import {
   RouteOptions,
 } from 'fastify';
 import promClient, {
+  Gauge,
   Histogram,
   LabelValues,
   PrometheusContentType,
@@ -34,8 +35,11 @@ interface IReqMetrics<T extends string> {
 interface IRouteMetrics {
   routeHist: Histogram<string>;
   routeSum: Summary<string>;
+  routeRequestCount: Gauge<string>;
   labelNames: { method: string; status: string; route: string };
 }
+
+type RouteKey = string;
 
 export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   name: 'metrics',
@@ -59,6 +63,8 @@ export class FastifyMetrics implements IFastifyMetrics {
   private static getRouteSlug(args: { method: string; url: string }): string {
     return `[${args.method}] ${args.url}`;
   }
+
+  private requestCounter = new Map<RouteKey, number>();
 
   private readonly metricStorage = new WeakMap<
     FastifyRequest,
@@ -278,6 +284,23 @@ export class FastifyMetrics implements IFastifyMetrics {
         ...customLabelNames,
       ] as const,
     });
+
+    const routeRequestCount = new this.deps.client.Gauge<string>({
+      ...this.options.routeMetrics.overrides?.gauge,
+      name:
+        this.options.routeMetrics.overrides?.gauge?.name ??
+        'route_request_counter',
+      help:
+        this.options.routeMetrics.overrides?.gauge?.help ??
+        'counts requests per route',
+      labelNames: [
+        labelNames.method,
+        labelNames.route,
+        labelNames.status,
+        ...customLabelNames,
+      ] as const,
+    });
+
     const routeSum = new this.deps.client.Summary<string>({
       ...this.options.routeMetrics.overrides?.summary,
       name:
@@ -294,7 +317,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       ] as const,
     });
 
-    return { routeHist, routeSum, labelNames };
+    return { routeHist, routeSum, labelNames, routeRequestCount };
   }
 
   /**
@@ -352,7 +375,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
               method: request.method,
-              url: request.routeOptions.url,
+              url: request.routeOptions.url || '',
             })
           )
         ) {
@@ -362,15 +385,32 @@ export class FastifyMetrics implements IFastifyMetrics {
         return done();
       })
       .addHook('onResponse', (request, reply, done) => {
+        const statusCode =
+          this.options.routeMetrics.groupStatusCodes === true
+            ? `${Math.floor(reply.statusCode / 100)}xx`
+            : reply.statusCode;
+
+        const requestKey = `${request.url}_${statusCode}`;
+
+        if (!this.requestCounter.has(requestKey)) {
+          this.requestCounter.set(requestKey, 0);
+        }
+
+        this.requestCounter.set(
+          requestKey,
+          this.requestCounter.get(requestKey)! + 1
+        );
+
+        this.routeMetrics.routeRequestCount.set(
+          { route: request.url, status_code: statusCode },
+          this.requestCounter.get(requestKey)!
+        );
+
         const metrics = this.metricStorage.get(request);
         if (!metrics) {
           return done();
         }
 
-        const statusCode =
-          this.options.routeMetrics.groupStatusCodes === true
-            ? `${Math.floor(reply.statusCode / 100)}xx`
-            : reply.statusCode;
         const route = this.getRouteLabel(request);
         const method = request.method;
 

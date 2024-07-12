@@ -6,6 +6,7 @@ import {
 } from 'fastify';
 import client, {
   DefaultMetricsCollectorConfiguration,
+  GaugeConfiguration,
   HistogramConfiguration,
   SummaryConfiguration,
 } from 'prom-client';
@@ -42,6 +43,8 @@ export interface IDefaultMetricsConfig
    */
   enabled: boolean;
 }
+
+export interface IGaugeOverrides extends Partial<GaugeConfiguration<string>> {}
 
 /**
  * Request time summary config overrides
@@ -147,6 +150,9 @@ export interface IRouteMetricsOverrides {
 
   /** Summary overrides */
   summary?: ISummaryOverrides;
+
+  /** Gauge overrides */
+  gauge?: IGaugeOverrides;
 }
 
 /**
