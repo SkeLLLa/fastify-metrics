@@ -5,8 +5,8 @@ import {
   RouteOptions,
 } from 'fastify';
 import client, {
+  CounterConfiguration,
   DefaultMetricsCollectorConfiguration,
-  GaugeConfiguration,
   HistogramConfiguration,
   SummaryConfiguration,
 } from 'prom-client';
@@ -44,7 +44,7 @@ export interface IDefaultMetricsConfig
   enabled: boolean;
 }
 
-export interface IGaugeOverrides extends Partial<GaugeConfiguration<string>> {}
+export interface ICounterOverrides extends Partial<CounterConfiguration<string>> {}
 
 /**
  * Request time summary config overrides
@@ -151,8 +151,8 @@ export interface IRouteMetricsOverrides {
   /** Summary overrides */
   summary?: ISummaryOverrides;
 
-  /** Gauge overrides */
-  gauge?: IGaugeOverrides;
+  /** Counter overrides */
+  counter?: ICounterOverrides;
 }
 
 /**

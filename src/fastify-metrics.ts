@@ -5,7 +5,7 @@ import {
   RouteOptions,
 } from 'fastify';
 import promClient, {
-  Gauge,
+  Counter,
   Histogram,
   LabelValues,
   PrometheusContentType,
@@ -35,11 +35,9 @@ interface IReqMetrics<T extends string> {
 interface IRouteMetrics {
   routeHist: Histogram<string>;
   routeSum: Summary<string>;
-  routeRequestCount: Gauge<string>;
+  routeRequestCount: Counter<string>;
   labelNames: { method: string; status: string; route: string };
 }
-
-type RouteKey = string;
 
 export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   name: 'metrics',
@@ -63,8 +61,6 @@ export class FastifyMetrics implements IFastifyMetrics {
   private static getRouteSlug(args: { method: string; url: string }): string {
     return `[${args.method}] ${args.url}`;
   }
-
-  private requestCounter = new Map<RouteKey, number>();
 
   private readonly metricStorage = new WeakMap<
     FastifyRequest,
@@ -285,13 +281,13 @@ export class FastifyMetrics implements IFastifyMetrics {
       ] as const,
     });
 
-    const routeRequestCount = new this.deps.client.Gauge<string>({
-      ...this.options.routeMetrics.overrides?.gauge,
+    const routeRequestCount = new this.deps.client.Counter<string>({
+      ...this.options.routeMetrics.overrides?.counter,
       name:
-        this.options.routeMetrics.overrides?.gauge?.name ??
+        this.options.routeMetrics.overrides?.counter?.name ??
         'route_request_counter',
       help:
-        this.options.routeMetrics.overrides?.gauge?.help ??
+        this.options.routeMetrics.overrides?.counter?.help ??
         'counts requests per route',
       labelNames: [
         labelNames.method,
@@ -390,20 +386,9 @@ export class FastifyMetrics implements IFastifyMetrics {
             ? `${Math.floor(reply.statusCode / 100)}xx`
             : reply.statusCode;
 
-        const requestKey = `${request.url}_${statusCode}`;
-
-        if (!this.requestCounter.has(requestKey)) {
-          this.requestCounter.set(requestKey, 0);
-        }
-
-        this.requestCounter.set(
-          requestKey,
-          this.requestCounter.get(requestKey)! + 1
-        );
-
-        this.routeMetrics.routeRequestCount.set(
+        this.routeMetrics.routeRequestCount.inc(
           { route: request.url, status_code: statusCode },
-          this.requestCounter.get(requestKey)!
+          1
         );
 
         const metrics = this.metricStorage.get(request);
