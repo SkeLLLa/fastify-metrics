@@ -169,7 +169,7 @@ would result in the library only generating histograms.
 
 ##### Route metrics overrides
 
-You may override default metrics settings. You may provide overrides for two metrics tracking http request durations: `histogram` and `summary`.
+You may override default metrics settings. You may provide overrides for three metrics tracking http request durations: `histogram`, `summary` and `counter`.
 
 ```js
 const fastify = require('fastify');
@@ -189,6 +189,10 @@ await app.register(metricsPlugin, {
         labelNames: ['status_code', 'method', 'route'],
         percentiles: [0.5, 0.75, 0.9, 0.95, 0.99],
       },
+      counter: {
+        name: 'my_custom_name',
+        help: 'custom help text',
+      }
     },
   },
 });
@@ -219,6 +223,13 @@ await app.register(metricsPlugin, {
 | [help?](./docs/api/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'request duration in seconds'`   |
 | [buckets?](./docs/api/fastify-metrics.ihistogramoverrides.buckets.md) | number\[\] | `[0.05, 0.1, 0.5, 1, 3, 5, 10]`   |
 
+###### Request durations histogram
+
+| Property                                                              | Type       | Default value                     |
+| --------------------------------------------------------------------- | ---------- | --------------------------------- |
+| [name?](./docs/api/fastify-metrics.ihistogramoverrides.name.md)       | string     | `'route_request_counter'` |
+| [help?](./docs/api/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'counts requests per route'`   |
+
 <sub>[Back to top](#toc)</sub>
 
 ### HTTP routes metrics in Prometheus
@@ -231,6 +242,7 @@ The following table shows what metrics will be available in Prometheus (subject 
 | `http_request_duration_seconds_bucket` | `method`, `route`, `status_code` | Requests durations by bucket  |
 | `http_request_summary_seconds`         | `method`, `route`, `status_code` | Requests duration percentiles |
 | `http_request_summary_seconds_count`   | `method`, `route`, `status_code` | Requests total count          |
+| `route_request_counter`                | `route`, `status_code`           | Requests per route count      |
 
 <sub>[Back to top](#toc)</sub>
 

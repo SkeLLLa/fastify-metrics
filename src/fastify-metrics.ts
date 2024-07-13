@@ -5,6 +5,7 @@ import {
   RouteOptions,
 } from 'fastify';
 import promClient, {
+  Counter,
   Histogram,
   LabelValues,
   PrometheusContentType,
@@ -34,6 +35,7 @@ interface IReqMetrics<T extends string> {
 interface IRouteMetrics {
   routeHist: Histogram<string>;
   routeSum: Summary<string>;
+  routeRequestCount: Counter<string>;
   labelNames: { method: string; status: string; route: string };
 }
 
@@ -278,6 +280,18 @@ export class FastifyMetrics implements IFastifyMetrics {
         ...customLabelNames,
       ] as const,
     });
+
+    const routeRequestCount = new this.deps.client.Counter<string>({
+      ...this.options.routeMetrics.overrides?.counter,
+      name:
+        this.options.routeMetrics.overrides?.counter?.name ??
+        'route_request_counter',
+      help:
+        this.options.routeMetrics.overrides?.counter?.help ??
+        'counts requests per route',
+      labelNames: [labelNames.route, labelNames.status] as const,
+    });
+
     const routeSum = new this.deps.client.Summary<string>({
       ...this.options.routeMetrics.overrides?.summary,
       name:
@@ -294,7 +308,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       ] as const,
     });
 
-    return { routeHist, routeSum, labelNames };
+    return { routeHist, routeSum, labelNames, routeRequestCount };
   }
 
   /**
@@ -352,7 +366,7 @@ export class FastifyMetrics implements IFastifyMetrics {
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
               method: request.method,
-              url: request.routeOptions.url,
+              url: request.routeOptions.url || '',
             })
           )
         ) {
@@ -362,15 +376,26 @@ export class FastifyMetrics implements IFastifyMetrics {
         return done();
       })
       .addHook('onResponse', (request, reply, done) => {
+        const statusCode =
+          this.options.routeMetrics.groupStatusCodes === true
+            ? `${Math.floor(reply.statusCode / 100)}xx`
+            : reply.statusCode;
+        if (
+          this.options.routeMetrics.enabled === true ||
+          (this.options.routeMetrics.enabled instanceof Object &&
+            this.options.routeMetrics.enabled.counter)
+        ) {
+          this.routeMetrics.routeRequestCount.inc(
+            { route: request.url, status_code: statusCode },
+            1
+          );
+        }
+
         const metrics = this.metricStorage.get(request);
         if (!metrics) {
           return done();
         }
 
-        const statusCode =
-          this.options.routeMetrics.groupStatusCodes === true
-            ? `${Math.floor(reply.statusCode / 100)}xx`
-            : reply.statusCode;
         const route = this.getRouteLabel(request);
         const method = request.method;
 

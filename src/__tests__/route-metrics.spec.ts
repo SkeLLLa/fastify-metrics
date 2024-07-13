@@ -63,6 +63,7 @@ describe('route metrics', () => {
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+          'route_request_counter{route="/test",status_code="200"} 2',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
         ])

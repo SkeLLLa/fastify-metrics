@@ -5,6 +5,7 @@ import {
   RouteOptions,
 } from 'fastify';
 import client, {
+  CounterConfiguration,
   DefaultMetricsCollectorConfiguration,
   HistogramConfiguration,
   SummaryConfiguration,
@@ -42,6 +43,8 @@ export interface IDefaultMetricsConfig
    */
   enabled: boolean;
 }
+
+export interface ICounterOverrides extends Partial<CounterConfiguration<string>> {}
 
 /**
  * Request time summary config overrides
@@ -147,6 +150,9 @@ export interface IRouteMetricsOverrides {
 
   /** Summary overrides */
   summary?: ISummaryOverrides;
+
+  /** Counter overrides */
+  counter?: ICounterOverrides;
 }
 
 /**
@@ -172,6 +178,13 @@ export interface IRouteMetricsConfig {
          * @defaultValue `true`
          */
         summary?: boolean;
+        /**
+         * Enables collection of fastify routes metrics response time via
+         * counter.
+         *
+         * @defaultValue `true`
+         */
+        counter?: boolean;
       };
 
   /**
