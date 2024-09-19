@@ -6,7 +6,7 @@
 import client from 'prom-client';
 import { DefaultMetricsCollectorConfiguration } from 'prom-client';
 import { FastifyBaseLogger } from 'fastify';
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyPluginCallback } from 'fastify';
 import { FastifyReply } from 'fastify';
 import { FastifyRequest } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
@@ -17,7 +17,7 @@ import { RouteOptions } from 'fastify';
 import { SummaryConfiguration } from 'prom-client';
 
 // @public
-const _default: FastifyPluginAsync<
+const _default: FastifyPluginCallback<
   Partial<IMetricsPluginOptions>,
   RawServerDefault,
   FastifyTypeProviderDefault,

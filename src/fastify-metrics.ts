@@ -335,13 +335,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         }
 
         if (this.options.routeMetrics.registeredRoutesOnly === false) {
-          if (
-            !this.methodBlacklist.has(
-              request.routeOptions?.method ??
-                request.routerMethod ??
-                request.method
-            )
-          ) {
+          if (!this.methodBlacklist.has(request.routeOptions.method)) {
             this.createTimers(request);
           }
 
@@ -351,8 +345,9 @@ export class FastifyMetrics implements IFastifyMetrics {
         if (
           this.routesWhitelist.has(
             FastifyMetrics.getRouteSlug({
-              method: request.method,
-              url: request.routeOptions.url,
+              method: request.routeOptions.method,
+              // use actual url when config url is empty
+              url: request.routeOptions.url ?? request.url,
             })
           )
         ) {
