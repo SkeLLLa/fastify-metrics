@@ -1,3 +1,24 @@
+## [12.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v11.0.0...v12.0.0) (2024-09-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **fastify:** Drop node 18
+
+ Upgrade to fastify 5
+
+### 🛠 Fixes
+
+* ci typo ([fd38cff](https://github.com/SkeLLLa/fastify-metrics/commit/fd38cfffbd9f616943fdf44939ddef563916568d))
+* rebuild ([dd8696b](https://github.com/SkeLLLa/fastify-metrics/commit/dd8696ba9c08e75c195688443894c282c170d1fd))
+* **ci:** pnpm version ([54faebd](https://github.com/SkeLLLa/fastify-metrics/commit/54faebdcbe2581b3e5dcdc607d240c473c1638f8))
+* **tests:** v5 strict schema ([c4d614f](https://github.com/SkeLLLa/fastify-metrics/commit/c4d614f0bbe8cfe29cb853666efb7bdabed2efe1))
+
+
+### 🚀 Features
+
+* **fastify:** upgrade to v5 ([e73944a](https://github.com/SkeLLLa/fastify-metrics/commit/e73944ac070c850f5f7f0dc0e8aebd383582ea22))
+
 ## [11.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v10.6.0...v11.0.0) (2024-03-08)
 
 
