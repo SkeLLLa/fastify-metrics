@@ -615,7 +615,16 @@ describe('route metrics', () => {
       });
       app.get(
         '/test',
-        { schema: { querystring: { r: { type: 'string' } } } },
+        {
+          schema: {
+            querystring: {
+              type: 'object',
+              properties: {
+                r: { type: 'string' },
+              },
+            },
+          },
+        },
         async (request, reply) => {
           await reply
             .code(parseInt((request.query as { r: string }).r))
