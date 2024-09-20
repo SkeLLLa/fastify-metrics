@@ -6,7 +6,7 @@
 
 Request duration buckets override
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 buckets?: number[];

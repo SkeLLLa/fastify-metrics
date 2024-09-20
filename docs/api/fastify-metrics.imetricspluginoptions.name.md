@@ -6,7 +6,7 @@
 
 Plugin name that will be registered in fastify instance.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 name: string;

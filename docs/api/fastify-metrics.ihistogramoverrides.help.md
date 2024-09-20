@@ -6,7 +6,7 @@
 
 Request duration histogram help override
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 help?: string;

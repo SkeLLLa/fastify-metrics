@@ -6,13 +6,13 @@ import {
   expect,
   test,
 } from '@jest/globals';
-import fastify from 'fastify';
-import promClient, { Registry } from 'prom-client';
+import { fastify } from 'fastify';
+import { register, Registry } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('default metrics', () => {
   afterEach(() => {
-    promClient.register.clear();
+    register.clear();
   });
 
   describe('{ }', () => {
@@ -51,7 +51,7 @@ describe('default metrics', () => {
           expect.stringMatching(/process_cpu_user_seconds_total \d+/),
           expect.stringMatching(/process_cpu_system_seconds_total \d+/),
           expect.stringMatching(/process_start_time_seconds \d+/),
-        ])
+        ]),
       );
     });
   });
@@ -94,7 +94,7 @@ describe('default metrics', () => {
           expect.stringMatching(/process_cpu_user_seconds_total \d+/),
           expect.stringMatching(/process_cpu_system_seconds_total \d+/),
           expect.stringMatching(/process_start_time_seconds \d+/),
-        ])
+        ]),
       );
     });
   });
@@ -126,7 +126,7 @@ describe('default metrics', () => {
         app.inject({
           method: 'GET',
           url: '/metrics',
-        })
+        }),
       ).resolves.toMatchObject({
         body: JSON.stringify({
           message: 'Route GET:/metrics not found',
@@ -144,7 +144,7 @@ describe('default metrics', () => {
           expect.stringMatching(/process_cpu_user_seconds_total \d+/),
           expect.stringMatching(/process_cpu_system_seconds_total \d+/),
           expect.stringMatching(/process_start_time_seconds \d+/),
-        ])
+        ]),
       );
     });
   });
@@ -186,7 +186,7 @@ describe('default metrics', () => {
           expect.stringMatching(/process_cpu_user_seconds_total \d+/),
           expect.stringMatching(/process_cpu_system_seconds_total \d+/),
           expect.stringMatching(/process_start_time_seconds \d+/),
-        ])
+        ]),
       );
     });
   });

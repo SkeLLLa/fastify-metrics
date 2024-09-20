@@ -1,4 +1,4 @@
-import fastify from 'fastify';
+import { fastify } from 'fastify';
 import fastifyMetrics from '../dist';
 
 const app = fastify({

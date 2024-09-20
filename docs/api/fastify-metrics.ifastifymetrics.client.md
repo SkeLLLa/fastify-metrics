@@ -6,7 +6,7 @@
 
 Prom-client instance
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 client: typeof client;

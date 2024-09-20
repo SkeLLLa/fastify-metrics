@@ -6,7 +6,7 @@
 
 Label Overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 labels?: IRouteLabelsOverrides;

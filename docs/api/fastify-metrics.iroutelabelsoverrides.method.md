@@ -6,7 +6,7 @@
 
 Method name
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 method?: string;

@@ -6,7 +6,7 @@
 
 Default prom-client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 defaultMetrics: IDefaultMetricsConfig;

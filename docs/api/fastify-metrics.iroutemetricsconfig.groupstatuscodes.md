@@ -6,7 +6,7 @@
 
 Groups status code labels by first digit 200 becomes 2XX in metrics.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 groupStatusCodes?: boolean;

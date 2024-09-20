@@ -6,7 +6,7 @@
 
 A list of HTTP methods that will be excluded from metrics collection
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 methodBlacklist?: readonly HTTPMethods[];

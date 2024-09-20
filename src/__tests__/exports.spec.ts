@@ -1,6 +1,6 @@
 import { afterAll, afterEach, describe, expect, test } from '@jest/globals';
-import fastify from 'fastify';
-import promClient from 'prom-client';
+import { fastify } from 'fastify';
+import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('exports', () => {
@@ -11,7 +11,7 @@ describe('exports', () => {
 
 describe('plugin', () => {
   afterEach(() => {
-    promClient.register.clear();
+    register.clear();
   });
 
   describe('registers with default name', () => {
@@ -40,7 +40,7 @@ describe('plugin', () => {
       await expect(
         app.register(fastifyPlugin, {
           name: 'foo',
-        })
+        }),
       ).resolves.toBeDefined();
       await expect(app.ready()).resolves.toBeDefined();
       expect(app.metrics).toBeUndefined();

@@ -6,7 +6,7 @@
 
 A list of routes that will be excluded from metrics collection.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 routeBlacklist?: readonly (string | RegExp)[];

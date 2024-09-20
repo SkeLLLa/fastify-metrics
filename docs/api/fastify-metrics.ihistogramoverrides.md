@@ -6,18 +6,76 @@
 
 Request time histofram config overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IHistogramOverrides extends Partial<HistogramConfiguration<string>>
 ```
 
-<b>Extends:</b> Partial&lt;HistogramConfiguration&lt;string&gt;&gt;
+**Extends:** Partial&lt;HistogramConfiguration&lt;string&gt;&gt;
 
 ## Properties
 
-| Property                                                     | Modifiers | Type       | Description                                                |
-| ------------------------------------------------------------ | --------- | ---------- | ---------------------------------------------------------- |
-| [buckets?](./fastify-metrics.ihistogramoverrides.buckets.md) |           | number\[\] | <i>(Optional)</i> Request duration buckets override        |
-| [help?](./fastify-metrics.ihistogramoverrides.help.md)       |           | string     | <i>(Optional)</i> Request duration histogram help override |
-| [name?](./fastify-metrics.ihistogramoverrides.name.md)       |           | string     | <i>(Optional)</i> Request duration histogram name override |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[buckets?](./fastify-metrics.ihistogramoverrides.buckets.md)
+
+</td><td>
+
+</td><td>
+
+number\[\]
+
+</td><td>
+
+_(Optional)_ Request duration buckets override
+
+</td></tr>
+<tr><td>
+
+[help?](./fastify-metrics.ihistogramoverrides.help.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Request duration histogram help override
+
+</td></tr>
+<tr><td>
+
+[name?](./fastify-metrics.ihistogramoverrides.name.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Request duration histogram name override
+
+</td></tr>
+</tbody></table>

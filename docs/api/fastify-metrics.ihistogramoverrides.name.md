@@ -6,7 +6,7 @@
 
 Request duration histogram name override
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 name?: string;

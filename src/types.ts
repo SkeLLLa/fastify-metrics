@@ -1,14 +1,15 @@
-import {
+import type {
   FastifyReply,
   FastifyRequest,
   HTTPMethods,
   RouteOptions,
 } from 'fastify';
-import client, {
+import type {
   DefaultMetricsCollectorConfiguration,
   HistogramConfiguration,
   SummaryConfiguration,
 } from 'prom-client';
+import type client from 'prom-client';
 
 /**
  * Route config for metrics

@@ -6,12 +6,12 @@
 
 Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 initMetricsInRegistry(): void;
 ```
 
-<b>Returns:</b>
+**Returns:**
 
 void

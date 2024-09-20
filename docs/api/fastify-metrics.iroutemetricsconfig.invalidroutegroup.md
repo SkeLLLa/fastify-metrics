@@ -6,7 +6,7 @@
 
 Unknown route label. If registeredRoutesOnly routes set to `false` unknown routes will have following url.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 invalidRouteGroup?: string;

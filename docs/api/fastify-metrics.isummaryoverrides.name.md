@@ -6,7 +6,7 @@
 
 Request duration summary name override
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 name?: string;

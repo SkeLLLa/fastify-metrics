@@ -6,7 +6,7 @@
 
 Disables metric collection on this route
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 disableMetrics?: boolean;

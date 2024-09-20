@@ -6,7 +6,7 @@
 
 Per route metrics config. Collect response time metric on requests
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 routeMetrics: IRouteMetricsConfig;

@@ -6,19 +6,19 @@ import {
   expect,
   test,
 } from '@jest/globals';
-import fastify from 'fastify';
-import promClient from 'prom-client';
+import { fastify } from 'fastify';
+import { Counter, register } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('default metrics', () => {
   afterEach(() => {
-    promClient.register.clear();
+    register.clear();
   });
 
   describe('{ clearRegisterOnInit = false }', () => {
     const app = fastify();
     beforeAll(async () => {
-      const c = new promClient.Counter({
+      const c = new Counter({
         name: 'test_counter',
         help: 'Example of a counter',
         labelNames: ['code'],
@@ -55,7 +55,7 @@ describe('default metrics', () => {
           expect.stringContaining('# HELP test_counter Example of a counter'),
           expect.stringContaining('# TYPE test_counter counter'),
           expect.stringContaining('test_counter 100'),
-        ])
+        ]),
       );
     });
   });
@@ -63,7 +63,7 @@ describe('default metrics', () => {
   describe('{ clearRegisterOnInit = true }', () => {
     const app = fastify();
     beforeAll(async () => {
-      const c = new promClient.Counter({
+      const c = new Counter({
         name: 'test_counter',
         help: 'Example of a counter',
         labelNames: ['code'],

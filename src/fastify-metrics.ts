@@ -1,17 +1,19 @@
-import {
+import type {
   FastifyInstance,
   FastifyReply,
   FastifyRequest,
   RouteOptions,
 } from 'fastify';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import promClient, {
-  Histogram,
-  LabelValues,
-  PrometheusContentType,
-  Registry,
-  Summary,
+  type Histogram,
+  type LabelValues,
+  type PrometheusContentType,
+  type Registry,
+  type Summary,
 } from 'prom-client';
-import { IFastifyMetrics, IMetricsPluginOptions } from './types';
+import type { IFastifyMetrics, IMetricsPluginOptions } from './types';
+
 /**
  * Plugin constructor
  *
@@ -67,7 +69,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   private readonly routesWhitelist = new Set<string>();
   private readonly methodBlacklist = new Set<string>();
 
-  private routeMetrics: IRouteMetrics;
+  private routeMetrics?: IRouteMetrics;
   private readonly options: IMetricsPluginOptions;
   private readonly routeFallback: string;
   private readonly getRouteLabel: (request: FastifyRequest) => string;
@@ -147,7 +149,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         (pattern) =>
           typeof pattern === 'string'
             ? pattern === routeOptions.url
-            : pattern.test(routeOptions.url)
+            : pattern.test(routeOptions.url),
       );
       if (isRouteBlacklisted) {
         return;
@@ -159,7 +161,7 @@ export class FastifyMetrics implements IFastifyMetrics {
             FastifyMetrics.getRouteSlug({
               method,
               url: routeOptions.url,
-            })
+            }),
           );
         }
       });
@@ -206,13 +208,15 @@ export class FastifyMetrics implements IFastifyMetrics {
     const routeRegistries = this.getCustomRouteMetricsRegistries();
 
     const regisitriesToMerge = Array.from(
-      new Set([globalRegistry, ...defaultRegistries, ...routeRegistries])
+      new Set([globalRegistry, ...defaultRegistries, ...routeRegistries]),
     );
 
     const routeHandler = async (_: FastifyRequest, reply: FastifyReply) => {
       if (regisitriesToMerge.length === 1) {
-        const data = await regisitriesToMerge[0].metrics();
-        return reply.type(regisitriesToMerge[0].contentType).send(data);
+        const data = await regisitriesToMerge?.[0]?.metrics();
+        return reply
+          .type(regisitriesToMerge?.[0]?.contentType ?? 'text/plain')
+          .send(data);
       }
       // WARN: Looses default labels
       const merged = this.deps.client.Registry.merge(regisitriesToMerge);
@@ -260,7 +264,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     };
 
     const customLabelNames: string[] = Object.keys(
-      this.options.routeMetrics.customLabels ?? {}
+      this.options.routeMetrics.customLabels ?? {},
     );
 
     const routeHist = new this.deps.client.Histogram<string>({
@@ -302,19 +306,30 @@ export class FastifyMetrics implements IFastifyMetrics {
    * option
    */
   private createTimers(request: FastifyRequest): void {
-    if (this.options.routeMetrics.enabled instanceof Object) {
+    if (
+      this.routeMetrics &&
+      this.options.routeMetrics.enabled instanceof Object
+    ) {
       this.metricStorage.set(request, {
-        hist: !(this.options.routeMetrics.enabled.histogram === false)
-          ? this.routeMetrics.routeHist.startTimer()
-          : undefined,
-        sum: !(this.options.routeMetrics.enabled.summary === false)
-          ? this.routeMetrics.routeSum.startTimer()
-          : undefined,
+        ...(this.options.routeMetrics.enabled.histogram === false
+          ? {}
+          : { hist: this.routeMetrics.routeHist.startTimer() }),
+        // hist: !(this.options.routeMetrics.enabled.histogram === false)
+        //   ? this.routeMetrics.routeHist.startTimer()
+        //   : undefined,
+        ...(this.options.routeMetrics.enabled.summary === false
+          ? {}
+          : {
+              sum: this.routeMetrics.routeSum.startTimer(),
+            }),
+        // sum: !(this.options.routeMetrics.enabled.summary === false)
+        //   ? this.routeMetrics.routeSum.startTimer()
+        //   : undefined,
       });
       return;
     }
 
-    if (!(this.options.routeMetrics.enabled === false)) {
+    if (this.routeMetrics && !(this.options.routeMetrics.enabled === false)) {
       this.metricStorage.set(request, {
         hist: this.routeMetrics.routeHist.startTimer(),
         sum: this.routeMetrics.routeSum.startTimer(),
@@ -325,68 +340,73 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   /** Collect per-route metrics */
   private collectRouteMetrics(): void {
-    this.deps.fastify
-      .addHook('onRequest', (request, _, done) => {
-        if (
-          request.routeOptions.config.disableMetrics === true ||
-          !request.raw.url
-        ) {
-          return done();
-        }
+    if (this.routeMetrics !== undefined) {
+      this.deps.fastify
+        .addHook('onRequest', (request, _, done) => {
+          if (
+            request.routeOptions.config.disableMetrics === true ||
+            !request.raw.url
+          ) {
+            return done();
+          }
 
-        if (this.options.routeMetrics.registeredRoutesOnly === false) {
-          if (!this.methodBlacklist.has(request.routeOptions.method)) {
+          if (this.options.routeMetrics.registeredRoutesOnly === false) {
+            if (!this.methodBlacklist.has(request.routeOptions.method)) {
+              this.createTimers(request);
+            }
+
+            return done();
+          }
+
+          if (
+            this.routesWhitelist.has(
+              FastifyMetrics.getRouteSlug({
+                method: request.routeOptions.method,
+                // use actual url when config url is empty
+                url: request.routeOptions.url ?? request.url,
+              }),
+            )
+          ) {
             this.createTimers(request);
           }
 
           return done();
-        }
+        })
+        .addHook('onResponse', (request, reply, done) => {
+          const metrics = this.metricStorage.get(request);
+          if (!metrics) {
+            return done();
+          }
 
-        if (
-          this.routesWhitelist.has(
-            FastifyMetrics.getRouteSlug({
-              method: request.routeOptions.method,
-              // use actual url when config url is empty
-              url: request.routeOptions.url ?? request.url,
-            })
-          )
-        ) {
-          this.createTimers(request);
-        }
+          const statusCode =
+            this.options.routeMetrics.groupStatusCodes === true
+              ? `${Math.floor(reply.statusCode / 100)}xx`
+              : reply.statusCode;
+          const route = this.getRouteLabel(request);
+          const method = request.method;
 
-        return done();
-      })
-      .addHook('onResponse', (request, reply, done) => {
-        const metrics = this.metricStorage.get(request);
-        if (!metrics) {
-          return done();
-        }
+          const labels = {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            [this.routeMetrics!.labelNames.method]: method,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            [this.routeMetrics!.labelNames.route]: route,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            [this.routeMetrics!.labelNames.status]: statusCode,
+            ...this.collectCustomLabels(request, reply),
+          };
 
-        const statusCode =
-          this.options.routeMetrics.groupStatusCodes === true
-            ? `${Math.floor(reply.statusCode / 100)}xx`
-            : reply.statusCode;
-        const route = this.getRouteLabel(request);
-        const method = request.method;
+          if (metrics.hist) metrics.hist(labels);
+          if (metrics.sum) metrics.sum(labels);
 
-        const labels = {
-          [this.routeMetrics.labelNames.method]: method,
-          [this.routeMetrics.labelNames.route]: route,
-          [this.routeMetrics.labelNames.status]: statusCode,
-          ...this.collectCustomLabels(request, reply),
-        };
-
-        if (metrics.hist) metrics.hist(labels);
-        if (metrics.sum) metrics.sum(labels);
-
-        done();
-      });
+          done();
+        });
+    }
   }
 
   /** Get custom labels for route metrics */
   private collectCustomLabels(
     request: FastifyRequest,
-    reply: FastifyReply
+    reply: FastifyReply,
   ): Record<string, string> {
     const customLabels = this.options.routeMetrics.customLabels ?? {};
     const labels: Record<string, string> = {};
