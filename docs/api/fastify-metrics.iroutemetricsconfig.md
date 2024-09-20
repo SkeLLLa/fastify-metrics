@@ -6,7 +6,7 @@
 
 Route metrics configuration
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IRouteMetricsConfig
@@ -14,13 +14,141 @@ export interface IRouteMetricsConfig
 
 ## Properties
 
-| Property                                                                               | Modifiers | Type                                                                                          | Description                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)                 |           | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | <i>(Optional)</i> Custom labels to add to metrics                                                                                                                                        |
-| [enabled?](./fastify-metrics.iroutemetricsconfig.enabled.md)                           |           | boolean \| { histogram?: boolean; summary?: boolean; }                                        | <i>(Optional)</i>                                                                                                                                                                        |
-| [groupStatusCodes?](./fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         |           | boolean                                                                                       | <i>(Optional)</i> Groups status code labels by first digit 200 becomes 2XX in metrics.                                                                                                   |
-| [invalidRouteGroup?](./fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       |           | string                                                                                        | <i>(Optional)</i> Unknown route label. If registeredRoutesOnly routes set to <code>false</code> unknown routes will have following url.                                                  |
-| [methodBlacklist?](./fastify-metrics.iroutemetricsconfig.methodblacklist.md)           |           | readonly HTTPMethods\[\]                                                                      | <i>(Optional)</i> A list of HTTP methods that will be excluded from metrics collection                                                                                                   |
-| [overrides?](./fastify-metrics.iroutemetricsconfig.overrides.md)                       |           | [IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)                         | <i>(Optional)</i> Metric configuration overrides                                                                                                                                         |
-| [registeredRoutesOnly?](./fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) |           | boolean                                                                                       | <i>(Optional)</i> Collect metrics only for registered routes. If <code>false</code>, then metrics for unknown routes <code>/unknown-unregistered-route</code> will be collected as well. |
-| [routeBlacklist?](./fastify-metrics.iroutemetricsconfig.routeblacklist.md)             |           | readonly (string \| RegExp)\[\]                                                               | <i>(Optional)</i> A list of routes that will be excluded from metrics collection.                                                                                                        |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)
+
+</td><td>
+
+</td><td>
+
+Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt;
+
+</td><td>
+
+_(Optional)_ Custom labels to add to metrics
+
+</td></tr>
+<tr><td>
+
+[enabled?](./fastify-metrics.iroutemetricsconfig.enabled.md)
+
+</td><td>
+
+</td><td>
+
+boolean \| { histogram?: boolean; summary?: boolean; }
+
+</td><td>
+
+_(Optional)_
+
+</td></tr>
+<tr><td>
+
+[groupStatusCodes?](./fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ Groups status code labels by first digit 200 becomes 2XX in metrics.
+
+</td></tr>
+<tr><td>
+
+[invalidRouteGroup?](./fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Unknown route label. If registeredRoutesOnly routes set to `false` unknown routes will have following url.
+
+</td></tr>
+<tr><td>
+
+[methodBlacklist?](./fastify-metrics.iroutemetricsconfig.methodblacklist.md)
+
+</td><td>
+
+</td><td>
+
+readonly HTTPMethods\[\]
+
+</td><td>
+
+_(Optional)_ A list of HTTP methods that will be excluded from metrics collection
+
+</td></tr>
+<tr><td>
+
+[overrides?](./fastify-metrics.iroutemetricsconfig.overrides.md)
+
+</td><td>
+
+</td><td>
+
+[IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)
+
+</td><td>
+
+_(Optional)_ Metric configuration overrides
+
+</td></tr>
+<tr><td>
+
+[registeredRoutesOnly?](./fastify-metrics.iroutemetricsconfig.registeredroutesonly.md)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+_(Optional)_ Collect metrics only for registered routes. If `false`<!-- -->, then metrics for unknown routes `/unknown-unregistered-route` will be collected as well.
+
+</td></tr>
+<tr><td>
+
+[routeBlacklist?](./fastify-metrics.iroutemetricsconfig.routeblacklist.md)
+
+</td><td>
+
+</td><td>
+
+readonly (string \| RegExp)\[\]
+
+</td><td>
+
+_(Optional)_ A list of routes that will be excluded from metrics collection.
+
+</td></tr>
+</tbody></table>

@@ -6,18 +6,76 @@
 
 Request time summary config overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface ISummaryOverrides extends Partial<SummaryConfiguration<string>>
 ```
 
-<b>Extends:</b> Partial&lt;SummaryConfiguration&lt;string&gt;&gt;
+**Extends:** Partial&lt;SummaryConfiguration&lt;string&gt;&gt;
 
 ## Properties
 
-| Property                                                           | Modifiers | Type       | Description                                              |
-| ------------------------------------------------------------------ | --------- | ---------- | -------------------------------------------------------- |
-| [help?](./fastify-metrics.isummaryoverrides.help.md)               |           | string     | <i>(Optional)</i> Request duration summary help override |
-| [name?](./fastify-metrics.isummaryoverrides.name.md)               |           | string     | <i>(Optional)</i> Request duration summary name override |
-| [percentiles?](./fastify-metrics.isummaryoverrides.percentiles.md) |           | number\[\] | <i>(Optional)</i> Request duration percentiles override  |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[help?](./fastify-metrics.isummaryoverrides.help.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Request duration summary help override
+
+</td></tr>
+<tr><td>
+
+[name?](./fastify-metrics.isummaryoverrides.name.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Request duration summary name override
+
+</td></tr>
+<tr><td>
+
+[percentiles?](./fastify-metrics.isummaryoverrides.percentiles.md)
+
+</td><td>
+
+</td><td>
+
+number\[\]
+
+</td><td>
+
+_(Optional)_ Request duration percentiles override
+
+</td></tr>
+</tbody></table>

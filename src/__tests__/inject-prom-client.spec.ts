@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from '@jest/globals';
-import fastify from 'fastify';
+import { fastify } from 'fastify';
 import type promClient from 'prom-client';
 import fastifyPlugin from '../';
 

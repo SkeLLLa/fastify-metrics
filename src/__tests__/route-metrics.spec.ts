@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
-import fastify, { FastifyRequest } from 'fastify';
-import promClient from 'prom-client';
+import { fastify, type FastifyRequest } from 'fastify';
+import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('route metrics', () => {
   afterEach(() => {
-    promClient.register.clear();
+    register.clear();
   });
 
   describe('{ }', () => {
@@ -40,14 +40,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'POST',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -65,7 +65,7 @@ describe('route metrics', () => {
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
 
@@ -74,7 +74,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/unknown',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -90,7 +90,7 @@ describe('route metrics', () => {
         expect.not.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
           'http_request_summary_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
-        ])
+        ]),
       );
     });
 
@@ -99,7 +99,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/hidden',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -115,7 +115,7 @@ describe('route metrics', () => {
         expect.not.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
-        ])
+        ]),
       );
     });
 
@@ -124,7 +124,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/custom',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -140,7 +140,7 @@ describe('route metrics', () => {
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -175,14 +175,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'POST',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -200,7 +200,7 @@ describe('route metrics', () => {
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -235,14 +235,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'POST',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -260,7 +260,7 @@ describe('route metrics', () => {
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -295,14 +295,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/unknown',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'POST',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -320,7 +320,7 @@ describe('route metrics', () => {
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="__unknown__",status_code="404"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -356,14 +356,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/unknown',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'POST',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -381,7 +381,7 @@ describe('route metrics', () => {
           'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="foo",status_code="404"} 1',
           'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -417,14 +417,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'GET',
           url: '/test-1',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -440,13 +440,13 @@ describe('route metrics', () => {
         expect.not.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
       expect(lines).toEqual(
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -488,28 +488,28 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/api/documentation',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'GET',
           url: '/api/documentation/json',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'GET',
           url: '/api/documentation/yaml',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'GET',
           url: '/api/other',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -526,10 +526,10 @@ describe('route metrics', () => {
           expect.stringContaining('route="/api/documentation"'),
           expect.stringContaining('route="/api/documentation/json"'),
           expect.stringContaining('route="/api/documentation/yaml"'),
-        ])
+        ]),
       );
       expect(lines).toEqual(
-        expect.arrayContaining([expect.stringContaining('route="/api/other"')])
+        expect.arrayContaining([expect.stringContaining('route="/api/other"')]),
       );
     });
   });
@@ -562,14 +562,14 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       await expect(
         app.inject({
           method: 'HEAD',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -585,13 +585,13 @@ describe('route metrics', () => {
         expect.not.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
       expect(lines).toEqual(
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -629,7 +629,7 @@ describe('route metrics', () => {
           await reply
             .code(parseInt((request.query as { r: string }).r))
             .send('foo');
-        }
+        },
       );
       await app.ready();
     });
@@ -640,14 +640,14 @@ describe('route metrics', () => {
           method: 'GET',
           url: '/test',
           query: { r: '200' },
-        })
+        }),
       ).resolves.toBeDefined();
       await expect(
         app.inject({
           method: 'GET',
           url: '/test',
           query: { r: '201' },
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -663,13 +663,13 @@ describe('route metrics', () => {
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
-        ])
+        ]),
       );
       expect(lines).toEqual(
         expect.not.arrayContaining([
           'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -706,7 +706,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -722,7 +722,7 @@ describe('route metrics', () => {
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -758,7 +758,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -774,7 +774,7 @@ describe('route metrics', () => {
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
           'http_request_summary_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
-        ])
+        ]),
       );
     });
   });
@@ -811,7 +811,7 @@ describe('route metrics', () => {
         app.inject({
           method: 'GET',
           url: '/test',
-        })
+        }),
       ).resolves.toBeDefined();
 
       const metrics = await app.inject({
@@ -826,13 +826,13 @@ describe('route metrics', () => {
       expect(lines).toEqual(
         expect.arrayContaining([
           'http_request_duration_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
-        ])
+        ]),
       );
 
       expect(lines).toEqual(
         expect.not.arrayContaining([
           'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
-        ])
+        ]),
       );
     });
   });

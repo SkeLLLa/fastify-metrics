@@ -6,7 +6,7 @@
 
 PromClient instance to override default internal promClient
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 promClient: typeof client | null;

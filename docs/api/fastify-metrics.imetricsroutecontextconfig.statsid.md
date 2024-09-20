@@ -6,7 +6,7 @@
 
 Override route definition
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 statsId?: string;

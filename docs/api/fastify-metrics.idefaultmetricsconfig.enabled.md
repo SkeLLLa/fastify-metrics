@@ -6,7 +6,7 @@
 
 Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 enabled: boolean;

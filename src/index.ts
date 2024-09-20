@@ -6,10 +6,10 @@
  * @packageDocumentation
  */
 
-import fastifyPlugin from 'fastify-plugin';
+import { fastifyPlugin } from 'fastify-plugin';
 import client from 'prom-client';
 import { FastifyMetrics } from './fastify-metrics';
-import {
+import type {
   IFastifyMetrics,
   IMetricsPluginOptions,
   IMetricsRouteContextConfig,
@@ -69,5 +69,5 @@ export default fastifyPlugin<Partial<IMetricsPluginOptions>>(
   {
     fastify: '>=4.0.0',
     name: 'fastify-metrics',
-  }
+  },
 );

@@ -6,7 +6,7 @@
 
 Route metrics overrides.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IRouteMetricsOverrides
@@ -14,8 +14,66 @@ export interface IRouteMetricsOverrides
 
 ## Properties
 
-| Property                                                            | Modifiers | Type                                                                | Description                           |
-| ------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- | ------------------------------------- |
-| [histogram?](./fastify-metrics.iroutemetricsoverrides.histogram.md) |           | [IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)     | <i>(Optional)</i> Histogram overrides |
-| [labels?](./fastify-metrics.iroutemetricsoverrides.labels.md)       |           | [IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md) | <i>(Optional)</i> Label Overrides     |
-| [summary?](./fastify-metrics.iroutemetricsoverrides.summary.md)     |           | [ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)         | <i>(Optional)</i> Summary overrides   |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[histogram?](./fastify-metrics.iroutemetricsoverrides.histogram.md)
+
+</td><td>
+
+</td><td>
+
+[IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)
+
+</td><td>
+
+_(Optional)_ Histogram overrides
+
+</td></tr>
+<tr><td>
+
+[labels?](./fastify-metrics.iroutemetricsoverrides.labels.md)
+
+</td><td>
+
+</td><td>
+
+[IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md)
+
+</td><td>
+
+_(Optional)_ Label Overrides
+
+</td></tr>
+<tr><td>
+
+[summary?](./fastify-metrics.iroutemetricsoverrides.summary.md)
+
+</td><td>
+
+</td><td>
+
+[ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)
+
+</td><td>
+
+_(Optional)_ Summary overrides
+
+</td></tr>
+</tbody></table>

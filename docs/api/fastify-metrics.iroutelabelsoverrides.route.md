@@ -6,7 +6,7 @@
 
 Route name
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 route?: string;

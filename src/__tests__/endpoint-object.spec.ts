@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from '@jest/globals';
-import fastify, { RouteOptions } from 'fastify';
-import promClient from 'prom-client';
+import { fastify, type RouteOptions } from 'fastify';
+import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('endpoint as object', () => {
@@ -27,7 +27,7 @@ describe('endpoint as object', () => {
   });
 
   afterAll(async () => {
-    promClient.register.clear();
+    register.clear();
     await app.close();
   });
 
@@ -55,7 +55,7 @@ describe('endpoint as object', () => {
         expect.stringMatching(/process_cpu_user_seconds_total \d+/),
         expect.stringMatching(/process_cpu_system_seconds_total \d+/),
         expect.stringMatching(/process_start_time_seconds \d+/),
-      ])
+      ]),
     );
   });
 });

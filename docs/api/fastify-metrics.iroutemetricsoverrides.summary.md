@@ -6,7 +6,7 @@
 
 Summary overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 summary?: ISummaryOverrides;

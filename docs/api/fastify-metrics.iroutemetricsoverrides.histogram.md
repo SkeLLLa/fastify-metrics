@@ -6,7 +6,7 @@
 
 Histogram overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 histogram?: IHistogramOverrides;

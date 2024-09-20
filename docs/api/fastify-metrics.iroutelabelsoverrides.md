@@ -6,7 +6,7 @@
 
 Label Overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IRouteLabelsOverrides
@@ -14,9 +14,81 @@ export interface IRouteLabelsOverrides
 
 ## Properties
 
-| Property                                                                   | Modifiers | Type                                   | Description                                                                                                                                                    |
-| -------------------------------------------------------------------------- | --------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [getRouteLabel?](./fastify-metrics.iroutelabelsoverrides.getroutelabel.md) |           | (request: FastifyRequest) =&gt; string | <i>(Optional)</i> Function that will return route value for metrics label. By default will use: <code>request.routeConfig.statsId ?? request.routerPath</code> |
-| [method?](./fastify-metrics.iroutelabelsoverrides.method.md)               |           | string                                 | <i>(Optional)</i> Method name                                                                                                                                  |
-| [route?](./fastify-metrics.iroutelabelsoverrides.route.md)                 |           | string                                 | <i>(Optional)</i> Route name                                                                                                                                   |
-| [status?](./fastify-metrics.iroutelabelsoverrides.status.md)               |           | string                                 | <i>(Optional)</i> Status code                                                                                                                                  |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[getRouteLabel?](./fastify-metrics.iroutelabelsoverrides.getroutelabel.md)
+
+</td><td>
+
+</td><td>
+
+(request: FastifyRequest) =&gt; string
+
+</td><td>
+
+_(Optional)_ Function that will return route value for metrics label. By default will use: `request.routeConfig.statsId ?? request.routerPath`
+
+</td></tr>
+<tr><td>
+
+[method?](./fastify-metrics.iroutelabelsoverrides.method.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Method name
+
+</td></tr>
+<tr><td>
+
+[route?](./fastify-metrics.iroutelabelsoverrides.route.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Route name
+
+</td></tr>
+<tr><td>
+
+[status?](./fastify-metrics.iroutelabelsoverrides.status.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+_(Optional)_ Status code
+
+</td></tr>
+</tbody></table>

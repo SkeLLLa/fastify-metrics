@@ -6,7 +6,7 @@
 
 Collect metrics only for registered routes. If `false`<!-- -->, then metrics for unknown routes `/unknown-unregistered-route` will be collected as well.
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 registeredRoutesOnly?: boolean;

@@ -6,7 +6,7 @@
 
 Request duration percentiles override
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 percentiles?: number[];

@@ -6,7 +6,7 @@
 
 Endpoint to expose metrics in prometheus format. `null` - disables metrics exposure
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 endpoint: string | null | RouteOptions;

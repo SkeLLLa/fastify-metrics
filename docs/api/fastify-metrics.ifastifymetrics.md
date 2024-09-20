@@ -6,7 +6,7 @@
 
 Plugin decorator
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IFastifyMetrics
@@ -14,12 +14,58 @@ export interface IFastifyMetrics
 
 ## Properties
 
-| Property                                              | Modifiers | Type          | Description          |
-| ----------------------------------------------------- | --------- | ------------- | -------------------- |
-| [client](./fastify-metrics.ifastifymetrics.client.md) |           | typeof client | Prom-client instance |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[client](./fastify-metrics.ifastifymetrics.client.md)
+
+</td><td>
+
+</td><td>
+
+typeof client
+
+</td><td>
+
+Prom-client instance
+
+</td></tr>
+</tbody></table>
 
 ## Methods
 
-| Method                                                                                | Description                                                                                                                      |
-| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [initMetricsInRegistry()](./fastify-metrics.ifastifymetrics.initmetricsinregistry.md) | Initialize metrics in registries. Useful if you call <code>registry.clear()</code> to register metrics in regisitries once again |
+<table><thead><tr><th>
+
+Method
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[initMetricsInRegistry()](./fastify-metrics.ifastifymetrics.initmetricsinregistry.md)
+
+</td><td>
+
+Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again
+
+</td></tr>
+</tbody></table>

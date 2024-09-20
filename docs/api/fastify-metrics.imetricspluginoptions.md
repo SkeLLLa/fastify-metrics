@@ -6,7 +6,7 @@
 
 Metrics plugin config
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export interface IMetricsPluginOptions
@@ -14,11 +14,111 @@ export interface IMetricsPluginOptions
 
 ## Properties
 
-| Property                                                                              | Modifiers | Type                                                                | Description                                                                                                          |
-| ------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [clearRegisterOnInit](./fastify-metrics.imetricspluginoptions.clearregisteroninit.md) |           | boolean                                                             | Clears the prom-client global registry before adding metrics. Default to <code>false</code>                          |
-| [defaultMetrics](./fastify-metrics.imetricspluginoptions.defaultmetrics.md)           |           | [IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md) | Default prom-client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag. |
-| [endpoint](./fastify-metrics.imetricspluginoptions.endpoint.md)                       |           | string \| null \| RouteOptions                                      | Endpoint to expose metrics in prometheus format. <code>null</code> - disables metrics exposure                       |
-| [name](./fastify-metrics.imetricspluginoptions.name.md)                               |           | string                                                              | Plugin name that will be registered in fastify instance.                                                             |
-| [promClient](./fastify-metrics.imetricspluginoptions.promclient.md)                   |           | typeof client \| null                                               | PromClient instance to override default internal promClient                                                          |
-| [routeMetrics](./fastify-metrics.imetricspluginoptions.routemetrics.md)               |           | [IRouteMetricsConfig](./fastify-metrics.iroutemetricsconfig.md)     | Per route metrics config. Collect response time metric on requests                                                   |
+<table><thead><tr><th>
+
+Property
+
+</th><th>
+
+Modifiers
+
+</th><th>
+
+Type
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[clearRegisterOnInit](./fastify-metrics.imetricspluginoptions.clearregisteroninit.md)
+
+</td><td>
+
+</td><td>
+
+boolean
+
+</td><td>
+
+Clears the prom-client global registry before adding metrics. Default to `false`
+
+</td></tr>
+<tr><td>
+
+[defaultMetrics](./fastify-metrics.imetricspluginoptions.defaultmetrics.md)
+
+</td><td>
+
+</td><td>
+
+[IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md)
+
+</td><td>
+
+Default prom-client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
+
+</td></tr>
+<tr><td>
+
+[endpoint](./fastify-metrics.imetricspluginoptions.endpoint.md)
+
+</td><td>
+
+</td><td>
+
+string \| null \| RouteOptions
+
+</td><td>
+
+Endpoint to expose metrics in prometheus format. `null` - disables metrics exposure
+
+</td></tr>
+<tr><td>
+
+[name](./fastify-metrics.imetricspluginoptions.name.md)
+
+</td><td>
+
+</td><td>
+
+string
+
+</td><td>
+
+Plugin name that will be registered in fastify instance.
+
+</td></tr>
+<tr><td>
+
+[promClient](./fastify-metrics.imetricspluginoptions.promclient.md)
+
+</td><td>
+
+</td><td>
+
+typeof client \| null
+
+</td><td>
+
+PromClient instance to override default internal promClient
+
+</td></tr>
+<tr><td>
+
+[routeMetrics](./fastify-metrics.imetricspluginoptions.routemetrics.md)
+
+</td><td>
+
+</td><td>
+
+[IRouteMetricsConfig](./fastify-metrics.iroutemetricsconfig.md)
+
+</td><td>
+
+Per route metrics config. Collect response time metric on requests
+
+</td></tr>
+</tbody></table>

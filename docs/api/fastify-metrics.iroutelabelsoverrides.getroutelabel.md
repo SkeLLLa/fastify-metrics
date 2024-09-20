@@ -6,7 +6,7 @@
 
 Function that will return route value for metrics label. By default will use: `request.routeConfig.statsId ?? request.routerPath`
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 getRouteLabel?: (request: FastifyRequest) => string;

@@ -6,7 +6,7 @@
 
 Metric configuration overrides
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 overrides?: IRouteMetricsOverrides;

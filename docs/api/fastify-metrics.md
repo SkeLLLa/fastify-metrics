@@ -8,20 +8,116 @@ Prometheus metrics exporter for Fastify. Based on [prom-client](https://github.c
 
 ## Interfaces
 
-| Interface                                                                     | Description                             |
-| ----------------------------------------------------------------------------- | --------------------------------------- |
-| [IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md)           | Default prom-client metrics config      |
-| [IFastifyMetrics](./fastify-metrics.ifastifymetrics.md)                       | Plugin decorator                        |
-| [IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)               | Request time histofram config overrides |
-| [IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)           | Metrics plugin config                   |
-| [IMetricsRouteContextConfig](./fastify-metrics.imetricsroutecontextconfig.md) | Route config for metrics                |
-| [IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md)           | Label Overrides                         |
-| [IRouteMetricsConfig](./fastify-metrics.iroutemetricsconfig.md)               | Route metrics configuration             |
-| [IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)         | Route metrics overrides.                |
-| [ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)                   | Request time summary config overrides   |
+<table><thead><tr><th>
+
+Interface
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md)
+
+</td><td>
+
+Default prom-client metrics config
+
+</td></tr>
+<tr><td>
+
+[IFastifyMetrics](./fastify-metrics.ifastifymetrics.md)
+
+</td><td>
+
+Plugin decorator
+
+</td></tr>
+<tr><td>
+
+[IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)
+
+</td><td>
+
+Request time histofram config overrides
+
+</td></tr>
+<tr><td>
+
+[IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)
+
+</td><td>
+
+Metrics plugin config
+
+</td></tr>
+<tr><td>
+
+[IMetricsRouteContextConfig](./fastify-metrics.imetricsroutecontextconfig.md)
+
+</td><td>
+
+Route config for metrics
+
+</td></tr>
+<tr><td>
+
+[IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md)
+
+</td><td>
+
+Label Overrides
+
+</td></tr>
+<tr><td>
+
+[IRouteMetricsConfig](./fastify-metrics.iroutemetricsconfig.md)
+
+</td><td>
+
+Route metrics configuration
+
+</td></tr>
+<tr><td>
+
+[IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)
+
+</td><td>
+
+Route metrics overrides.
+
+</td></tr>
+<tr><td>
+
+[ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)
+
+</td><td>
+
+Request time summary config overrides
+
+</td></tr>
+</tbody></table>
 
 ## Variables
 
-| Variable                                   | Description   |
-| ------------------------------------------ | ------------- |
-| [\_default](./fastify-metrics._default.md) | Metric plugin |
+<table><thead><tr><th>
+
+Variable
+
+</th><th>
+
+Description
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[\_default](./fastify-metrics._default.md)
+
+</td><td>
+
+Metric plugin
+
+</td></tr>
+</tbody></table>

@@ -6,7 +6,7 @@
 
 Metric plugin
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 _default: import('fastify').FastifyPluginCallback<

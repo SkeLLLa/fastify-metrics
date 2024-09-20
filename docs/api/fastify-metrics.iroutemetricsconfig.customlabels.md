@@ -6,7 +6,7 @@
 
 Custom labels to add to metrics
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 customLabels?: Record<string, string | ((request: FastifyRequest, reply: FastifyReply) => string)>;
