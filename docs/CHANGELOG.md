@@ -1,3 +1,18 @@
+## [12.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v12.0.0...v12.1.0) (2024-09-20)
+
+### 🛠 Fixes
+
+* **ci:** releases ([e63f4e4](https://github.com/SkeLLLa/fastify-metrics/commit/e63f4e49adbbddac7b27cec7b72e82da46bdf8d3))
+
+### 🚀 Features
+
+* migrate eslint config ([d749d99](https://github.com/SkeLLLa/fastify-metrics/commit/d749d99cb09c26ff4e8b00ca3b98ee730c551c81))
+* **lint:** upgrade eslint and rules ([a840e5e](https://github.com/SkeLLLa/fastify-metrics/commit/a840e5eb3e80b273732bc12ac872eb8674de4ea8))
+
+### 🧾 Other
+
+* **deps:** upgrade ([a278792](https://github.com/SkeLLLa/fastify-metrics/commit/a27879204575db7ec948044be57981380786c332))
+
 ## [12.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v11.0.0...v12.0.0) (2024-09-19)
 
 
