@@ -30,17 +30,18 @@
     "test": "src/__tests__"
   },
   "scripts": {
-    "build": "pnpm run build:node && pnpm run build:docs",
-    "build:docs": "api-extractor run -l && api-documenter markdown -i ./temp -o ./docs/api && pretty-quick",
+    "build": "pnpm run build:node && pnpm run build:docs && pnpm run build:format",
+    "build:docs": "api-extractor run -l && api-documenter markdown -i ./temp -o ./docs/api",
+    "build:format": "pretty-quick",
     "build:node": "tsc -p tsconfig.build.json",
-    "example:ts": "ts-node examples/example.ts",
     "lint": "pnpm run lint:types && pnpm run lint:codestyle && pnpm run lint:packages",
     "lint:codestyle": "eslint",
     "lint:packages": "pnpm audit --prod --audit-level=high",
     "lint:types": "tsc -p tsconfig.json",
     "release": "semantic-release",
-    "test": "npm run lint && pnpm run test:unit",
-    "test:unit": "jest --passWithNoTests"
+    "test": "pnpm run lint && pnpm run test:unit",
+    "test:unit": "node --no-warnings --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test src/__tests__/** --test-coverage-exclude=src/__tests__/**",
+    "test:unit:local": "node --no-warnings --import tsx --experimental-test-coverage --test src/__tests__/** --test-coverage-exclude=src/__tests__/**"
   },
   "dependencies": {
     "fastify-plugin": "^5.0.0",
