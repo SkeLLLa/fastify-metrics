@@ -3,3 +3,5 @@ temp/
 node_modules/
 coverage/
 /.idea/
+lcov.info
+**/*.xxx.*
