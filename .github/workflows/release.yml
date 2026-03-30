@@ -1,38 +1,44 @@
 name: release
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 on:
   push:
     branches:
       - master
       - next
 
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+  security-events: write
+
 jobs:
   verify:
     name: Verify
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 9
           run_install: false
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.PNPM_CACHE_DIR }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -49,21 +55,34 @@ jobs:
       - name: Test
         run: pnpm test
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          name: codecov-umbrella
-          fail_ci_if_error: true
+          use_oidc: true
+          disable_search: true
+          files: ./lcov.info
+          flags: js_open_source
+          fail_ci_if_error: false
           verbose: true
+  osv:
+    uses: 'google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.0'
+    with:
+      scan-args: |-
+        ./
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: verify
+    needs:
+      - verify
+      - osv
     permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
       packages: write
       checks: write
     steps:
@@ -72,21 +91,20 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 9
           run_install: false
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.PNPM_CACHE_DIR }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -98,4 +116,4 @@ jobs:
         run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # NPM_TOKEN not needed - using OIDC provenance
