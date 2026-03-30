@@ -7,11 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
-
+        node-version: [22.x, 24.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -22,16 +22,15 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 9
           run_install: false
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.PNPM_CACHE_DIR }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -48,9 +47,22 @@ jobs:
       - name: Test
         run: pnpm test
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          name: codecov-umbrella
-          fail_ci_if_error: true
+          use_oidc: true
+          disable_search: true
+          files: ./lcov.info
+          flags: js_open_source
+          fail_ci_if_error: false
           verbose: true
+
+  dependabot:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'SkeLLLa/fastify-metrics'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
