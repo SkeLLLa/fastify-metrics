@@ -1,0 +1,24 @@
+[tools]
+node = "24.14.0"
+pnpm = "10.32.1"
+
+[tasks.sync-versions]
+description = "Sync tool versions from .mise.toml to package.json"
+run = """
+#!/usr/bin/env bash
+set -euo pipefail
+PNPM_VERSION=$(mise current pnpm)
+NODE_VERSION=$(mise current node)
+cd "{{config_root}}"
+node -e "
+const fs = require('fs');
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+pkg.packageManager = 'pnpm@' + '$PNPM_VERSION';
+pkg.devEngines = {
+  runtime: { name: 'node', version: '$NODE_VERSION' },
+  packageManager: { name: 'pnpm', version: '$PNPM_VERSION' }
+};
+fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\\n');
+"
+echo "Synced: node=$NODE_VERSION pnpm=$PNPM_VERSION"
+"""
