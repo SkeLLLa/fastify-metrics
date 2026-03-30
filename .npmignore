@@ -6,6 +6,9 @@ examples/
 src/
 .*
 *config.js*
+*config.mjs*
+.mise.toml
+pnpm-workspace.yaml
 *.md
 logo.*
 **/*.spec.*
