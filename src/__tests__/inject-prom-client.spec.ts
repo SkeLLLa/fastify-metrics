@@ -1,17 +1,17 @@
-import { afterEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { afterEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import type promClient from 'prom-client';
 import fastifyPlugin from '../';
 
-describe('metrics plugin', () => {
+void describe('metrics plugin', () => {
   let app = fastify();
 
   afterEach(async () => {
     await app.close();
   });
 
-  it('uses provided prom-client instance', async () => {
+  void it('uses provided prom-client instance', async () => {
     const testPromClient = {} as unknown as typeof promClient;
 
     app = fastify();

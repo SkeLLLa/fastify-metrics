@@ -4,11 +4,9 @@ import type {
   FastifyRequest,
   RouteOptions,
 } from 'fastify';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import promClient, {
   type Histogram,
   type LabelValues,
-  type PrometheusContentType,
   type Registry,
   type Summary,
 } from 'prom-client';
@@ -34,8 +32,8 @@ interface IReqMetrics<T extends string> {
 }
 
 interface IRouteMetrics {
-  routeHist: Histogram<string>;
-  routeSum: Summary<string>;
+  routeHist: Histogram;
+  routeSum: Summary;
   labelNames: { method: string; status: string; route: string };
 }
 
@@ -99,7 +97,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.setMethodBlacklist();
     this.setRouteWhitelist();
 
-    if (!(this.options.defaultMetrics.enabled === false)) {
+    if (this.options.defaultMetrics.enabled) {
       this.collectDefaultMetrics();
     }
 
@@ -176,7 +174,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   private getCustomDefaultMetricsRegistries(): Registry[] {
     const { defaultMetrics } = this.options;
 
-    return defaultMetrics.enabled === false ||
+    return !defaultMetrics.enabled ||
       defaultMetrics.register === undefined ||
       defaultMetrics.register === this.deps.client.register
       ? []
@@ -194,10 +192,8 @@ export class FastifyMetrics implements IFastifyMetrics {
       return [];
     }
     return [
-      ...((routeMetrics.overrides?.histogram?.registers ??
-        []) as Registry<PrometheusContentType>[]),
-      ...((routeMetrics.overrides?.summary?.registers ??
-        []) as Registry<PrometheusContentType>[]),
+      ...((routeMetrics.overrides?.histogram?.registers ?? []) as Registry[]),
+      ...((routeMetrics.overrides?.summary?.registers ?? []) as Registry[]),
     ];
   }
 
@@ -212,11 +208,10 @@ export class FastifyMetrics implements IFastifyMetrics {
     );
 
     const routeHandler = async (_: FastifyRequest, reply: FastifyReply) => {
-      if (regisitriesToMerge.length === 1) {
-        const data = await regisitriesToMerge?.[0]?.metrics();
-        return reply
-          .type(regisitriesToMerge?.[0]?.contentType ?? 'text/plain')
-          .send(data);
+      const [singleRegistry] = regisitriesToMerge;
+      if (regisitriesToMerge.length === 1 && singleRegistry) {
+        const data = await singleRegistry.metrics();
+        return reply.type(singleRegistry.contentType).send(data);
       }
       // WARN: Looses default labels
       const merged = this.deps.client.Registry.merge(regisitriesToMerge);
@@ -229,9 +224,9 @@ export class FastifyMetrics implements IFastifyMetrics {
     if (endpoint === null) {
       return;
     }
-    if (typeof endpoint === 'string' || endpoint === undefined) {
+    if (typeof endpoint === 'string') {
       routeOptions = {
-        url: endpoint ?? '/metrics',
+        url: endpoint,
         method: 'GET',
         logLevel: 'fatal',
         exposeHeadRoute: false,
@@ -267,7 +262,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       this.options.routeMetrics.customLabels ?? {},
     );
 
-    const routeHist = new this.deps.client.Histogram<string>({
+    const routeHist = new this.deps.client.Histogram({
       ...this.options.routeMetrics.overrides?.histogram,
       name:
         this.options.routeMetrics.overrides?.histogram?.name ??
@@ -282,7 +277,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         ...customLabelNames,
       ] as const,
     });
-    const routeSum = new this.deps.client.Summary<string>({
+    const routeSum = new this.deps.client.Summary({
       ...this.options.routeMetrics.overrides?.summary,
       name:
         this.options.routeMetrics.overrides?.summary?.name ??
@@ -347,7 +342,8 @@ export class FastifyMetrics implements IFastifyMetrics {
             request.routeOptions.config.disableMetrics === true ||
             !request.raw.url
           ) {
-            return done();
+            done();
+            return;
           }
 
           if (this.options.routeMetrics.registeredRoutesOnly === false) {
@@ -355,7 +351,8 @@ export class FastifyMetrics implements IFastifyMetrics {
               this.createTimers(request);
             }
 
-            return done();
+            done();
+            return;
           }
 
           if (
@@ -370,17 +367,18 @@ export class FastifyMetrics implements IFastifyMetrics {
             this.createTimers(request);
           }
 
-          return done();
+          done();
         })
         .addHook('onResponse', (request, reply, done) => {
           const metrics = this.metricStorage.get(request);
           if (!metrics) {
-            return done();
+            done();
+            return;
           }
 
           const statusCode =
             this.options.routeMetrics.groupStatusCodes === true
-              ? `${Math.floor(reply.statusCode / 100)}xx`
+              ? `${Math.floor(reply.statusCode / 100).toString()}xx`
               : reply.statusCode;
           const route = this.getRouteLabel(request);
           const method = request.method;
@@ -425,7 +423,7 @@ export class FastifyMetrics implements IFastifyMetrics {
    * register metrics in regisitries once again
    */
   public initMetricsInRegistry(): void {
-    if (!(this.options.defaultMetrics.enabled === false)) {
+    if (this.options.defaultMetrics.enabled) {
       this.collectDefaultMetrics();
     }
     if (!(this.options.routeMetrics.enabled === false)) {

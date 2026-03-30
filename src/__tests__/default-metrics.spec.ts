@@ -1,5 +1,5 @@
-import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { register, Registry } from 'prom-client';
 import fastifyPlugin from '../';
@@ -8,7 +8,7 @@ import fastifyPlugin from '../';
 function assertLineMatches(lines: string[], regex: RegExp): void {
   assert.ok(
     lines.some((l) => regex.test(l)),
-    `Expected some line to match ${regex}`,
+    `Expected some line to match ${String(regex)}`,
   );
 }
 
@@ -16,16 +16,16 @@ function assertLineMatches(lines: string[], regex: RegExp): void {
 function assertNoLineMatches(lines: string[], regex: RegExp): void {
   assert.ok(
     !lines.some((l) => regex.test(l)),
-    `Expected no line to match ${regex}`,
+    `Expected no line to match ${String(regex)}`,
   );
 }
 
-describe('default metrics', () => {
+void describe('default metrics', () => {
   afterEach(() => {
     register.clear();
   });
 
-  describe('{ }', () => {
+  void describe('{ }', () => {
     let app = fastify();
 
     beforeEach(async () => {
@@ -46,7 +46,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('expose metrics', async () => {
+    void it('expose metrics', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
@@ -62,7 +62,7 @@ describe('default metrics', () => {
     });
   });
 
-  describe('{ enabled = true; register = new Registry() }', () => {
+  void describe('{ enabled = true; register = new Registry() }', () => {
     let app = fastify();
 
     beforeEach(async () => {
@@ -85,7 +85,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('metrics exposed', async () => {
+    void it('metrics exposed', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
@@ -101,7 +101,7 @@ describe('default metrics', () => {
     });
   });
 
-  describe('{ enabled = true; endoint = null }', () => {
+  void describe('{ enabled = true; endoint = null }', () => {
     let app = fastify();
 
     beforeEach(async () => {
@@ -123,7 +123,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('metrics not exposed via route', async () => {
+    void it('metrics not exposed via route', async () => {
       const result = await app.inject({
         method: 'GET',
         url: '/metrics',
@@ -145,7 +145,7 @@ describe('default metrics', () => {
     });
   });
 
-  describe('{ enabled = false }', () => {
+  void describe('{ enabled = false }', () => {
     let app = fastify();
 
     beforeEach(async () => {
@@ -167,7 +167,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('metrics not exposed', async () => {
+    void it('metrics not exposed', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',

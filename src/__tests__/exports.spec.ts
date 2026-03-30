@@ -1,56 +1,52 @@
-import { after, afterEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { after, afterEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
-describe('exports', () => {
-  it('fastify plugin exported', async () => {
+void describe('exports', () => {
+  void it('fastify plugin exported', async () => {
     assert.notStrictEqual(fastifyPlugin, undefined);
   });
 });
 
-describe('plugin', () => {
+void describe('plugin', () => {
   afterEach(() => {
     register.clear();
   });
 
-  describe('registers with default name', () => {
+  void describe('registers with default name', () => {
     const app = fastify();
 
     after(async () => {
-      return app.close();
+      await app.close();
     });
 
-    it('exposes prom-client api', async () => {
-      const registered = await app.register(fastifyPlugin);
-      assert.notStrictEqual(registered, undefined);
-      const ready = await app.ready();
-      assert.notStrictEqual(ready, undefined);
+    void it('exposes prom-client api', async () => {
+      await app.register(fastifyPlugin);
+      await app.ready();
       assert.notStrictEqual(app.metrics, undefined);
       assert.notStrictEqual(app.metrics.client, undefined);
     });
   });
 
-  describe('registers with custom name', () => {
+  void describe('registers with custom name', () => {
     const app = fastify();
 
     after(async () => {
-      return app.close();
+      await app.close();
     });
 
-    it('exposes prom-client api', async () => {
-      const registered = await app.register(fastifyPlugin, {
+    void it('exposes prom-client api', async () => {
+      await app.register(fastifyPlugin, {
         name: 'foo',
       });
-      assert.notStrictEqual(registered, undefined);
-      const ready = await app.ready();
-      assert.notStrictEqual(ready, undefined);
+      await app.ready();
       assert.strictEqual(app.metrics, undefined);
-      // @ts-ignore
-      assert.notStrictEqual(app['foo'], undefined);
-      // @ts-ignore
-      assert.notStrictEqual(app['foo'].client, undefined);
+      // @ts-expect-error accessing dynamic property
+      assert.notStrictEqual(app.foo, undefined);
+      // @ts-expect-error accessing dynamic property
+      assert.notStrictEqual(app.foo.client, undefined);
     });
   });
 });

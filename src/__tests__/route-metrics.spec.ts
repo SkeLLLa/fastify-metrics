@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import { fastify, type FastifyRequest } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
@@ -18,12 +18,12 @@ function assertLinesNotContain(lines: string[], unexpected: string[]): void {
   }
 }
 
-describe('route metrics', () => {
+void describe('route metrics', () => {
   afterEach(() => {
     register.clear();
   });
 
-  describe('{ }', () => {
+  void describe('{ }', () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -50,7 +50,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics exposed for known routes', async () => {
+    void it('metrics exposed for known routes', async () => {
       await app.inject({ method: 'GET', url: '/test' });
       await app.inject({ method: 'POST', url: '/test' });
 
@@ -66,7 +66,7 @@ describe('route metrics', () => {
       ]);
     });
 
-    it('metrics not exposed for unknown routes', async () => {
+    void it('metrics not exposed for unknown routes', async () => {
       await app.inject({ method: 'GET', url: '/unknown' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
@@ -79,7 +79,7 @@ describe('route metrics', () => {
       ]);
     });
 
-    it('metrics not exposed for routes with disabledMetrics in config', async () => {
+    void it('metrics not exposed for routes with disabledMetrics in config', async () => {
       await app.inject({ method: 'GET', url: '/hidden' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
@@ -92,7 +92,7 @@ describe('route metrics', () => {
       ]);
     });
 
-    it('metrics exposed with custom route name in config', async () => {
+    void it('metrics exposed with custom route name in config', async () => {
       await app.inject({ method: 'GET', url: '/custom' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
@@ -106,7 +106,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe('{ enabled = false }', () => {
+  void describe('{ enabled = false }', () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -131,7 +131,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics not exposed', async () => {
+    void it('metrics not exposed', async () => {
       await app.inject({ method: 'GET', url: '/test' });
       await app.inject({ method: 'POST', url: '/test' });
 
@@ -148,7 +148,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe('{ enabled = {} }', () => {
+  void describe('{ enabled = {} }', () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -173,7 +173,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics exposed', async () => {
+    void it('metrics exposed', async () => {
       await app.inject({ method: 'GET', url: '/test' });
       await app.inject({ method: 'POST', url: '/test' });
 
@@ -190,7 +190,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe('{ registeredRoutesOnly = false }', () => {
+  void describe('{ registeredRoutesOnly = false }', () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -215,7 +215,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics exposed for unknown routes', async () => {
+    void it('metrics exposed for unknown routes', async () => {
       await app.inject({ method: 'GET', url: '/unknown' });
       await app.inject({ method: 'POST', url: '/test' });
 
@@ -232,7 +232,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ registeredRoutesOnly = false, invalidRouteGroup = 'foo' }`, () => {
+  void describe(`{ registeredRoutesOnly = false, invalidRouteGroup = 'foo' }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -258,7 +258,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics exposed for unknwon routes with custom name', async () => {
+    void it('metrics exposed for unknwon routes with custom name', async () => {
       await app.inject({ method: 'GET', url: '/unknown' });
       await app.inject({ method: 'POST', url: '/test' });
 
@@ -275,7 +275,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ routeBlacklist = ['/test'] }`, () => {
+  void describe(`{ routeBlacklist = ['/test'] }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -301,7 +301,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics for routes in blacklist not exposed', async () => {
+    void it('metrics for routes in blacklist not exposed', async () => {
       await app.inject({ method: 'GET', url: '/test' });
       await app.inject({ method: 'GET', url: '/test-1' });
 
@@ -320,7 +320,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ routeBlacklist = [/^\\/api\\/documentation(\\/|$)/] }`, () => {
+  void describe(`{ routeBlacklist = [/^\\/api\\/documentation(\\/|$)/] }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -352,7 +352,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics for regex matched routes in blacklist not exposed', async () => {
+    void it('metrics for regex matched routes in blacklist not exposed', async () => {
       await app.inject({ method: 'GET', url: '/api/documentation' });
       await app.inject({ method: 'GET', url: '/api/documentation/json' });
       await app.inject({ method: 'GET', url: '/api/documentation/yaml' });
@@ -383,7 +383,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ methodBlacklist = ['GET'] }`, () => {
+  void describe(`{ methodBlacklist = ['GET'] }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -406,7 +406,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics for methods in blacklist not exposed', async () => {
+    void it('metrics for methods in blacklist not exposed', async () => {
       await app.inject({ method: 'GET', url: '/test' });
       await app.inject({ method: 'HEAD', url: '/test' });
 
@@ -425,7 +425,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ groupStatusCodes = true }`, () => {
+  void describe(`{ groupStatusCodes = true }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -463,7 +463,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metrics has grouped codes', async () => {
+    void it('metrics has grouped codes', async () => {
       await app.inject({ method: 'GET', url: '/test', query: { r: '200' } });
       await app.inject({ method: 'GET', url: '/test', query: { r: '201' } });
 
@@ -482,7 +482,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`getRouteLabel is defined`, () => {
+  void describe(`getRouteLabel is defined`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -509,7 +509,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metric has url as route instead of *', async () => {
+    void it('metric has url as route instead of *', async () => {
       await app.inject({ method: 'GET', url: '/test' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
@@ -523,7 +523,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`customMetrics is defined`, () => {
+  void describe(`customMetrics is defined`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -549,7 +549,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('metric has custom labels', async () => {
+    void it('metric has custom labels', async () => {
       await app.inject({ method: 'GET', url: '/test' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
@@ -563,7 +563,7 @@ describe('route metrics', () => {
     });
   });
 
-  describe(`{ routeMetrics: { enable: { summary: false } } }`, () => {
+  void describe(`{ routeMetrics: { enable: { summary: false } } }`, () => {
     let app = fastify();
 
     afterEach(async () => {
@@ -590,7 +590,7 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    it('summaries are not collected', async () => {
+    void it('summaries are not collected', async () => {
       await app.inject({ method: 'GET', url: '/test' });
 
       const metrics = await app.inject({ method: 'GET', url: '/metrics' });
