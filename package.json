@@ -100,5 +100,11 @@
   "devEngines": {
     "runtime": { "name": "node", "version": "24.14.0" },
     "packageManager": { "name": "pnpm", "version": "10.32.1" }
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.js",
+    "provenance": true,
+    "typings": "dist/index.d.ts"
   }
 }
