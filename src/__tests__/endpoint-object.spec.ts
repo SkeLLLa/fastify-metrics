@@ -1,10 +1,10 @@
-import { after, before, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { after, before, describe, it } from 'node:test';
 import { fastify, type RouteOptions } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
-describe('endpoint as object', () => {
+void describe('endpoint as object', () => {
   const app = fastify();
   let preHandlerCalled = false;
   before(async () => {
@@ -32,7 +32,7 @@ describe('endpoint as object', () => {
     await app.close();
   });
 
-  it('should not override method', async () => {
+  void it('should not override method', async () => {
     const metrics = await app.inject({
       method: 'POST',
       url: '/custom-endpoint',
@@ -40,7 +40,7 @@ describe('endpoint as object', () => {
     assert.strictEqual(metrics.statusCode, 404);
   });
 
-  it('endpoint should have custom RouteOptions', async () => {
+  void it('endpoint should have custom RouteOptions', async () => {
     const metrics = await app.inject({
       method: 'GET',
       url: '/custom-endpoint',

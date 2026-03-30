@@ -15,4 +15,10 @@ export default [
     ],
   },
   ...eslintConfig,
+  {
+    files: ['**/__tests__/**/*', '**/test/**/*'],
+    rules: {
+      '@typescript-eslint/restrict-template-expressions': 'off',
+    },
+  },
 ];

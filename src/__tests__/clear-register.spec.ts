@@ -1,15 +1,15 @@
-import { after, afterEach, before, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { Counter, register } from 'prom-client';
 import fastifyPlugin from '../';
 
-describe('default metrics', () => {
+void describe('default metrics', () => {
   afterEach(() => {
     register.clear();
   });
 
-  describe('{ clearRegisterOnInit = false }', () => {
+  void describe('{ clearRegisterOnInit = false }', () => {
     const app = fastify();
     before(async () => {
       const c = new Counter({
@@ -35,7 +35,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('register is not cleared', async () => {
+    void it('register is not cleared', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
@@ -54,7 +54,7 @@ describe('default metrics', () => {
     });
   });
 
-  describe('{ clearRegisterOnInit = true }', () => {
+  void describe('{ clearRegisterOnInit = true }', () => {
     const app = fastify();
     before(async () => {
       const c = new Counter({
@@ -80,7 +80,7 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    it('register is cleared', async () => {
+    void it('register is cleared', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',

@@ -33,8 +33,7 @@ export interface IMetricsRouteContextConfig {
  * @public
  * @see {@link https://github.com/siimon/prom-client#default-metrics | prom-client} for extra options
  */
-export interface IDefaultMetricsConfig
-  extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> {
+export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> {
   /**
    * Enables collection of default prom-client metrics (e.g. node.js vitals like
    * cpu, memory, etc.)
@@ -49,8 +48,9 @@ export interface IDefaultMetricsConfig
  *
  * @public
  */
-export interface ISummaryOverrides
-  extends Partial<SummaryConfiguration<string>> {
+export interface ISummaryOverrides extends Partial<
+  SummaryConfiguration<string>
+> {
   /**
    * Request duration summary name override
    *
@@ -72,8 +72,9 @@ export interface ISummaryOverrides
 }
 
 /** @public Request time histofram config overrides */
-export interface IHistogramOverrides
-  extends Partial<HistogramConfiguration<string>> {
+export interface IHistogramOverrides extends Partial<
+  HistogramConfiguration<string>
+> {
   /**
    * Request duration histogram name override
    *

@@ -1,15 +1,15 @@
-import { after, afterEach, before, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '..';
 
-describe('edge cases', () => {
+void describe('edge cases', () => {
   afterEach(() => {
     register.clear();
   });
 
-  describe('registry clear problem', () => {
+  void describe('registry clear problem', () => {
     const app = fastify();
 
     after(async () => {
@@ -26,7 +26,7 @@ describe('edge cases', () => {
       await app.ready();
     });
 
-    it('metrics are initialized after register clear call', async () => {
+    void it('metrics are initialized after register clear call', async () => {
       const testResult = await app.inject({
         method: 'GET',
         url: '/test',
@@ -90,7 +90,7 @@ describe('edge cases', () => {
     });
   });
 
-  describe('default labels', () => {
+  void describe('default labels', () => {
     const app = fastify();
 
     after(async () => {
@@ -108,7 +108,7 @@ describe('edge cases', () => {
       await app.ready();
     });
 
-    it('added labels present in metrics', async () => {
+    void it('added labels present in metrics', async () => {
       const testResult = await app.inject({
         method: 'GET',
         url: '/test',
