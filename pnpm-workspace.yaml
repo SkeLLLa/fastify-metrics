@@ -1,0 +1,2 @@
+trustPolicy: no-downgrade
+minimumReleaseAge: 1440
