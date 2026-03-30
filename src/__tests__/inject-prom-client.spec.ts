@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, test } from '@jest/globals';
+import { afterEach, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify } from 'fastify';
 import type promClient from 'prom-client';
 import fastifyPlugin from '../';
@@ -10,7 +11,7 @@ describe('metrics plugin', () => {
     await app.close();
   });
 
-  test('uses provided prom-client instance', async () => {
+  it('uses provided prom-client instance', async () => {
     const testPromClient = {} as unknown as typeof promClient;
 
     app = fastify();
@@ -22,6 +23,6 @@ describe('metrics plugin', () => {
     });
     await app.ready();
 
-    expect(app.metrics.client).toEqual(testPromClient);
+    assert.deepStrictEqual(app.metrics.client, testPromClient);
   });
 });

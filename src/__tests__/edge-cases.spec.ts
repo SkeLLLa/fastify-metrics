@@ -1,11 +1,5 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from '@jest/globals';
+import { after, afterEach, before, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '..';
@@ -18,11 +12,11 @@ describe('edge cases', () => {
   describe('registry clear problem', () => {
     const app = fastify();
 
-    afterAll(async () => {
+    after(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    before(async () => {
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
       });
@@ -32,86 +26,78 @@ describe('edge cases', () => {
       await app.ready();
     });
 
-    test('metrics are initialized after register clear call', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics are initialized after register clear call', async () => {
+      const testResult = await app.inject({
+        method: 'GET',
+        url: '/test',
+      });
+      assert.notStrictEqual(testResult, undefined);
 
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metrics.payload).toBe('string');
+      assert.strictEqual(typeof metrics.payload, 'string');
 
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
+      assert.ok(
+        lines.includes(
           'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        ),
+      );
+      assert.ok(
+        lines.includes(
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ]),
+        ),
       );
 
       app.metrics.client.register.clear();
 
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+      const testResult2 = await app.inject({
+        method: 'GET',
+        url: '/test',
+      });
+      assert.notStrictEqual(testResult2, undefined);
 
       const metricsAfterClear = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metricsAfterClear.payload).toBe('string');
+      assert.strictEqual(typeof metricsAfterClear.payload, 'string');
 
       const linesAfterClear = metricsAfterClear.payload.split('\n');
 
-      expect(linesAfterClear).toEqual(['', '']);
+      assert.deepStrictEqual(linesAfterClear, ['', '']);
 
       // Reinit metrics in registry
       app.metrics.initMetricsInRegistry();
 
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+      const testResult3 = await app.inject({
+        method: 'GET',
+        url: '/test',
+      });
+      assert.notStrictEqual(testResult3, undefined);
 
       const metricsAfterReinit = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metricsAfterReinit.payload).toBe('string');
-
-      // const linesAfterReinit = metricsAfterReinit.payload.split('\n');
-
-      // expect(linesAfterReinit).toEqual(
-      //   expect.arrayContaining([
-      //     'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-      //     'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-      //   ])
-      // );
+      assert.strictEqual(typeof metricsAfterReinit.payload, 'string');
     });
   });
 
   describe('default labels', () => {
     const app = fastify();
 
-    afterAll(async () => {
+    after(async () => {
       await app.close();
     });
 
-    beforeAll(async () => {
+    before(async () => {
       await app.register(fastifyPlugin, {
         endpoint: '/metrics',
       });
@@ -122,31 +108,36 @@ describe('edge cases', () => {
       await app.ready();
     });
 
-    test('added labels present in metrics', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('added labels present in metrics', async () => {
+      const testResult = await app.inject({
+        method: 'GET',
+        url: '/test',
+      });
+      assert.notStrictEqual(testResult, undefined);
 
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metrics.payload).toBe('string');
+      assert.strictEqual(typeof metrics.payload, 'string');
 
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(
-            /process_cpu_user_seconds_total\{foo="bar"\} \d+/,
-          ),
+      assert.ok(
+        lines.some((l) =>
+          /process_cpu_user_seconds_total\{foo="bar"\} \d+/.test(l),
+        ),
+      );
+      assert.ok(
+        lines.includes(
           'http_request_duration_seconds_count{foo="bar",method="GET",route="/test",status_code="200"} 1',
+        ),
+      );
+      assert.ok(
+        lines.includes(
           'http_request_summary_seconds_count{method="GET",route="/test",status_code="200",foo="bar"} 1',
-        ]),
+        ),
       );
     });
   });
