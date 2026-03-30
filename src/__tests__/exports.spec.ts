@@ -1,11 +1,12 @@
-import { afterAll, afterEach, describe, expect, test } from '@jest/globals';
+import { after, afterEach, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
 
 describe('exports', () => {
-  test('fastify plugin exported', async () => {
-    expect(fastifyPlugin).toBeDefined();
+  it('fastify plugin exported', async () => {
+    assert.notStrictEqual(fastifyPlugin, undefined);
   });
 });
 
@@ -17,39 +18,39 @@ describe('plugin', () => {
   describe('registers with default name', () => {
     const app = fastify();
 
-    afterAll(async () => {
+    after(async () => {
       return app.close();
     });
 
-    test('exposes prom-client api', async () => {
-      await expect(app.register(fastifyPlugin)).resolves.toBeDefined();
-      await expect(app.ready()).resolves.toBeDefined();
-      expect(app.metrics).toBeDefined();
-      expect(app.metrics.client).toBeDefined();
+    it('exposes prom-client api', async () => {
+      const registered = await app.register(fastifyPlugin);
+      assert.notStrictEqual(registered, undefined);
+      const ready = await app.ready();
+      assert.notStrictEqual(ready, undefined);
+      assert.notStrictEqual(app.metrics, undefined);
+      assert.notStrictEqual(app.metrics.client, undefined);
     });
   });
 
   describe('registers with custom name', () => {
     const app = fastify();
 
-    afterAll(async () => {
+    after(async () => {
       return app.close();
     });
 
-    test('exposes prom-client api', async () => {
-      await expect(
-        app.register(fastifyPlugin, {
-          name: 'foo',
-        }),
-      ).resolves.toBeDefined();
-      await expect(app.ready()).resolves.toBeDefined();
-      expect(app.metrics).toBeUndefined();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    it('exposes prom-client api', async () => {
+      const registered = await app.register(fastifyPlugin, {
+        name: 'foo',
+      });
+      assert.notStrictEqual(registered, undefined);
+      const ready = await app.ready();
+      assert.notStrictEqual(ready, undefined);
+      assert.strictEqual(app.metrics, undefined);
       // @ts-ignore
-      expect(app['foo']).toBeDefined();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      assert.notStrictEqual(app['foo'], undefined);
       // @ts-ignore
-      expect(app['foo'].client).toBeDefined();
+      assert.notStrictEqual(app['foo'].client, undefined);
     });
   });
 });

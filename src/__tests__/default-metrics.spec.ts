@@ -1,14 +1,24 @@
-import {
-  afterAll,
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  test,
-} from '@jest/globals';
+import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify } from 'fastify';
 import { register, Registry } from 'prom-client';
 import fastifyPlugin from '../';
+
+/** Helper: assert that at least one line matches a regex */
+function assertLineMatches(lines: string[], regex: RegExp): void {
+  assert.ok(
+    lines.some((l) => regex.test(l)),
+    `Expected some line to match ${regex}`,
+  );
+}
+
+/** Helper: assert that no line matches a regex */
+function assertNoLineMatches(lines: string[], regex: RegExp): void {
+  assert.ok(
+    !lines.some((l) => regex.test(l)),
+    `Expected no line to match ${regex}`,
+  );
+}
 
 describe('default metrics', () => {
   afterEach(() => {
@@ -32,27 +42,23 @@ describe('default metrics', () => {
       await app.ready();
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.close();
     });
 
-    test('expose metrics', async () => {
+    it('expose metrics', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metrics.payload).toBe('string');
+      assert.strictEqual(typeof metrics.payload, 'string');
 
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/process_cpu_user_seconds_total \d+/),
-          expect.stringMatching(/process_cpu_system_seconds_total \d+/),
-          expect.stringMatching(/process_start_time_seconds \d+/),
-        ]),
-      );
+      assertLineMatches(lines, /process_cpu_user_seconds_total \d+/);
+      assertLineMatches(lines, /process_cpu_system_seconds_total \d+/);
+      assertLineMatches(lines, /process_start_time_seconds \d+/);
     });
   });
 
@@ -79,23 +85,19 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    test('metrics exposed', async () => {
+    it('metrics exposed', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metrics.payload).toBe('string');
+      assert.strictEqual(typeof metrics.payload, 'string');
 
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/process_cpu_user_seconds_total \d+/),
-          expect.stringMatching(/process_cpu_system_seconds_total \d+/),
-          expect.stringMatching(/process_start_time_seconds \d+/),
-        ]),
-      );
+      assertLineMatches(lines, /process_cpu_user_seconds_total \d+/);
+      assertLineMatches(lines, /process_cpu_system_seconds_total \d+/);
+      assertLineMatches(lines, /process_start_time_seconds \d+/);
     });
   });
 
@@ -121,31 +123,25 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    test('metrics not exposed via route', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/metrics',
-        }),
-      ).resolves.toMatchObject({
-        body: JSON.stringify({
-          message: 'Route GET:/metrics not found',
-          error: 'Not Found',
-          statusCode: 404,
-        }),
+    it('metrics not exposed via route', async () => {
+      const result = await app.inject({
+        method: 'GET',
+        url: '/metrics',
+      });
+
+      assert.deepStrictEqual(JSON.parse(result.body), {
+        message: 'Route GET:/metrics not found',
+        error: 'Not Found',
+        statusCode: 404,
       });
 
       const data = await app.metrics.client.register.metrics();
 
       const lines = data.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/process_cpu_user_seconds_total \d+/),
-          expect.stringMatching(/process_cpu_system_seconds_total \d+/),
-          expect.stringMatching(/process_start_time_seconds \d+/),
-        ]),
-      );
+      assertLineMatches(lines, /process_cpu_user_seconds_total \d+/);
+      assertLineMatches(lines, /process_cpu_system_seconds_total \d+/);
+      assertLineMatches(lines, /process_start_time_seconds \d+/);
     });
   });
 
@@ -171,23 +167,19 @@ describe('default metrics', () => {
       await app.close();
     });
 
-    test('metrics not exposed', async () => {
+    it('metrics not exposed', async () => {
       const metrics = await app.inject({
         method: 'GET',
         url: '/metrics',
       });
 
-      expect(typeof metrics.payload).toBe('string');
+      assert.strictEqual(typeof metrics.payload, 'string');
 
       const lines = metrics.payload.split('\n');
 
-      expect(lines).not.toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/process_cpu_user_seconds_total \d+/),
-          expect.stringMatching(/process_cpu_system_seconds_total \d+/),
-          expect.stringMatching(/process_start_time_seconds \d+/),
-        ]),
-      );
+      assertNoLineMatches(lines, /process_cpu_user_seconds_total \d+/);
+      assertNoLineMatches(lines, /process_cpu_system_seconds_total \d+/);
+      assertNoLineMatches(lines, /process_start_time_seconds \d+/);
     });
   });
 });

@@ -1,7 +1,22 @@
-import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterEach, beforeEach, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify, type FastifyRequest } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
+
+/** Helper: assert lines contain all expected exact strings */
+function assertLinesContain(lines: string[], expected: string[]): void {
+  for (const e of expected) {
+    assert.ok(lines.includes(e), `Expected lines to contain: ${e}`);
+  }
+}
+
+/** Helper: assert lines do NOT contain any of the given exact strings */
+function assertLinesNotContain(lines: string[], unexpected: string[]): void {
+  for (const u of unexpected) {
+    assert.ok(!lines.includes(u), `Expected lines NOT to contain: ${u}`);
+  }
+}
 
 describe('route metrics', () => {
   afterEach(() => {
@@ -35,113 +50,59 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics exposed for known routes', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics exposed for known routes', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'POST', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'POST',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
     });
 
-    test('metrics not exposed for unknown routes', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/unknown',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics not exposed for unknown routes', async () => {
+      await app.inject({ method: 'GET', url: '/unknown' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/unknown",status_code="404"} 1',
+      ]);
     });
 
-    test('metrics not exposed for routes with disabledMetrics in config', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/hidden',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics not exposed for routes with disabledMetrics in config', async () => {
+      await app.inject({ method: 'GET', url: '/hidden' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/hidden",status_code="200"} 1',
+      ]);
     });
 
-    test('metrics exposed with custom route name in config', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/custom',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics exposed with custom route name in config', async () => {
+      await app.inject({ method: 'GET', url: '/custom' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="__custom__",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -170,38 +131,20 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics not exposed', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics not exposed', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'POST', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'POST',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -230,38 +173,20 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics exposed', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics exposed', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'POST', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'POST',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -290,38 +215,20 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics exposed for unknown routes', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/unknown',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics exposed for unknown routes', async () => {
+      await app.inject({ method: 'GET', url: '/unknown' });
+      await app.inject({ method: 'POST', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'POST',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="__unknown__",status_code="404"} 1',
-          'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="__unknown__",status_code="404"} 1',
-          'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="__unknown__",status_code="404"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="__unknown__",status_code="404"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -351,38 +258,20 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics exposed for unknwon routes with custom name', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/unknown',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics exposed for unknwon routes with custom name', async () => {
+      await app.inject({ method: 'GET', url: '/unknown' });
+      await app.inject({ method: 'POST', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'POST',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="foo",status_code="404"} 1',
-          'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="foo",status_code="404"} 1',
-          'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="foo",status_code="404"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="foo",status_code="404"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -412,42 +301,22 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics for routes in blacklist not exposed', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics for routes in blacklist not exposed', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'GET', url: '/test-1' });
 
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test-1',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ]),
-      );
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test-1",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -483,53 +352,33 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics for regex matched routes in blacklist not exposed', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/api/documentation',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics for regex matched routes in blacklist not exposed', async () => {
+      await app.inject({ method: 'GET', url: '/api/documentation' });
+      await app.inject({ method: 'GET', url: '/api/documentation/json' });
+      await app.inject({ method: 'GET', url: '/api/documentation/yaml' });
+      await app.inject({ method: 'GET', url: '/api/other' });
 
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/api/documentation/json',
-        }),
-      ).resolves.toBeDefined();
-
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/api/documentation/yaml',
-        }),
-      ).resolves.toBeDefined();
-
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/api/other',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          expect.stringContaining('route="/api/documentation"'),
-          expect.stringContaining('route="/api/documentation/json"'),
-          expect.stringContaining('route="/api/documentation/yaml"'),
-        ]),
+      // No lines should contain documentation routes
+      assert.ok(
+        !lines.some((l) => l.includes('route="/api/documentation"')),
+        'Should not contain /api/documentation',
       );
-      expect(lines).toEqual(
-        expect.arrayContaining([expect.stringContaining('route="/api/other"')]),
+      assert.ok(
+        !lines.some((l) => l.includes('route="/api/documentation/json"')),
+        'Should not contain /api/documentation/json',
+      );
+      assert.ok(
+        !lines.some((l) => l.includes('route="/api/documentation/yaml"')),
+        'Should not contain /api/documentation/yaml',
+      );
+      // Should contain /api/other
+      assert.ok(
+        lines.some((l) => l.includes('route="/api/other"')),
+        'Should contain /api/other',
       );
     });
   });
@@ -557,42 +406,22 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics for methods in blacklist not exposed', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metrics for methods in blacklist not exposed', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'HEAD', url: '/test' });
 
-      await expect(
-        app.inject({
-          method: 'HEAD',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
-
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ]),
-      );
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -634,43 +463,22 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metrics has grouped codes', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-          query: { r: '200' },
-        }),
-      ).resolves.toBeDefined();
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-          query: { r: '201' },
-        }),
-      ).resolves.toBeDefined();
+    it('metrics has grouped codes', async () => {
+      await app.inject({ method: 'GET', url: '/test', query: { r: '200' } });
+      await app.inject({ method: 'GET', url: '/test', query: { r: '201' } });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
-        ]),
-      );
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="2xx"} 2',
+      ]);
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="HEAD",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -701,29 +509,17 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metric has url as route instead of *', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metric has url as route instead of *', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
-          'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
     });
   });
 
@@ -753,29 +549,17 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('metric has custom labels', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('metric has custom labels', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
-          'http_request_summary_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
+        'http_request_summary_seconds_count{method="GET",route="*",status_code="200",foo="bar",url="/test"} 1',
+      ]);
     });
   });
 
@@ -806,34 +590,20 @@ describe('route metrics', () => {
       await app.ready();
     });
 
-    test('summaries are not collected', async () => {
-      await expect(
-        app.inject({
-          method: 'GET',
-          url: '/test',
-        }),
-      ).resolves.toBeDefined();
+    it('summaries are not collected', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
 
-      const metrics = await app.inject({
-        method: 'GET',
-        url: '/metrics',
-      });
-
-      expect(typeof metrics.payload).toBe('string');
-
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
       const lines = metrics.payload.split('\n');
 
-      expect(lines).toEqual(
-        expect.arrayContaining([
-          'http_request_duration_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
-        ]),
-      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+      ]);
 
-      expect(lines).toEqual(
-        expect.not.arrayContaining([
-          'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
-        ]),
-      );
+      assertLinesNotContain(lines, [
+        'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+      ]);
     });
   });
 });

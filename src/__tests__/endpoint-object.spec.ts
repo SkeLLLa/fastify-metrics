@@ -1,4 +1,5 @@
-import { afterAll, beforeAll, describe, expect, test } from '@jest/globals';
+import { after, before, describe, it } from 'node:test';
+import assert from 'node:assert/strict';
 import { fastify, type RouteOptions } from 'fastify';
 import { register } from 'prom-client';
 import fastifyPlugin from '../';
@@ -6,7 +7,7 @@ import fastifyPlugin from '../';
 describe('endpoint as object', () => {
   const app = fastify();
   let preHandlerCalled = false;
-  beforeAll(async () => {
+  before(async () => {
     await app.register(fastifyPlugin, {
       endpoint: {
         url: '/custom-endpoint',
@@ -26,36 +27,34 @@ describe('endpoint as object', () => {
     await app.ready();
   });
 
-  afterAll(async () => {
+  after(async () => {
     register.clear();
     await app.close();
   });
 
-  test('should not override method', async () => {
+  it('should not override method', async () => {
     const metrics = await app.inject({
       method: 'POST',
       url: '/custom-endpoint',
     });
-    expect(metrics.statusCode).toEqual(404);
+    assert.strictEqual(metrics.statusCode, 404);
   });
 
-  test('endpoint should have custom RouteOptions', async () => {
+  it('endpoint should have custom RouteOptions', async () => {
     const metrics = await app.inject({
       method: 'GET',
       url: '/custom-endpoint',
     });
-    expect(preHandlerCalled).toBe(true);
-    expect(metrics.statusCode).toBe(200);
-    expect(typeof metrics.payload).toBe('string');
+    assert.strictEqual(preHandlerCalled, true);
+    assert.strictEqual(metrics.statusCode, 200);
+    assert.strictEqual(typeof metrics.payload, 'string');
 
     const lines = metrics.payload.split('\n');
 
-    expect(lines).toEqual(
-      expect.arrayContaining([
-        expect.stringMatching(/process_cpu_user_seconds_total \d+/),
-        expect.stringMatching(/process_cpu_system_seconds_total \d+/),
-        expect.stringMatching(/process_start_time_seconds \d+/),
-      ]),
+    assert.ok(lines.some((l) => /process_cpu_user_seconds_total \d+/.test(l)));
+    assert.ok(
+      lines.some((l) => /process_cpu_system_seconds_total \d+/.test(l)),
     );
+    assert.ok(lines.some((l) => /process_start_time_seconds \d+/.test(l)));
   });
 });
