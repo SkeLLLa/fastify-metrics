@@ -14,9 +14,11 @@ customLabels?: Record<string, string | ((request: FastifyRequest, reply: Fastify
 
 ## Example
 
+
 ```ts
 customLabels: {
  myLabel: 'my-value',
  myLabel2: (request, reply) => request.headers['x-my-header'],
 }
 ```
+

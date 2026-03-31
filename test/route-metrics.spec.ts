@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { fastify, type FastifyRequest } from 'fastify';
-import { register } from 'prom-client';
-import fastifyPlugin from '../';
+import { register, Registry } from 'prom-client';
+import fastifyPlugin from '../src/index.js';
 
 /** Helper: assert lines contain all expected exact strings */
 function assertLinesContain(lines: string[], expected: string[]): void {
@@ -603,6 +603,323 @@ void describe('route metrics', () => {
 
       assertLinesNotContain(lines, [
         'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+      ]);
+    });
+  });
+
+  void describe(`{ routeMetrics: { enable: { histogram: false } } }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: {
+            histogram: false,
+          },
+          customLabels: {
+            url: (request: FastifyRequest) => request.url,
+          },
+        },
+      });
+      app.get('*', async (_request, reply) => {
+        await reply.send('foo');
+      });
+      await app.ready();
+    });
+
+    void it('histograms are not collected', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+      ]);
+
+      assertLinesContain(lines, [
+        'http_request_summary_seconds_count{method="GET",route="*",status_code="200",url="/test"} 1',
+      ]);
+    });
+  });
+
+  void describe(`{ routeMetrics: { enable: { histogram: false, summary: false } } }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: {
+            histogram: false,
+            summary: false,
+          },
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      await app.ready();
+    });
+
+    void it('neither histograms nor summaries are collected', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+    });
+  });
+
+  void describe('{ overrides: { labels: { method, status, route } } }', () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          overrides: {
+            labels: {
+              method: 'http_method',
+              status: 'http_status',
+              route: 'http_route',
+            },
+          },
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      await app.ready();
+    });
+
+    void it('metrics use custom label names', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{http_method="GET",http_route="/test",http_status="200"} 1',
+        'http_request_summary_seconds_count{http_method="GET",http_route="/test",http_status="200"} 1',
+      ]);
+    });
+  });
+
+  void describe('{ overrides: { histogram: { name, help }, summary: { name, help } } }', () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          overrides: {
+            histogram: {
+              name: 'custom_hist',
+              help: 'custom histogram help',
+            },
+            summary: {
+              name: 'custom_sum',
+              help: 'custom summary help',
+            },
+          },
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      await app.ready();
+    });
+
+    void it('metrics use custom metric names', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        '# HELP custom_hist custom histogram help',
+        '# TYPE custom_hist histogram',
+        'custom_hist_count{method="GET",route="/test",status_code="200"} 1',
+        '# HELP custom_sum custom summary help',
+        '# TYPE custom_sum summary',
+        'custom_sum_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+    });
+  });
+
+  void describe(`{ registeredRoutesOnly = false, methodBlacklist = ['POST'] }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          registeredRoutesOnly: false,
+          methodBlacklist: ['POST'],
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      app.post('/test', async () => {
+        return 'post test';
+      });
+      await app.ready();
+    });
+
+    void it('POST metrics not collected when in methodBlacklist with registeredRoutesOnly=false', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'POST', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="POST",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
+      ]);
+    });
+  });
+
+  void describe('{ overrides: { histogram: { registers: [custom] } } }', () => {
+    let app = fastify();
+    const customRegistry = new Registry();
+
+    afterEach(async () => {
+      customRegistry.clear();
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          overrides: {
+            histogram: {
+              registers: [customRegistry],
+            },
+          },
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      await app.ready();
+    });
+
+    void it('metrics from custom registry are included in merged output', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assert.ok(
+        lines.some((l) => l.includes('http_request_duration_seconds')),
+        'Should contain histogram metrics',
+      );
+      assert.ok(
+        lines.some((l) => l.includes('http_request_summary_seconds')),
+        'Should contain summary metrics',
+      );
+    });
+  });
+
+  void describe('route with multiple methods', () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+        },
+      });
+      app.route({
+        method: ['GET', 'POST'],
+        url: '/multi',
+        handler: async () => {
+          return 'multi method';
+        },
+      });
+      await app.ready();
+    });
+
+    void it('metrics collected for all methods of multi-method route', async () => {
+      await app.inject({ method: 'GET', url: '/multi' });
+      await app.inject({ method: 'POST', url: '/multi' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/multi",status_code="200"} 1',
+        'http_request_duration_seconds_count{method="POST",route="/multi",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/multi",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="POST",route="/multi",status_code="200"} 1',
       ]);
     });
   });

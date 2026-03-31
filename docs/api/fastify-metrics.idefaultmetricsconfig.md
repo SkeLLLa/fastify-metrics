@@ -9,9 +9,8 @@ Default prom-client metrics config
 **Signature:**
 
 ```typescript
-export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'>
+export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> 
 ```
-
 **Extends:** DefaultMetricsCollectorConfiguration&lt;'text/plain; version=0.0.4; charset=utf-8'&gt;
 
 ## Remarks
@@ -24,32 +23,41 @@ Extends the [prom-client](https://github.com/siimon/prom-client#default-metrics)
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [enabled](./fastify-metrics.idefaultmetricsconfig.enabled.md)
 
+
 </td><td>
+
 
 </td><td>
 
 boolean
 
+
 </td><td>
 
 Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.)
 
+
 </td></tr>
 </tbody></table>
+

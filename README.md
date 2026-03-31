@@ -26,6 +26,8 @@ This plugin also adds two http metrics for your routes:
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
   - [Notable changes](#notable-changes)
+    - [v12.x.x](#v12xx)
+    - [v11.x.x](#v11xx)
     - [v10.x.x](#v10xx)
     - [v9.x.x](#v9xx)
     - [v6.x.x](#v6xx)
@@ -35,6 +37,7 @@ This plugin also adds two http metrics for your routes:
     - [Registry clear](#registry-clear)
     - [Plugin options](#plugin-options)
       - [Route metrics](#route-metrics)
+        - [Route metrics enabled](#route-metrics-enabled)
         - [Route metrics overrides](#route-metrics-overrides)
           - [Labels](#labels)
           - [Request durations summary](#request-durations-summary)
@@ -52,8 +55,20 @@ This plugin also adds two http metrics for your routes:
 - **v5.x.x** - supports `fastify-2.x` `prom-client-12.x`
 - **v6.x.x** - supports `fastify-3.x`
 - **v9.x.x** - supports `fastify-4.x` `prom-client-14.x`
+- **v11.x.x** - supports `fastify-4.x` `prom-client-15.x`
+- **v12.x.x** - supports `fastify-5.x` `prom-client-15.x`
 
 ## Notable changes
+
+### v12.x.x
+
+- Fastify v5 support.
+- Drop node.js 18 support.
+
+### v11.x.x
+
+- Drop node.js 16 support.
+- Upgrade to prom-client 15.1.
 
 ### v10.x.x
 
@@ -119,7 +134,7 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 
 ### Registry clear
 
-After calling `registry.clear()` all metrics are removed from registry. In order to add them again to the registry, call `fastify.mterics.initMetricsInRegistry`.
+After calling `registry.clear()` all metrics are removed from registry. In order to add them again to the registry, call `fastify.metrics.initMetricsInRegistry`.
 
 <sub>[Back to top](#toc)</sub>
 
@@ -127,29 +142,29 @@ After calling `registry.clear()` all metrics are removed from registry. In order
 
 See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 
-| Property                                                                              | Type                                                                                                                | Default Value       |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| [defaultMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.defaultmetrics.md) | [IDefaultMetricsConfig](./docs/api/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
-| [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
-| [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                     | string                                                                                                              | `'metrics'`         |
-| [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)     | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
-| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)         | `prom-client` instance \| null                                                                                      | `null`              |
+| Property                                                                                              | Type                                                                                                                | Default Value       |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| [clearRegisterOnInit?](./docs/api/fastify-metrics.imetricspluginoptions.clearregisteroninit.md)       | boolean                                                                                                             | `false`             |
+| [defaultMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.defaultmetrics.md)                 | [IDefaultMetricsConfig](./docs/api/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
+| [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)                             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
+| [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                                     | string                                                                                                              | `'metrics'`         |
+| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)                         | `prom-client` instance \| null                                                                                      | `null`              |
+| [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)                     | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
 
 #### Route metrics
 
-| Property                                                                                    | Type                                                                                          | Default Value                           |
-| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [enabled?](./docs/fastify-metrics.iroutemetricsconfig.enabled.md)                           | boolean \| { histogram: boolean, summary: boolean }                                           | `true`                                  |
-| [enableSummaries?](./docs/fastify-metrics.iroutemetricsconfig.enablesummaries.md)           | boolean                                                                                       | `true`                                  |
-| [groupStatusCodes?](./docs/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)         | boolean                                                                                       | `false`                                 |
-| [invalidRouteGroup?](./docs/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)       | string                                                                                        | `'__unknown__'`                         |
-| [methodBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.methodblacklist.md)           | readonly string\[\]                                                                           | `['HEAD','OPTIONS','TRACE','CONNECT',]` |
-| [overrides?](./docs/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/fastify-metrics.iroutemetricsoverrides.md)                    |                                         |
-| [registeredRoutesOnly?](./docs/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                                       | `true`                                  |
-| [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)                      | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | `undefined`                             |
-| [routeBlacklist?](./docs/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly (string \| RegExp)\[\]                                                               | `[]`                                    |
+| Property                                                                                           | Type                                                                                          | Default Value                           |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [enabled?](./docs/api/fastify-metrics.iroutemetricsconfig.enabled.md)                              | boolean \| { histogram: boolean, summary: boolean }                                           | `true`                                  |
+| [groupStatusCodes?](./docs/api/fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)            | boolean                                                                                       | `false`                                 |
+| [invalidRouteGroup?](./docs/api/fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)          | string                                                                                        | `'__unknown__'`                         |
+| [methodBlacklist?](./docs/api/fastify-metrics.iroutemetricsconfig.methodblacklist.md)              | readonly string\[\]                                                                           | `['HEAD','OPTIONS','TRACE','CONNECT']`  |
+| [customLabels?](./docs/api/fastify-metrics.iroutemetricsconfig.customlabels.md)                    | Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt; | `undefined`                             |
+| [overrides?](./docs/api/fastify-metrics.iroutemetricsconfig.overrides.md)                          | [IRouteMetricsOverrides](./docs/api/fastify-metrics.iroutemetricsoverrides.md)                |                                         |
+| [registeredRoutesOnly?](./docs/api/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md)    | boolean                                                                                       | `true`                                  |
+| [routeBlacklist?](./docs/api/fastify-metrics.iroutemetricsconfig.routeblacklist.md)                | readonly (string \| RegExp)\[\]                                                               | `undefined`                             |
 
-#### Route metrics enabled
+##### Route metrics enabled
 
 The `enabled` configuration option can be either a boolean which enables/disables generation of both histograms and summaries, or it can be set to an object that allows you to pick individually whether you want histograms or summaries to be generated, for example:
 
@@ -196,12 +211,12 @@ await app.register(metricsPlugin, {
 
 ###### Labels
 
-| Property                                                                   | Type                                   | Default value   |
-| -------------------------------------------------------------------------- | -------------------------------------- | --------------- |
-| [getRouteLabel?](./fastify-metrics.iroutelabelsoverrides.getroutelabel.md) | (request: FastifyRequest) =&gt; string | `undefined`     |
-| [method?](./docs/fastify-metrics.iroutelabelsoverrides.method.md)          | string                                 | `'method'`      |
-| [route?](./docs/fastify-metrics.iroutelabelsoverrides.route.md)            | string                                 | `'route'`       |
-| [status?](./docs/fastify-metrics.iroutelabelsoverrides.status.md)          | string                                 | `'status_code'` |
+| Property                                                                              | Type                                   | Default value   |
+| ------------------------------------------------------------------------------------- | -------------------------------------- | --------------- |
+| [getRouteLabel?](./docs/api/fastify-metrics.iroutelabelsoverrides.getroutelabel.md)  | (request: FastifyRequest) =&gt; string | `undefined`     |
+| [method?](./docs/api/fastify-metrics.iroutelabelsoverrides.method.md)                | string                                 | `'method'`      |
+| [route?](./docs/api/fastify-metrics.iroutelabelsoverrides.route.md)                  | string                                 | `'route'`       |
+| [status?](./docs/api/fastify-metrics.iroutelabelsoverrides.status.md)                | string                                 | `'status_code'` |
 
 ###### Request durations summary
 

@@ -9,7 +9,7 @@ Route metrics overrides.
 **Signature:**
 
 ```typescript
-export interface IRouteMetricsOverrides
+export interface IRouteMetricsOverrides 
 ```
 
 ## Properties
@@ -18,62 +18,79 @@ export interface IRouteMetricsOverrides
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [histogram?](./fastify-metrics.iroutemetricsoverrides.histogram.md)
 
+
 </td><td>
+
 
 </td><td>
 
 [IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)
 
+
 </td><td>
 
 _(Optional)_ Histogram overrides
+
 
 </td></tr>
 <tr><td>
 
 [labels?](./fastify-metrics.iroutemetricsoverrides.labels.md)
 
+
 </td><td>
+
 
 </td><td>
 
 [IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md)
 
+
 </td><td>
 
 _(Optional)_ Label Overrides
+
 
 </td></tr>
 <tr><td>
 
 [summary?](./fastify-metrics.iroutemetricsoverrides.summary.md)
 
+
 </td><td>
+
 
 </td><td>
 
 [ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)
 
+
 </td><td>
 
 _(Optional)_ Summary overrides
 
+
 </td></tr>
 </tbody></table>
+

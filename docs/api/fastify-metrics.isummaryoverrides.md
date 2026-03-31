@@ -9,9 +9,8 @@ Request time summary config overrides
 **Signature:**
 
 ```typescript
-export interface ISummaryOverrides extends Partial<SummaryConfiguration<string>>
+export interface ISummaryOverrides extends Partial<SummaryConfiguration<string>> 
 ```
-
 **Extends:** Partial&lt;SummaryConfiguration&lt;string&gt;&gt;
 
 ## Properties
@@ -20,62 +19,79 @@ export interface ISummaryOverrides extends Partial<SummaryConfiguration<string>>
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [help?](./fastify-metrics.isummaryoverrides.help.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Request duration summary help override
+
 
 </td></tr>
 <tr><td>
 
 [name?](./fastify-metrics.isummaryoverrides.name.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Request duration summary name override
+
 
 </td></tr>
 <tr><td>
 
 [percentiles?](./fastify-metrics.isummaryoverrides.percentiles.md)
 
+
 </td><td>
+
 
 </td><td>
 
 number\[\]
 
+
 </td><td>
 
 _(Optional)_ Request duration percentiles override
 
+
 </td></tr>
 </tbody></table>
+

@@ -27,7 +27,7 @@
     "lib": "src",
     "doc": "docs",
     "example": "examples",
-    "test": "src/__tests__"
+    "test": "test"
   },
   "scripts": {
     "build": "pnpm run build:node && pnpm run build:docs && pnpm run build:format",
@@ -40,8 +40,8 @@
     "lint:types": "tsc -p tsconfig.json",
     "release": "semantic-release",
     "test": "pnpm run lint && pnpm run test:unit",
-    "test:unit": "node --no-warnings --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test src/__tests__/** --test-coverage-exclude=src/__tests__/**",
-    "test:unit:local": "node --no-warnings --import tsx --experimental-test-coverage --test src/__tests__/** --test-coverage-exclude=src/__tests__/**"
+    "test:unit": "node --no-warnings --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test test/** --test-coverage-exclude=test/**",
+    "test:unit:local": "node --no-warnings --import tsx --experimental-test-coverage --test test/** --test-coverage-exclude=test/**"
   },
   "dependencies": {
     "fastify-plugin": "^5.0.0",

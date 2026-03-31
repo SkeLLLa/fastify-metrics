@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { register } from 'prom-client';
-import fastifyPlugin from '../';
+import fastifyPlugin from '../src/index.js';
 
 void describe('exports', () => {
   void it('fastify plugin exported', async () => {
@@ -47,6 +47,50 @@ void describe('plugin', () => {
       assert.notStrictEqual(app.foo, undefined);
       // @ts-expect-error accessing dynamic property
       assert.notStrictEqual(app.foo.client, undefined);
+    });
+  });
+
+  void describe('default options end-to-end', () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      register.clear();
+      await app.close();
+    });
+
+    void it('collects default and route metrics with no options', async () => {
+      app = fastify();
+      await app.register(fastifyPlugin);
+      app.get('/test', async () => 'get test');
+      await app.ready();
+
+      await app.inject({ method: 'GET', url: '/test' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+
+      const lines = metrics.payload.split('\n');
+
+      assert.ok(
+        lines.some((l) => l.includes('process_cpu_user_seconds_total')),
+        'Should contain default process metrics',
+      );
+      assert.ok(
+        lines.some((l) =>
+          l.includes(
+            'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"}',
+          ),
+        ),
+        'Should contain route histogram metrics',
+      );
+      assert.ok(
+        lines.some((l) =>
+          l.includes(
+            'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"}',
+          ),
+        ),
+        'Should contain route summary metrics',
+      );
     });
   });
 });

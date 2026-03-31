@@ -9,7 +9,7 @@
     "dist/**/*",
     "coverage/**/*",
     "node_modules/**/*",
-    "src/**/__tests__/**/*.ts"
+    "test/**/*.ts"
   ],
   "extends": "./tsconfig.json",
   "include": ["src/**/*"],

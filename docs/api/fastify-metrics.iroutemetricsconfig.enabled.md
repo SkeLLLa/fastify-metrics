@@ -4,6 +4,8 @@
 
 ## IRouteMetricsConfig.enabled property
 
+Enables or disables route metrics collection. Can be a boolean to enable/disable both histogram and summary, or an object to control each independently.
+
 **Signature:**
 
 ```typescript

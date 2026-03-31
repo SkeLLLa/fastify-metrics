@@ -10,18 +10,23 @@
 
 Package
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [fastify-metrics](./fastify-metrics.md)
 
+
 </td><td>
 
 Prometheus metrics exporter for Fastify. Based on [prom-client](https://github.com/siimon/prom-client)<!-- -->. Also by default it adds fastify route response time metrics (histogram and summary).
 
+
 </td></tr>
 </tbody></table>
+

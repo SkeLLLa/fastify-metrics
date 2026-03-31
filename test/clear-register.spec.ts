@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { Counter, register } from 'prom-client';
-import fastifyPlugin from '../';
+import fastifyPlugin from '../src/index.js';
 
 void describe('default metrics', () => {
   afterEach(() => {

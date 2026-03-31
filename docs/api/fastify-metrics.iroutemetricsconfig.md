@@ -9,7 +9,7 @@ Route metrics configuration
 **Signature:**
 
 ```typescript
-export interface IRouteMetricsConfig
+export interface IRouteMetricsConfig 
 ```
 
 ## Properties
@@ -18,137 +18,174 @@ export interface IRouteMetricsConfig
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [customLabels?](./fastify-metrics.iroutemetricsconfig.customlabels.md)
 
+
 </td><td>
+
 
 </td><td>
 
 Record&lt;string, string \| ((request: FastifyRequest, reply: FastifyReply) =&gt; string)&gt;
 
+
 </td><td>
 
 _(Optional)_ Custom labels to add to metrics
+
 
 </td></tr>
 <tr><td>
 
 [enabled?](./fastify-metrics.iroutemetricsconfig.enabled.md)
 
+
 </td><td>
+
 
 </td><td>
 
 boolean \| { histogram?: boolean; summary?: boolean; }
 
+
 </td><td>
 
-_(Optional)_
+_(Optional)_ Enables or disables route metrics collection. Can be a boolean to enable/disable both histogram and summary, or an object to control each independently.
+
 
 </td></tr>
 <tr><td>
 
 [groupStatusCodes?](./fastify-metrics.iroutemetricsconfig.groupstatuscodes.md)
 
+
 </td><td>
+
 
 </td><td>
 
 boolean
 
+
 </td><td>
 
 _(Optional)_ Groups status code labels by first digit 200 becomes 2XX in metrics.
+
 
 </td></tr>
 <tr><td>
 
 [invalidRouteGroup?](./fastify-metrics.iroutemetricsconfig.invalidroutegroup.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Unknown route label. If registeredRoutesOnly routes set to `false` unknown routes will have following url.
+
 
 </td></tr>
 <tr><td>
 
 [methodBlacklist?](./fastify-metrics.iroutemetricsconfig.methodblacklist.md)
 
+
 </td><td>
+
 
 </td><td>
 
 readonly HTTPMethods\[\]
 
+
 </td><td>
 
 _(Optional)_ A list of HTTP methods that will be excluded from metrics collection
+
 
 </td></tr>
 <tr><td>
 
 [overrides?](./fastify-metrics.iroutemetricsconfig.overrides.md)
 
+
 </td><td>
+
 
 </td><td>
 
 [IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)
 
+
 </td><td>
 
 _(Optional)_ Metric configuration overrides
+
 
 </td></tr>
 <tr><td>
 
 [registeredRoutesOnly?](./fastify-metrics.iroutemetricsconfig.registeredroutesonly.md)
 
+
 </td><td>
+
 
 </td><td>
 
 boolean
 
+
 </td><td>
 
 _(Optional)_ Collect metrics only for registered routes. If `false`<!-- -->, then metrics for unknown routes `/unknown-unregistered-route` will be collected as well.
+
 
 </td></tr>
 <tr><td>
 
 [routeBlacklist?](./fastify-metrics.iroutemetricsconfig.routeblacklist.md)
 
+
 </td><td>
+
 
 </td><td>
 
 readonly (string \| RegExp)\[\]
 
+
 </td><td>
 
 _(Optional)_ A list of routes that will be excluded from metrics collection.
 
+
 </td></tr>
 </tbody></table>
+

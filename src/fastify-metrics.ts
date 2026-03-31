@@ -37,6 +37,8 @@ interface IRouteMetrics {
   labelNames: { method: string; status: string; route: string };
 }
 
+const STATUS_GROUPS = ['', '1xx', '2xx', '3xx', '4xx', '5xx'] as const;
+
 export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   name: 'metrics',
   endpoint: '/metrics',
@@ -56,21 +58,27 @@ export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
  * @public
  */
 export class FastifyMetrics implements IFastifyMetrics {
-  private static getRouteSlug(args: { method: string; url: string }): string {
-    return `[${args.method}] ${args.url}`;
-  }
-
   private readonly metricStorage = new WeakMap<
     FastifyRequest,
     IReqMetrics<string>
   >();
-  private readonly routesWhitelist = new Set<string>();
+  private readonly routesWhitelist = new Map<string, Set<string>>();
   private readonly methodBlacklist = new Set<string>();
 
   private routeMetrics?: IRouteMetrics;
   private readonly options: IMetricsPluginOptions;
   private readonly routeFallback: string;
   private readonly getRouteLabel: (request: FastifyRequest) => string;
+
+  private readonly registeredRoutesOnly: boolean;
+  private readonly groupStatusCodes: boolean;
+  private readonly hasCustomLabels: boolean;
+  private readonly customLabelEntries: readonly [
+    string,
+    string | ((request: FastifyRequest, reply: FastifyReply) => string),
+  ][];
+
+  private createTimers: (request: FastifyRequest) => void;
 
   /** Prom-client instance. */
   public readonly client: typeof promClient;
@@ -85,6 +93,14 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.routeFallback =
       this.options.routeMetrics.invalidRouteGroup ?? '__unknown__';
 
+    this.registeredRoutesOnly =
+      this.options.routeMetrics.registeredRoutesOnly !== false;
+    this.groupStatusCodes = this.options.routeMetrics.groupStatusCodes === true;
+
+    const customLabels = this.options.routeMetrics.customLabels;
+    this.customLabelEntries = customLabels ? Object.entries(customLabels) : [];
+    this.hasCustomLabels = this.customLabelEntries.length > 0;
+
     // Setup route label getter
     const defaultGetRouteLabel = (request: FastifyRequest): string =>
       request.routeOptions.config.statsId ??
@@ -93,6 +109,9 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.getRouteLabel =
       this.options.routeMetrics.overrides?.labels?.getRouteLabel ??
       defaultGetRouteLabel;
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.createTimers = () => {};
 
     this.setMethodBlacklist();
     this.setRouteWhitelist();
@@ -103,11 +122,13 @@ export class FastifyMetrics implements IFastifyMetrics {
 
     if (!(this.options.routeMetrics.enabled === false)) {
       this.routeMetrics = this.registerRouteMetrics();
+      this.buildTimerStrategy();
       this.collectRouteMetrics();
     }
 
     this.exposeMetrics();
   }
+
   /** Populates methods blacklist to exclude them from metrics collection */
   private setMethodBlacklist(): void {
     if (this.options.routeMetrics.enabled === false) {
@@ -126,7 +147,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       .forEach((v) => this.methodBlacklist.add(v));
   }
 
-  /** Populates routes whitelist if */
+  /** Populates routes whitelist */
   private setRouteWhitelist(): void {
     if (
       this.options.routeMetrics.enabled === false ||
@@ -136,13 +157,6 @@ export class FastifyMetrics implements IFastifyMetrics {
     }
 
     this.deps.fastify.addHook('onRoute', (routeOptions) => {
-      // routeOptions.method;
-      // routeOptions.schema;
-      // routeOptions.url; // the complete URL of the route, it will include the prefix if any
-      // routeOptions.path; // `url` alias
-      // routeOptions.routePath; // the URL of the route without the prefix
-      // routeOptions.prefix;
-
       const isRouteBlacklisted = this.options.routeMetrics.routeBlacklist?.some(
         (pattern) =>
           typeof pattern === 'string'
@@ -155,12 +169,12 @@ export class FastifyMetrics implements IFastifyMetrics {
 
       [routeOptions.method].flat().forEach((method) => {
         if (!this.methodBlacklist.has(method)) {
-          this.routesWhitelist.add(
-            FastifyMetrics.getRouteSlug({
-              method,
-              url: routeOptions.url,
-            }),
-          );
+          let urlSet = this.routesWhitelist.get(method);
+          if (!urlSet) {
+            urlSet = new Set<string>();
+            this.routesWhitelist.set(method, urlSet);
+          }
+          urlSet.add(routeOptions.url);
         }
       });
     });
@@ -297,125 +311,131 @@ export class FastifyMetrics implements IFastifyMetrics {
   }
 
   /**
-   * Create timers for histogram and summary based on enabled configuration
-   * option
+   * Build a pre-computed timer strategy function based on enabled configuration.
    */
-  private createTimers(request: FastifyRequest): void {
-    if (
-      this.routeMetrics &&
-      this.options.routeMetrics.enabled instanceof Object
-    ) {
-      this.metricStorage.set(request, {
-        ...(this.options.routeMetrics.enabled.histogram === false
-          ? {}
-          : { hist: this.routeMetrics.routeHist.startTimer() }),
-        // hist: !(this.options.routeMetrics.enabled.histogram === false)
-        //   ? this.routeMetrics.routeHist.startTimer()
-        //   : undefined,
-        ...(this.options.routeMetrics.enabled.summary === false
-          ? {}
-          : {
-              sum: this.routeMetrics.routeSum.startTimer(),
-            }),
-        // sum: !(this.options.routeMetrics.enabled.summary === false)
-        //   ? this.routeMetrics.routeSum.startTimer()
-        //   : undefined,
-      });
-      return;
-    }
+  private buildTimerStrategy(): void {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const routeMetrics = this.routeMetrics!;
+    const enabled = this.options.routeMetrics.enabled;
 
-    if (this.routeMetrics && !(this.options.routeMetrics.enabled === false)) {
-      this.metricStorage.set(request, {
-        hist: this.routeMetrics.routeHist.startTimer(),
-        sum: this.routeMetrics.routeSum.startTimer(),
-      });
+    if (enabled instanceof Object) {
+      const useHist = enabled.histogram !== false;
+      const useSum = enabled.summary !== false;
+
+      if (useHist && useSum) {
+        this.createTimers = (request) => {
+          this.metricStorage.set(request, {
+            hist: routeMetrics.routeHist.startTimer(),
+            sum: routeMetrics.routeSum.startTimer(),
+          });
+        };
+      } else if (useHist) {
+        this.createTimers = (request) => {
+          this.metricStorage.set(request, {
+            hist: routeMetrics.routeHist.startTimer(),
+          });
+        };
+      } else if (useSum) {
+        this.createTimers = (request) => {
+          this.metricStorage.set(request, {
+            sum: routeMetrics.routeSum.startTimer(),
+          });
+        };
+      } else {
+        this.createTimers = (request) => {
+          this.metricStorage.set(request, {});
+        };
+      }
+    } else {
+      this.createTimers = (request) => {
+        this.metricStorage.set(request, {
+          hist: routeMetrics.routeHist.startTimer(),
+          sum: routeMetrics.routeSum.startTimer(),
+        });
+      };
     }
-    return;
+  }
+
+  /** Check if route is in whitelist */
+  private isRouteWhitelisted(method: string, url: string): boolean {
+    return this.routesWhitelist.get(method)?.has(url) ?? false;
   }
 
   /** Collect per-route metrics */
   private collectRouteMetrics(): void {
-    if (this.routeMetrics !== undefined) {
-      this.deps.fastify
-        .addHook('onRequest', (request, _, done) => {
-          if (
-            request.routeOptions.config.disableMetrics === true ||
-            !request.raw.url
-          ) {
-            done();
-            return;
-          }
+    if (this.routeMetrics === undefined) {
+      return;
+    }
 
-          if (this.options.routeMetrics.registeredRoutesOnly === false) {
-            if (!this.methodBlacklist.has(request.routeOptions.method)) {
-              this.createTimers(request);
-            }
+    // Cache label name keys in closure scope
+    const methodKey = this.routeMetrics.labelNames.method;
+    const routeKey = this.routeMetrics.labelNames.route;
+    const statusKey = this.routeMetrics.labelNames.status;
 
-            done();
-            return;
-          }
+    this.deps.fastify
+      .addHook('onRequest', (request, _, done) => {
+        if (
+          request.routeOptions.config.disableMetrics === true ||
+          !request.raw.url
+        ) {
+          done();
+          return;
+        }
 
-          if (
-            this.routesWhitelist.has(
-              FastifyMetrics.getRouteSlug({
-                method: request.routeOptions.method,
-                // use actual url when config url is empty
-                url: request.routeOptions.url ?? request.url,
-              }),
-            )
-          ) {
+        if (!this.registeredRoutesOnly) {
+          if (!this.methodBlacklist.has(request.method)) {
             this.createTimers(request);
           }
 
           done();
-        })
-        .addHook('onResponse', (request, reply, done) => {
-          const metrics = this.metricStorage.get(request);
-          if (!metrics) {
-            done();
-            return;
-          }
+          return;
+        }
 
-          const statusCode =
-            this.options.routeMetrics.groupStatusCodes === true
-              ? `${Math.floor(reply.statusCode / 100).toString()}xx`
-              : reply.statusCode;
-          const route = this.getRouteLabel(request);
-          const method = request.method;
+        if (
+          this.isRouteWhitelisted(
+            request.method,
+            request.routeOptions.url ?? request.url,
+          )
+        ) {
+          this.createTimers(request);
+        }
 
-          const labels = {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            [this.routeMetrics!.labelNames.method]: method,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            [this.routeMetrics!.labelNames.route]: route,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            [this.routeMetrics!.labelNames.status]: statusCode,
-            ...this.collectCustomLabels(request, reply),
-          };
-
-          if (metrics.hist) metrics.hist(labels);
-          if (metrics.sum) metrics.sum(labels);
-
+        done();
+      })
+      .addHook('onResponse', (request, reply, done) => {
+        const metrics = this.metricStorage.get(request);
+        if (!metrics) {
           done();
-        });
-    }
-  }
+          return;
+        }
 
-  /** Get custom labels for route metrics */
-  private collectCustomLabels(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Record<string, string> {
-    const customLabels = this.options.routeMetrics.customLabels ?? {};
-    const labels: Record<string, string> = {};
-    for (const [labelName, labelValue] of Object.entries(customLabels)) {
-      if (typeof labelValue === 'function') {
-        labels[labelName] = labelValue(request, reply);
-      } else {
-        labels[labelName] = labelValue;
-      }
-    }
-    return labels;
+        const statusCode = this.groupStatusCodes
+          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            STATUS_GROUPS[Math.floor(reply.statusCode / 100)]!
+          : reply.statusCode;
+        const route = this.getRouteLabel(request);
+        const method = request.method;
+
+        const labels: Record<string, string | number> = {
+          [methodKey]: method,
+          [routeKey]: route,
+          [statusKey]: statusCode,
+        };
+
+        if (this.hasCustomLabels) {
+          for (const [labelName, labelValue] of this.customLabelEntries) {
+            labels[labelName] =
+              typeof labelValue === 'function'
+                ? labelValue(request, reply)
+                : labelValue;
+          }
+        }
+
+        if (metrics.hist) metrics.hist(labels);
+        if (metrics.sum) metrics.sum(labels);
+
+        done();
+      });
   }
 
   /**
