@@ -14,9 +14,11 @@ node -e "
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 pkg.packageManager = 'pnpm@' + '$PNPM_VERSION';
+const nodeMajor = '$NODE_VERSION'.split('.')[0];
+const pnpmMajor = '$PNPM_VERSION'.split('.')[0];
 pkg.devEngines = {
-  runtime: { name: 'node', version: '$NODE_VERSION' },
-  packageManager: { name: 'pnpm', version: '$PNPM_VERSION' }
+  runtime: { name: 'node', version: '>=' + nodeMajor },
+  packageManager: { name: 'pnpm', version: '>=' + pnpmMajor }
 };
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\\n');
 "
