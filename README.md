@@ -267,6 +267,10 @@ See [changelog](docs/CHANGELOG.md).
 
 <sub>[Back to top](#toc)</sub>
 
+## Support Ukraine
+
+If you find this project useful, please consider [supporting Ukraine's defense](./SPONSOR.md).
+
 ## License
 
 Licensed under [MIT](./LICENSE).
