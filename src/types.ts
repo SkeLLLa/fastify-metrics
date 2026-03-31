@@ -71,7 +71,7 @@ export interface ISummaryOverrides extends Partial<
   percentiles?: number[];
 }
 
-/** @public Request time histofram config overrides */
+/** @public Request time histogram config overrides */
 export interface IHistogramOverrides extends Partial<
   HistogramConfiguration<string>
 > {

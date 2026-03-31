@@ -101,7 +101,7 @@ void describe('default metrics', () => {
     });
   });
 
-  void describe('{ enabled = true; endoint = null }', () => {
+  void describe('{ enabled = true; endpoint = null }', () => {
     let app = fastify();
 
     beforeEach(async () => {

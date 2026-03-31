@@ -258,7 +258,7 @@ void describe('route metrics', () => {
       await app.ready();
     });
 
-    void it('metrics exposed for unknwon routes with custom name', async () => {
+    void it('metrics exposed for unknown routes with custom name', async () => {
       await app.inject({ method: 'GET', url: '/unknown' });
       await app.inject({ method: 'POST', url: '/test' });
 
