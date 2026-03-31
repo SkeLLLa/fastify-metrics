@@ -112,6 +112,8 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm build
+      - name: Update npm
+        run: pnpm install -g npm@latest
       - name: Semantic Release
         run: pnpm run release
         env:
