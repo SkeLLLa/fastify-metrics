@@ -84,10 +84,6 @@
     "runtime": {
       "name": "node",
       "version": ">=20"
-    },
-    "packageManager": {
-      "name": "pnpm",
-      "version": ">=10"
     }
   },
   "publishConfig": {
