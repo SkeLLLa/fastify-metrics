@@ -12,110 +12,90 @@ Prometheus metrics exporter for Fastify. Based on [prom-client](https://github.c
 
 Interface
 
-
 </th><th>
 
 Description
-
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [IDefaultMetricsConfig](./fastify-metrics.idefaultmetricsconfig.md)
 
-
 </td><td>
 
 Default prom-client metrics config
-
 
 </td></tr>
 <tr><td>
 
 [IFastifyMetrics](./fastify-metrics.ifastifymetrics.md)
 
-
 </td><td>
 
 Plugin decorator
-
 
 </td></tr>
 <tr><td>
 
 [IHistogramOverrides](./fastify-metrics.ihistogramoverrides.md)
 
-
 </td><td>
 
-Request time histofram config overrides
-
+Request time histogram config overrides
 
 </td></tr>
 <tr><td>
 
 [IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)
 
-
 </td><td>
 
 Metrics plugin config
-
 
 </td></tr>
 <tr><td>
 
 [IMetricsRouteContextConfig](./fastify-metrics.imetricsroutecontextconfig.md)
 
-
 </td><td>
 
 Route config for metrics
-
 
 </td></tr>
 <tr><td>
 
 [IRouteLabelsOverrides](./fastify-metrics.iroutelabelsoverrides.md)
 
-
 </td><td>
 
 Label Overrides
-
 
 </td></tr>
 <tr><td>
 
 [IRouteMetricsConfig](./fastify-metrics.iroutemetricsconfig.md)
 
-
 </td><td>
 
 Route metrics configuration
-
 
 </td></tr>
 <tr><td>
 
 [IRouteMetricsOverrides](./fastify-metrics.iroutemetricsoverrides.md)
 
-
 </td><td>
 
 Route metrics overrides.
-
 
 </td></tr>
 <tr><td>
 
 [ISummaryOverrides](./fastify-metrics.isummaryoverrides.md)
 
-
 </td><td>
 
 Request time summary config overrides
-
 
 </td></tr>
 </tbody></table>
@@ -126,23 +106,18 @@ Request time summary config overrides
 
 Variable
 
-
 </th><th>
 
 Description
-
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [\_default](./fastify-metrics._default.md)
 
-
 </td><td>
 
 Metric plugin
 
-
 </td></tr>
 </tbody></table>
-

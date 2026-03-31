@@ -1,3 +1,37 @@
+## [13.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v12.1.0...v13.0.0) (2026-03-31)
+
+### ⚠ BREAKING CHANGES
+
+* minimum supported Node.js version is now 20.
+
+### 🛠 Fixes
+
+* more typos ([1a62f2c](https://github.com/SkeLLLa/fastify-metrics/commit/1a62f2ce985643357347a21386f593747f01a71c))
+* resolve lint errors from stricter lint-config rules ([cfa0471](https://github.com/SkeLLLa/fastify-metrics/commit/cfa0471f24ecfe0eb9b165ab216902b5ab6dac82))
+* review dog-friendly package manager ([9bd91ec](https://github.com/SkeLLLa/fastify-metrics/commit/9bd91ec7ba5760c15f4f4ae8c30135d87aeebaed))
+* **ci:** codecov and provenance ([c48e4d8](https://github.com/SkeLLLa/fastify-metrics/commit/c48e4d8a9131ac41b8a1ff1401f60351ea77a1d1))
+* **ci:** update codeql-action to v3 ([8060375](https://github.com/SkeLLLa/fastify-metrics/commit/8060375e854c92c99446eed56388f97f1f1654ed))
+
+### 📔 Docs
+
+* add support page ([1c150c3](https://github.com/SkeLLLa/fastify-metrics/commit/1c150c3f0efc33e479fd584cef719e22ee9acb28))
+
+### 🚀 Features
+
+* add pnpm workspace trust policy ([36ce59c](https://github.com/SkeLLLa/fastify-metrics/commit/36ce59cb9f8789c15d6385ace6b99e24e9bc6b3b))
+* enable npm trusted publishing with provenance ([aabc5bd](https://github.com/SkeLLLa/fastify-metrics/commit/aabc5bde4ba61f6f247b88db31aad555c5230e0e))
+* migrate all tests from jest to node:test ([1a935e2](https://github.com/SkeLLLa/fastify-metrics/commit/1a935e2f8a9017cc40329d10973cc331b7911c2c))
+* minor perf improvements and tests ([cfc9f21](https://github.com/SkeLLLa/fastify-metrics/commit/cfc9f211d1cda7c34c8736e0d8843b62b3687b08))
+* replace jest with node native test runner ([1d1518f](https://github.com/SkeLLLa/fastify-metrics/commit/1d1518f72ab761b1dd92558c0734ec7496eb46f6))
+* replace volta with mise for version management ([7161f80](https://github.com/SkeLLLa/fastify-metrics/commit/7161f803837cc42099bb2c284f92a206815ebbe3))
+* switch to @skellla/lint-config for eslint and prettier ([ef5a2ce](https://github.com/SkeLLLa/fastify-metrics/commit/ef5a2ce5da9612fa07a1c6aded0991cd9e750085))
+* drop node 18 support ([c47b037](https://github.com/SkeLLLa/fastify-metrics/commit/c47b037f9e7ba4507bf9ba615a2468b691ed4b3d))
+* **ci:** add dependabot for weekly dependency updates ([f71be14](https://github.com/SkeLLLa/fastify-metrics/commit/f71be14e29638049e66317ec7499d25d10f7d22c))
+* **ci:** add OSV vulnerability scanner workflows ([08ae3ce](https://github.com/SkeLLLa/fastify-metrics/commit/08ae3ce5c951ed2cfd76b4a40a0b48001749d221))
+* **ci:** modernize release workflow - trusted publishing, osv gate ([e3c61e7](https://github.com/SkeLLLa/fastify-metrics/commit/e3c61e774fdbb4c59a91da591604d9e67e49496a))
+* **ci:** modernize verify workflow - node 24, pnpm 10, codecov oidc ([a11862a](https://github.com/SkeLLLa/fastify-metrics/commit/a11862a6fa4146013a43befe92f4d82d5a39b240))
+* **deps:** overhaul dependencies - add lint-config, update all packages ([0645c30](https://github.com/SkeLLLa/fastify-metrics/commit/0645c3088e36153bc1409b9ab98f0783135bd6f0))
+
 ## [12.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v12.0.0...v12.1.0) (2024-09-20)
 
 ### 🛠 Fixes
