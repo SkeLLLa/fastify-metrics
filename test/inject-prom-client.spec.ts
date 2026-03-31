@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import type promClient from 'prom-client';
-import fastifyPlugin from '../';
+import fastifyPlugin from '../src/index.js';
 
 void describe('metrics plugin', () => {
   let app = fastify();

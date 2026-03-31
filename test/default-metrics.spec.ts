@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
 import { register, Registry } from 'prom-client';
-import fastifyPlugin from '../';
+import fastifyPlugin from '../src/index.js';
 
 /** Helper: assert that at least one line matches a regex */
 function assertLineMatches(lines: string[], regex: RegExp): void {

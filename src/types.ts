@@ -157,6 +157,13 @@ export interface IRouteMetricsOverrides {
  * @public
  */
 export interface IRouteMetricsConfig {
+  /**
+   * Enables or disables route metrics collection. Can be a boolean to
+   * enable/disable both histogram and summary, or an object to control each
+   * independently.
+   *
+   * @defaultValue `true`
+   */
   enabled?:
     | boolean
     | {

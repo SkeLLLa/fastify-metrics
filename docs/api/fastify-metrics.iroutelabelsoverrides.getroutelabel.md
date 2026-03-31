@@ -19,3 +19,4 @@ To use route full url as label:
 ```ts
 getRouteLabel: (request) => request.raw.url;
 ```
+

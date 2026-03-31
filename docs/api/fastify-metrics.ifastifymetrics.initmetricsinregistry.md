@@ -11,7 +11,7 @@ Initialize metrics in registries. Useful if you call `registry.clear()` to regis
 ```typescript
 initMetricsInRegistry(): void;
 ```
-
 **Returns:**
 
 void
+

@@ -4,18 +4,18 @@
 
 ```ts
 
-import client from 'prom-client';
-import { DefaultMetricsCollectorConfiguration } from 'prom-client';
+import type client from 'prom-client';
+import type { DefaultMetricsCollectorConfiguration } from 'prom-client';
 import { FastifyBaseLogger } from 'fastify';
 import { FastifyPluginCallback } from 'fastify';
-import { FastifyReply } from 'fastify';
-import { FastifyRequest } from 'fastify';
+import type { FastifyReply } from 'fastify';
+import type { FastifyRequest } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
-import { HistogramConfiguration } from 'prom-client';
-import { HTTPMethods } from 'fastify';
+import type { HistogramConfiguration } from 'prom-client';
+import type { HTTPMethods } from 'fastify';
 import { RawServerDefault } from 'fastify';
-import { RouteOptions } from 'fastify';
-import { SummaryConfiguration } from 'prom-client';
+import type { RouteOptions } from 'fastify';
+import type { SummaryConfiguration } from 'prom-client';
 
 // @public
 const _default: FastifyPluginCallback<Partial<IMetricsPluginOptions>, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger>;
@@ -66,7 +66,6 @@ export interface IRouteLabelsOverrides {
 // @public
 export interface IRouteMetricsConfig {
     customLabels?: Record<string, string | ((request: FastifyRequest, reply: FastifyReply) => string)>;
-    // (undocumented)
     enabled?: boolean | {
         histogram?: boolean;
         summary?: boolean;

@@ -75,6 +75,6 @@ const metricsPlugin = require('../');
     await Promise.all([app.listen({ port: 3333 }), app.ready()]);
   } catch (ex) {
     app.log.error('Fatal error', ex.message, ex.stack);
-    process.extest(1);
+    process.exit(1);
   }
 })();

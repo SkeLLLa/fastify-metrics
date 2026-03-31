@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { after, before, describe, it } from 'node:test';
 import { fastify, type RouteOptions } from 'fastify';
 import { register } from 'prom-client';
-import fastifyPlugin from '../';
+import fastifyPlugin from '../src/index.js';
 
 void describe('endpoint as object', () => {
   const app = fastify();

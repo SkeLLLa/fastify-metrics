@@ -9,9 +9,8 @@ Request time histofram config overrides
 **Signature:**
 
 ```typescript
-export interface IHistogramOverrides extends Partial<HistogramConfiguration<string>>
+export interface IHistogramOverrides extends Partial<HistogramConfiguration<string>> 
 ```
-
 **Extends:** Partial&lt;HistogramConfiguration&lt;string&gt;&gt;
 
 ## Properties
@@ -20,62 +19,79 @@ export interface IHistogramOverrides extends Partial<HistogramConfiguration<stri
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [buckets?](./fastify-metrics.ihistogramoverrides.buckets.md)
 
+
 </td><td>
+
 
 </td><td>
 
 number\[\]
 
+
 </td><td>
 
 _(Optional)_ Request duration buckets override
+
 
 </td></tr>
 <tr><td>
 
 [help?](./fastify-metrics.ihistogramoverrides.help.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Request duration histogram help override
+
 
 </td></tr>
 <tr><td>
 
 [name?](./fastify-metrics.ihistogramoverrides.name.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Request duration histogram name override
 
+
 </td></tr>
 </tbody></table>
+

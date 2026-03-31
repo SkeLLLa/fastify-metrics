@@ -9,7 +9,7 @@ Route config for metrics
 **Signature:**
 
 ```typescript
-export interface IMetricsRouteContextConfig
+export interface IMetricsRouteContextConfig 
 ```
 
 ## Properties
@@ -18,47 +18,60 @@ export interface IMetricsRouteContextConfig
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [disableMetrics?](./fastify-metrics.imetricsroutecontextconfig.disablemetrics.md)
 
+
 </td><td>
+
 
 </td><td>
 
 boolean
 
+
 </td><td>
 
 _(Optional)_ Disables metric collection on this route
+
 
 </td></tr>
 <tr><td>
 
 [statsId?](./fastify-metrics.imetricsroutecontextconfig.statsid.md)
 
+
 </td><td>
+
 
 </td><td>
 
 string
 
+
 </td><td>
 
 _(Optional)_ Override route definition
 
+
 </td></tr>
 </tbody></table>
+

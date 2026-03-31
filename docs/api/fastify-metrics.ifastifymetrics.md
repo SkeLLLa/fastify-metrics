@@ -9,7 +9,7 @@ Plugin decorator
 **Signature:**
 
 ```typescript
-export interface IFastifyMetrics
+export interface IFastifyMetrics 
 ```
 
 ## Properties
@@ -18,32 +18,40 @@ export interface IFastifyMetrics
 
 Property
 
+
 </th><th>
 
 Modifiers
+
 
 </th><th>
 
 Type
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [client](./fastify-metrics.ifastifymetrics.client.md)
 
+
 </td><td>
+
 
 </td><td>
 
 typeof client
 
+
 </td><td>
 
 Prom-client instance
+
 
 </td></tr>
 </tbody></table>
@@ -54,18 +62,23 @@ Prom-client instance
 
 Method
 
+
 </th><th>
 
 Description
+
 
 </th></tr></thead>
 <tbody><tr><td>
 
 [initMetricsInRegistry()](./fastify-metrics.ifastifymetrics.initmetricsinregistry.md)
 
+
 </td><td>
 
 Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again
 
+
 </td></tr>
 </tbody></table>
+
