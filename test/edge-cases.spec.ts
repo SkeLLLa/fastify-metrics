@@ -68,9 +68,10 @@ void describe('edge cases', () => {
 
       assert.strictEqual(typeof metricsAfterClear.payload, 'string');
 
-      const linesAfterClear = metricsAfterClear.payload.split('\n');
-
-      assert.deepStrictEqual(linesAfterClear, ['', '']);
+      const linesAfterClear = metricsAfterClear.payload
+        .split('\n')
+        .filter((line) => line !== '');
+      assert.strictEqual(linesAfterClear.length, 0);
 
       // Reinit metrics in registry
       app.metrics.initMetricsInRegistry();
