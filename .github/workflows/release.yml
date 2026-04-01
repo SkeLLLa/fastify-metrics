@@ -21,12 +21,12 @@ jobs:
     name: Verify
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         name: Install pnpm
         id: pnpm-install
         with:
@@ -35,7 +35,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         name: Setup pnpm cache
         with:
           path: ${{ env.PNPM_CACHE_DIR }}
@@ -55,7 +55,7 @@ jobs:
       - name: Test
         run: pnpm test
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           use_oidc: true
           disable_search: true
@@ -87,12 +87,12 @@ jobs:
       checks: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         name: Install pnpm
         id: pnpm-install
         with:
@@ -101,7 +101,7 @@ jobs:
         id: pnpm-cache
         run: |
           echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         name: Setup pnpm cache
         with:
           path: ${{ env.PNPM_CACHE_DIR }}
