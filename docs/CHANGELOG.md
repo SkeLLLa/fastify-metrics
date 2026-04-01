@@ -1,3 +1,15 @@
+## [13.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v13.0.0...v13.1.0) (2026-04-01)
+
+### 🚀 Features
+
+* routeBlacklist when registeredRoutesOnly: false ([5220d16](https://github.com/SkeLLLa/fastify-metrics/commit/5220d162f170316ebb721c3cdb8a161bfecdf0d6))
+
+### 🧾 Other
+
+* **ci:** dependabot groups ([9f4a80d](https://github.com/SkeLLLa/fastify-metrics/commit/9f4a80d1764b04a461605c0c15a052dd78763ff7))
+* **ci:** update actions versions ([5480cd4](https://github.com/SkeLLLa/fastify-metrics/commit/5480cd410b6035f6d3f5f9d143c0ec217be844e9))
+* **deps:** bump fastify & npm audit fixes ([6ccb006](https://github.com/SkeLLLa/fastify-metrics/commit/6ccb0069024baa65c92003fee39be14599764da3))
+
 ## [13.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v12.1.0...v13.0.0) (2026-03-31)
 
 ### ⚠ BREAKING CHANGES
