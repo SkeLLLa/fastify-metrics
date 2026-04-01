@@ -64,7 +64,7 @@ jobs:
           fail_ci_if_error: false
           verbose: true
   osv:
-    uses: 'google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.0'
+    uses: 'google/osv-scanner-action/.github/workflows/osv-scanner-reusable-pr.yml@v2.3.5'
     with:
       scan-args: |-
         ./
