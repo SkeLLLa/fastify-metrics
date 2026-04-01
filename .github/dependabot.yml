@@ -5,7 +5,28 @@ updates:
     schedule:
       interval: 'weekly'
     groups:
-      production:
+      production-major:
         dependency-type: 'production'
-      development:
-        dependency-type: 'development'
+        update-types:
+          - 'major'
+      all-minor-patch:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
+    commit-message:
+      prefix: 'fix'
+      prefix-development: 'chore'
+      include: 'scope'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    groups:
+      all-actions:
+        patterns:
+          - '*'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'

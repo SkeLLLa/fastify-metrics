@@ -1,2 +1,8 @@
-trustPolicy: no-downgrade
+strictDepBuilds: true
+onlyBuiltDependencies:
+  - esbuild
+  - unrs-resolver
 minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@skellla/lint-config'
+trustPolicy: no-downgrade

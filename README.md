@@ -6,10 +6,10 @@
 
 [![NPM Version](https://img.shields.io/npm/v/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
 [![Downloads Count](https://img.shields.io/npm/dm/fastify-metrics.svg)](https://www.npmjs.com/package/fastify-metrics)
-[![Vunerabilities Count](https://snyk.io/test/npm/fastify-metrics/badge.svg)](https://www.npmjs.com/package/fastify-metrics)
-[![Build Status](https://github.com/SkeLLLa/fastify-metrics/workflows/build/badge.svg)](https://github.com/SkeLLLa/fastify-metrics/actions)
+[![Build Status](https://github.com/SkeLLLa/fastify-metrics/workflows/release/badge.svg)](https://github.com/SkeLLLa/fastify-metrics/actions)
 [![License](https://img.shields.io/npm/l/fastify-metrics.svg)](https://gitlab.com/m03geek/fastify-metrics/blob/master/LICENSE)
 [![Codecov](https://img.shields.io/codecov/c/gh/SkeLLLa/fastify-metrics.svg)](https://codecov.io/gh/SkeLLLa/fastify-metrics)
+[![Socket Badge](https://socket.dev/api/badge/npm/package/fastify-metrics)](https://socket.dev/npm/package/fastify-metrics)
 
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 

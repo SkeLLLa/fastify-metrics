@@ -1,14 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
-    "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "noEmit": true,
-    "target": "ES2019"
+    "noEmit": true
   },
   "exclude": ["dist/**/*", "coverage/**/*", "node_modules/**/*"],
   "extends": [
