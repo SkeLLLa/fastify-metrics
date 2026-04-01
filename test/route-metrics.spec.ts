@@ -834,6 +834,106 @@ void describe('route metrics', () => {
     });
   });
 
+  void describe(`{ registeredRoutesOnly = false, routeBlacklist = ['/health'] }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          registeredRoutesOnly: false,
+          routeBlacklist: ['/health'],
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      app.get('/health', async () => {
+        return 'ok';
+      });
+      await app.ready();
+    });
+
+    void it('routeBlacklist excludes routes when registeredRoutesOnly=false', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'GET', url: '/health' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+
+      assertLinesNotContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/health",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/health",status_code="200"} 1',
+      ]);
+    });
+  });
+
+  void describe(`{ registeredRoutesOnly = false, routeBlacklist = [/^\\/health/] }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          registeredRoutesOnly: false,
+          routeBlacklist: [/^\/health/],
+        },
+      });
+      app.get('/test', async () => {
+        return 'get test';
+      });
+      app.get('/health', async () => {
+        return 'ok';
+      });
+      app.get('/healthcheck', async () => {
+        return 'ok';
+      });
+      await app.ready();
+    });
+
+    void it('routeBlacklist with regex excludes routes when registeredRoutesOnly=false', async () => {
+      await app.inject({ method: 'GET', url: '/test' });
+      await app.inject({ method: 'GET', url: '/health' });
+      await app.inject({ method: 'GET', url: '/healthcheck' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(typeof metrics.payload, 'string');
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/test",status_code="200"} 1',
+        'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
+      ]);
+
+      assert.ok(
+        !lines.some((l) => l.includes('route="/health"')),
+        'Should not contain /health',
+      );
+      assert.ok(
+        !lines.some((l) => l.includes('route="/healthcheck"')),
+        'Should not contain /healthcheck',
+      );
+    });
+  });
+
   void describe('{ overrides: { histogram: { registers: [custom] } } }', () => {
     let app = fastify();
     const customRegistry = new Registry();

@@ -157,13 +157,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     }
 
     this.deps.fastify.addHook('onRoute', (routeOptions) => {
-      const isRouteBlacklisted = this.options.routeMetrics.routeBlacklist?.some(
-        (pattern) =>
-          typeof pattern === 'string'
-            ? pattern === routeOptions.url
-            : pattern.test(routeOptions.url),
-      );
-      if (isRouteBlacklisted) {
+      if (this.isRouteBlacklisted(routeOptions.url)) {
         return;
       }
 
@@ -361,6 +355,15 @@ export class FastifyMetrics implements IFastifyMetrics {
     return this.routesWhitelist.get(method)?.has(url) ?? false;
   }
 
+  /** Check if route is in blacklist */
+  private isRouteBlacklisted(url: string): boolean {
+    return (
+      this.options.routeMetrics.routeBlacklist?.some((pattern) =>
+        typeof pattern === 'string' ? pattern === url : pattern.test(url),
+      ) ?? false
+    );
+  }
+
   /** Collect per-route metrics */
   private collectRouteMetrics(): void {
     if (this.routeMetrics === undefined) {
@@ -383,7 +386,10 @@ export class FastifyMetrics implements IFastifyMetrics {
         }
 
         if (!this.registeredRoutesOnly) {
-          if (!this.methodBlacklist.has(request.method)) {
+          if (
+            !this.methodBlacklist.has(request.method) &&
+            !this.isRouteBlacklisted(request.routeOptions.url ?? request.url)
+          ) {
             this.createTimers(request);
           }
 
