@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@platformatic/prom-client':
+        specifier: ^1.0.0
+        version: 1.0.0
       fastify-plugin:
         specifier: ^5.1.0
         version: 5.1.0
@@ -494,6 +497,10 @@ packages:
   '@pkgr/core@0.2.9':
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@platformatic/prom-client@1.0.0':
+    resolution: {integrity: sha512-O7NfmdBWAm1QJ0LMrtcyCSgWmA+FQEiCyRqvouccmyAuydwLxLdmhcTTW3sEmO5f7bRfXpUVVgTtnFbIqEiHyw==}
+    engines: {node: ^20 || ^22 || >=24}
 
   '@pnpm/config.env-replace@1.1.0':
     resolution: {integrity: sha512-htyl8TWnKL7K/ESFa1oW2UB5lVDxuF5DpM7tBi6Hu2LNL3mWkIzNLG6N4zoCUP1lCKNxWy/3iu8mS8MvToGd6w==}
@@ -3208,6 +3215,10 @@ snapshots:
   '@pinojs/redact@0.4.0': {}
 
   '@pkgr/core@0.2.9': {}
+
+  '@platformatic/prom-client@1.0.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.1
 
   '@pnpm/config.env-replace@1.1.0': {}
 
