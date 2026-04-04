@@ -7,8 +7,8 @@
  */
 
 import { fastifyPlugin } from 'fastify-plugin';
-import client from 'prom-client';
 import { FastifyMetrics } from './fastify-metrics';
+import { resolveClient } from './resolve-client';
 import type {
   IFastifyMetrics,
   IMetricsPluginOptions,
@@ -57,7 +57,7 @@ export default fastifyPlugin<Partial<IMetricsPluginOptions>>(
   async (fastify, options) => {
     const { name = 'metrics', clearRegisterOnInit = false } = options;
 
-    const promClient = options.promClient ?? client;
+    const promClient = options.promClient ?? (await resolveClient());
 
     if (clearRegisterOnInit) {
       promClient.register.clear();

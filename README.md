@@ -13,7 +13,7 @@
 
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 
-This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood.
+This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood with optional support for [@platformatic/prom-client](https://github.com/platformatic/prom-client) as a high-performance drop-in replacement.
 
 This plugin also adds two http metrics for your routes:
 
@@ -32,6 +32,7 @@ This plugin also adds two http metrics for your routes:
     - [v9.x.x](#v9xx)
     - [v6.x.x](#v6xx)
   - [Installation](#installation)
+  - [Using @platformatic/prom-client](#using-platformaticprom-client)
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
     - [Registry clear](#registry-clear)
@@ -99,6 +100,60 @@ This plugin also adds two http metrics for your routes:
 ```sh
 npm i fastify-metrics --save
 pnpm i fastify-metrics --save
+```
+
+<sub>[Back to top](#toc)</sub>
+
+## Using @platformatic/prom-client
+
+This plugin supports [@platformatic/prom-client](https://github.com/platformatic/prom-client) as an optional drop-in replacement for `prom-client`. It is a performance-focused fork by [Platformatic](https://platformatic.dev/) that provides the same API with lower overhead — optimized internal data structures, reduced memory allocations, and faster metric serialization.
+
+**If `@platformatic/prom-client` is installed, the plugin will use it automatically.** No configuration changes needed. If it's not installed, the plugin falls back to standard `prom-client`.
+
+### Why use it
+
+| | `prom-client` | `@platformatic/prom-client` |
+|---|---|---|
+| **API** | Standard | Same (drop-in compatible) |
+| **Internal storage** | `hashMap` | Optimized `LabelMap` |
+| **Memory allocations** | Standard | Reduced |
+| **Metric serialization** | Standard | Faster |
+| **Node.js support** | >=16 | ^20 \|\| ^22 \|\| >=24 |
+
+### Installation
+
+Just install it alongside `fastify-metrics`:
+
+```sh
+npm i @platformatic/prom-client
+pnpm i @platformatic/prom-client
+```
+
+The plugin auto-detects it on startup. No code changes required.
+
+### Explicit client override
+
+You can also pass the client explicitly via the `promClient` option. This takes precedence over auto-detection:
+
+```js
+import fastify from 'fastify';
+import metricsPlugin from 'fastify-metrics';
+import client from '@platformatic/prom-client';
+
+const app = fastify();
+await app.register(metricsPlugin, {
+  endpoint: '/metrics',
+  promClient: client,
+});
+```
+
+### Verifying which client is active
+
+After registration, `fastify.metrics.client` holds the resolved prom-client instance. You can check which one is being used:
+
+```js
+await app.ready();
+console.log(app.metrics.client); // the active prom-client module
 ```
 
 <sub>[Back to top](#toc)</sub>
