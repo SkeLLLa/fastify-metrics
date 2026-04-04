@@ -1,3 +1,15 @@
+## [13.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v13.1.0...v13.2.0) (2026-04-04)
+
+### 🧾 Other
+
+* **ci:** proper action tag ([8058b62](https://github.com/SkeLLLa/fastify-metrics/commit/8058b624c6ad5bb9113de38e865b33ada480dd1c))
+* **deps:** bump the all-actions group with 3 updates ([f2df579](https://github.com/SkeLLLa/fastify-metrics/commit/f2df579dfb560ce04573fd52d01559c6b1dcdeea))
+* **deps:** lockfile up ([bcd1b04](https://github.com/SkeLLLa/fastify-metrics/commit/bcd1b04c79e43aeb696c9731a8d3e249d232709a))
+
+### 🚀 Features
+
+* add support for platformatic prom-client ([fb7e301](https://github.com/SkeLLLa/fastify-metrics/commit/fb7e3012c70b5317321699c5b9c6ffb099297ed7))
+
 ## [13.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v13.0.0...v13.1.0) (2026-04-01)
 
 ### 🚀 Features
