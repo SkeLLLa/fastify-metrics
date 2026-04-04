@@ -1,13 +1,18 @@
 import assert from 'node:assert/strict';
 import { after, before, describe, it } from 'node:test';
 import { fastify, type RouteOptions } from 'fastify';
-import { register } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 void describe('endpoint as object', () => {
   const app = fastify();
   let preHandlerCalled = false;
+
   before(async () => {
+    client = await clientPromise;
     await app.register(fastifyPlugin, {
       endpoint: {
         url: '/custom-endpoint',
@@ -28,7 +33,7 @@ void describe('endpoint as object', () => {
   });
 
   after(async () => {
-    register.clear();
+    client.register.clear();
     await app.close();
   });
 

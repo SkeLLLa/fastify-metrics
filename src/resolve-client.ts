@@ -9,8 +9,8 @@ import defaultClient from 'prom-client';
 export async function resolveClient(): Promise<typeof defaultClient> {
   try {
     const pkg = '@platformatic/prom-client';
-    const mod = (await import(pkg)) as { default?: typeof defaultClient };
-    return mod.default ?? defaultClient;
+    const mod = (await import(pkg)) as { default: typeof defaultClient };
+    return mod.default;
   } catch {
     return defaultClient;
   }

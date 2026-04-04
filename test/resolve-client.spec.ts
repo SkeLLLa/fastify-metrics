@@ -6,7 +6,6 @@ import { resolveClient } from '../src/resolve-client';
 void describe('resolveClient', () => {
   void it('resolves a prom-client compatible module', async () => {
     const client = await resolveClient();
-    // Must have the essential prom-client API surface
     assert.ok(typeof client.register === 'object', 'has global register');
     assert.ok(
       typeof client.collectDefaultMetrics === 'function',
@@ -19,8 +18,29 @@ void describe('resolveClient', () => {
     assert.ok(typeof client.Registry === 'function', 'has Registry');
   });
 
-  void it('returns prom-client when @platformatic/prom-client is not installed', async () => {
+  void it('prefers @platformatic/prom-client when installed', async () => {
     const client = await resolveClient();
-    assert.strictEqual(client, defaultClient);
+    let platformaticAvailable = false;
+    try {
+      const pkg = '@platformatic/prom-client';
+      await import(pkg);
+      platformaticAvailable = true;
+    } catch {
+      // not installed
+    }
+
+    if (platformaticAvailable) {
+      assert.notStrictEqual(
+        client,
+        defaultClient,
+        'should prefer @platformatic/prom-client over prom-client',
+      );
+    } else {
+      assert.strictEqual(
+        client,
+        defaultClient,
+        'should fall back to prom-client',
+      );
+    }
   });
 });

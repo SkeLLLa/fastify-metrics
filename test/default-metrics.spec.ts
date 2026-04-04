@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
-import { afterEach, beforeEach, describe, it } from 'node:test';
+import { afterEach, before, beforeEach, describe, it } from 'node:test';
 import { fastify } from 'fastify';
-import { register, Registry } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 /** Helper: assert that at least one line matches a regex */
 function assertLineMatches(lines: string[], regex: RegExp): void {
@@ -21,8 +24,12 @@ function assertNoLineMatches(lines: string[], regex: RegExp): void {
 }
 
 void describe('default metrics', () => {
+  before(async () => {
+    client = await clientPromise;
+  });
+
   afterEach(() => {
-    register.clear();
+    client.register.clear();
   });
 
   void describe('{ }', () => {
@@ -72,7 +79,7 @@ void describe('default metrics', () => {
         endpoint: '/metrics',
         defaultMetrics: {
           enabled: true,
-          register: new Registry(),
+          register: new client.Registry(),
         },
         routeMetrics: {
           enabled: false,

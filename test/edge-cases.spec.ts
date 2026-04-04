@@ -1,12 +1,19 @@
 import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
-import { register } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 void describe('edge cases', () => {
+  before(async () => {
+    client = await clientPromise;
+  });
+
   afterEach(() => {
-    register.clear();
+    client.register.clear();
   });
 
   void describe('registry clear problem', () => {

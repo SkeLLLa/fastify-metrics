@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
-import { after, afterEach, describe, it } from 'node:test';
+import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
-import { register } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 void describe('exports', () => {
   void it('fastify plugin exported', async () => {
@@ -11,8 +14,12 @@ void describe('exports', () => {
 });
 
 void describe('plugin', () => {
+  before(async () => {
+    client = await clientPromise;
+  });
+
   afterEach(() => {
-    register.clear();
+    client.register.clear();
   });
 
   void describe('registers with default name', () => {
@@ -54,7 +61,7 @@ void describe('plugin', () => {
     let app = fastify();
 
     afterEach(async () => {
-      register.clear();
+      client.register.clear();
       await app.close();
     });
 

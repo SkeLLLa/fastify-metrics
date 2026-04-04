@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
-import { afterEach, beforeEach, describe, it } from 'node:test';
+import { afterEach, before, beforeEach, describe, it } from 'node:test';
 import { fastify, type FastifyRequest } from 'fastify';
-import { register, Registry } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 /** Helper: assert lines contain all expected exact strings */
 function assertLinesContain(lines: string[], expected: string[]): void {
@@ -19,8 +22,12 @@ function assertLinesNotContain(lines: string[], unexpected: string[]): void {
 }
 
 void describe('route metrics', () => {
+  before(async () => {
+    client = await clientPromise;
+  });
+
   afterEach(() => {
-    register.clear();
+    client.register.clear();
   });
 
   void describe('{ }', () => {
@@ -145,6 +152,12 @@ void describe('route metrics', () => {
         'http_request_summary_seconds_count{method="GET",route="/test",status_code="200"} 1',
         'http_request_summary_seconds_count{method="POST",route="/test",status_code="200"} 1',
       ]);
+    });
+
+    void it('requests succeed without route metrics', async () => {
+      const res = await app.inject({ method: 'GET', url: '/test' });
+      assert.strictEqual(res.statusCode, 200);
+      assert.strictEqual(res.body, 'get test');
     });
   });
 
@@ -936,14 +949,10 @@ void describe('route metrics', () => {
 
   void describe('{ overrides: { histogram: { registers: [custom] } } }', () => {
     let app = fastify();
-    const customRegistry = new Registry();
-
-    afterEach(async () => {
-      customRegistry.clear();
-      await app.close();
-    });
+    let customRegistry: InstanceType<typeof promClient.Registry>;
 
     beforeEach(async () => {
+      customRegistry = new client.Registry();
       app = fastify();
 
       await app.register(fastifyPlugin, {
@@ -961,6 +970,11 @@ void describe('route metrics', () => {
         return 'get test';
       });
       await app.ready();
+    });
+
+    afterEach(async () => {
+      customRegistry.clear();
+      await app.close();
     });
 
     void it('metrics from custom registry are included in merged output', async () => {

@@ -1,18 +1,25 @@
 import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 import { fastify } from 'fastify';
-import { Counter, register } from 'prom-client';
-import fastifyPlugin from '../src/index.js';
+import type promClient from 'prom-client';
+import fastifyPlugin from '../src/index';
+import { clientPromise } from './helper';
+
+let client: typeof promClient;
 
 void describe('default metrics', () => {
+  before(async () => {
+    client = await clientPromise;
+  });
+
   afterEach(() => {
-    register.clear();
+    client.register.clear();
   });
 
   void describe('{ clearRegisterOnInit = false }', () => {
     const app = fastify();
     before(async () => {
-      const c = new Counter({
+      const c = new client.Counter({
         name: 'test_counter',
         help: 'Example of a counter',
         labelNames: ['code'],
@@ -57,7 +64,7 @@ void describe('default metrics', () => {
   void describe('{ clearRegisterOnInit = true }', () => {
     const app = fastify();
     before(async () => {
-      const c = new Counter({
+      const c = new client.Counter({
         name: 'test_counter',
         help: 'Example of a counter',
         labelNames: ['code'],
