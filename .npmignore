@@ -19,3 +19,6 @@ api-extractor.json
 temp/
 dist/tsdoc-metadata.json
 tsconfig*.json
+test/helper.ts
+tsdoc.json
+codecov.yml
