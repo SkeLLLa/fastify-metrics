@@ -60,7 +60,7 @@
     "@skellla/lint-config": "^3.0.0",
     "@tsconfig/node-lts": "^24.0.0",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "^24.12.0",
+    "@types/node": "^25.6.0",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "eslint": "^10.1.0",
     "fastify": "^5.8.4",
