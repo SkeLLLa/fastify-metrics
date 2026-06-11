@@ -55,7 +55,7 @@ jobs:
       - name: Test
         run: pnpm test
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           use_oidc: true
           disable_search: true
