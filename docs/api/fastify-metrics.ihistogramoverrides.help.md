@@ -11,3 +11,7 @@ Request duration histogram help override
 ```typescript
 help?: string;
 ```
+
+## Default Value
+
+`request duration in seconds`

@@ -11,3 +11,7 @@ Unknown route label. If registeredRoutesOnly routes set to `false` unknown route
 ```typescript
 invalidRouteGroup?: string;
 ```
+
+## Default Value
+
+`__unknown__`

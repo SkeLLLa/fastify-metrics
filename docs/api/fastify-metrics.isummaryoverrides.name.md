@@ -11,3 +11,7 @@ Request duration summary name override
 ```typescript
 name?: string;
 ```
+
+## Default Value
+
+`http_request_summary_seconds`

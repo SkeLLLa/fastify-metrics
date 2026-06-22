@@ -11,3 +11,7 @@ Groups status code labels by first digit 200 becomes 2XX in metrics.
 ```typescript
 groupStatusCodes?: boolean;
 ```
+
+## Default Value
+
+`false`

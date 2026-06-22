@@ -11,3 +11,7 @@ Plugin name that will be registered in fastify instance.
 ```typescript
 name: string;
 ```
+
+## Default Value
+
+`metrics`

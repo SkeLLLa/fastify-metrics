@@ -11,3 +11,7 @@ Per route metrics config. Collect response time metric on requests
 ```typescript
 routeMetrics: IRouteMetricsConfig;
 ```
+
+## Default Value
+
+`{ enabled: true }`

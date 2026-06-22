@@ -11,3 +11,7 @@ Method name
 ```typescript
 method?: string;
 ```
+
+## Default Value
+
+`method`

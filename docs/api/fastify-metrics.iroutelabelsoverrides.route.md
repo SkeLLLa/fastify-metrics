@@ -11,3 +11,7 @@ Route name
 ```typescript
 route?: string;
 ```
+
+## Default Value
+
+`route`

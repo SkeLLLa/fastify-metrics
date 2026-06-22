@@ -12,6 +12,10 @@ Function that will return route value for metrics label. By default will use: `r
 getRouteLabel?: (request: FastifyRequest) => string;
 ```
 
+## Default Value
+
+`undefined`
+
 ## Example
 
 To use route full url as label:
@@ -19,4 +23,3 @@ To use route full url as label:
 ```ts
 getRouteLabel: (request) => request.raw.url;
 ```
-

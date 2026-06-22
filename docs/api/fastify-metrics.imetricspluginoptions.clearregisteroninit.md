@@ -11,3 +11,7 @@ Clears the prom-client global registry before adding metrics. Default to `false`
 ```typescript
 clearRegisterOnInit: boolean;
 ```
+
+## Default Value
+
+`false`

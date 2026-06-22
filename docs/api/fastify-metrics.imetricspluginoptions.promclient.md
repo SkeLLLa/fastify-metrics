@@ -11,3 +11,7 @@ PromClient instance to override default internal promClient
 ```typescript
 promClient: typeof client | null;
 ```
+
+## Default Value
+
+promClient

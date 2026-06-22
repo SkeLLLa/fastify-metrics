@@ -11,3 +11,7 @@ A list of HTTP methods that will be excluded from metrics collection
 ```typescript
 methodBlacklist?: readonly HTTPMethods[];
 ```
+
+## Default Value
+
+`['HEAD', 'OPTIONS', 'TRACE', 'CONNECT']`

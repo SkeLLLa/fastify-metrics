@@ -12,8 +12,11 @@ Custom labels to add to metrics
 customLabels?: Record<string, string | ((request: FastifyRequest, reply: FastifyReply) => string)>;
 ```
 
-## Example
+## Default Value
 
+`undefined`
+
+## Example
 
 ```ts
 customLabels: {
@@ -21,4 +24,3 @@ customLabels: {
  myLabel2: (request, reply) => request.headers['x-my-header'],
 }
 ```
-

@@ -14,3 +14,7 @@ enabled?: boolean | {
         summary?: boolean;
     };
 ```
+
+## Default Value
+
+`true`

@@ -11,3 +11,7 @@ Status code
 ```typescript
 status?: string;
 ```
+
+## Default Value
+
+`status_code`

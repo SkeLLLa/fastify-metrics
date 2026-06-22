@@ -11,3 +11,7 @@ Request duration buckets override
 ```typescript
 buckets?: number[];
 ```
+
+## Default Value
+
+`[0.05, 0.1, 0.5, 1, 3, 5, 10]`

@@ -11,3 +11,7 @@ Endpoint to expose metrics in prometheus format. `null` - disables metrics expos
 ```typescript
 endpoint: string | null | RouteOptions;
 ```
+
+## Default Value
+
+`/metrics`

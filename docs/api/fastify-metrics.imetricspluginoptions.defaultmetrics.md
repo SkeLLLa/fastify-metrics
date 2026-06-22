@@ -11,3 +11,7 @@ Default prom-client metrics config. Collect prometheus recommended and node.js s
 ```typescript
 defaultMetrics: IDefaultMetricsConfig;
 ```
+
+## Default Value
+
+`{ enabled: true }`

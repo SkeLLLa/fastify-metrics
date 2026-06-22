@@ -1,3 +1,21 @@
+## [13.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v13.2.0...v13.2.1) (2026-06-22)
+
+### 🛠 Fixes
+
+* **deps:** bump fastify-plugin in the production-major group ([1de6c4f](https://github.com/SkeLLLa/fastify-metrics/commit/1de6c4fb4ec2cdf6693811fbfcb850e45731c578))
+
+### 🧾 Other
+
+* **ci:** remove garbage from package ([04c1731](https://github.com/SkeLLLa/fastify-metrics/commit/04c1731f4e1fd0af5ceb19b6e895e0f8dfabc9c5))
+* **deps-dev:** bump @types/node from 24.12.0 to 25.6.0 ([be565f0](https://github.com/SkeLLLa/fastify-metrics/commit/be565f010b838d63e92d96e78b5699e97bc0710c))
+* **deps-dev:** bump fastify from 5.8.4 to 5.8.5 ([0c2be47](https://github.com/SkeLLLa/fastify-metrics/commit/0c2be470847c451025e9accf9d667966f3dcbe9a))
+* **deps-dev:** bump globals from 16.5.0 to 17.5.0 ([c85c27e](https://github.com/SkeLLLa/fastify-metrics/commit/c85c27e29d85264003f680eaf28cedd1c9fc1b72))
+* **deps-dev:** bump the all-minor-patch group across 1 directory with 3 updates ([65fef8f](https://github.com/SkeLLLa/fastify-metrics/commit/65fef8fb48ae51284fa1c5c8926316888ef665ef))
+* **deps-dev:** bump the all-minor-patch group across 1 directory with 9 updates ([cc5341d](https://github.com/SkeLLLa/fastify-metrics/commit/cc5341db158e2838582fc03d290363a162db445d))
+* **deps:** bump codecov/codecov-action in the all-actions group ([93a5b4d](https://github.com/SkeLLLa/fastify-metrics/commit/93a5b4df1b152786fb9efb982915d4a2f12db8eb))
+* **deps:** bump the all-actions group across 1 directory with 2 updates ([15c46e3](https://github.com/SkeLLLa/fastify-metrics/commit/15c46e3e9e75c54dcf6d7fcd4f25fd2b9ab925c2))
+* **deps:** bump the all-actions group across 1 directory with 2 updates ([8e0e8fb](https://github.com/SkeLLLa/fastify-metrics/commit/8e0e8fb3c35fa1838acc695e1fe82596179b84a1))
+
 ## [13.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v13.1.0...v13.2.0) (2026-04-04)
 
 ### 🧾 Other

@@ -11,3 +11,7 @@ Collect metrics only for registered routes. If `false`<!-- -->, then metrics for
 ```typescript
 registeredRoutesOnly?: boolean;
 ```
+
+## Default Value
+
+`true`

@@ -11,3 +11,7 @@ A list of routes that will be excluded from metrics collection.
 ```typescript
 routeBlacklist?: readonly (string | RegExp)[];
 ```
+
+## Default Value
+
+`undefined`

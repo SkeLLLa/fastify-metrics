@@ -11,3 +11,7 @@ Request duration histogram name override
 ```typescript
 name?: string;
 ```
+
+## Default Value
+
+`http_request_duration_seconds`
