@@ -1,9 +1,9 @@
-import defaultClient from 'prom-client';
+import defaultClient from '@prometheus-io/client';
 
 /**
- * Resolves the prom-client implementation to use.
+ * Resolves the prometheus client implementation to use.
  * Prefers `@platformatic/prom-client` if installed (better performance),
- * falls back to `prom-client`.
+ * falls back to `@prometheus-io/client`.
  * @internal
  */
 export async function resolveClient(): Promise<typeof defaultClient> {

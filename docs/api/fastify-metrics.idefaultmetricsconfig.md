@@ -4,7 +4,7 @@
 
 ## IDefaultMetricsConfig interface
 
-Default prom-client metrics config
+Default prometheus client metrics config
 
 **Signature:**
 
@@ -15,7 +15,7 @@ export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfigurat
 
 ## Remarks
 
-Extends the [prom-client](https://github.com/siimon/prom-client#default-metrics) interface. So it accepts all options from it and pass to default metrics.
+Extends the [@prometheus-io/client](https://github.com/prometheus/client_js#default-metrics) interface. So it accepts all options from it and pass to default metrics.
 
 ## Properties
 
@@ -55,7 +55,7 @@ boolean
 
 </td><td>
 
-Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.)
+Enables collection of default prometheus client metrics (e.g. node.js vitals like cpu, memory, etc.)
 
 
 </td></tr>

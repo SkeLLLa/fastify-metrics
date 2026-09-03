@@ -4,7 +4,7 @@
 
 ## IMetricsPluginOptions.defaultMetrics property
 
-Default prom-client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
+Default prometheus client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
 
 **Signature:**
 

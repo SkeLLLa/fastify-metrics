@@ -50,7 +50,7 @@ boolean
 
 </td><td>
 
-Clears the prom-client global registry before adding metrics. Default to `false`
+Clears the prometheus client global registry before adding metrics. Default to `false`
 
 
 </td></tr>
@@ -69,7 +69,7 @@ Clears the prom-client global registry before adding metrics. Default to `false`
 
 </td><td>
 
-Default prom-client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
+Default prometheus client metrics config. Collect prometheus recommended and node.js specific metrics like event loop lag.
 
 
 </td></tr>

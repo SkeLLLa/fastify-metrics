@@ -4,7 +4,7 @@
 
 ## IDefaultMetricsConfig.enabled property
 
-Enables collection of default prom-client metrics (e.g. node.js vitals like cpu, memory, etc.)
+Enables collection of default prometheus client metrics (e.g. node.js vitals like cpu, memory, etc.)
 
 **Signature:**
 
