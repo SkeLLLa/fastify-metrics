@@ -4,18 +4,18 @@
 
 ```ts
 
-import type client from 'prom-client';
-import type { DefaultMetricsCollectorConfiguration } from 'prom-client';
+import type client from '@prometheus-io/client';
+import type { DefaultMetricsCollectorConfiguration } from '@prometheus-io/client';
 import { FastifyBaseLogger } from 'fastify';
 import { FastifyPluginCallback } from 'fastify';
 import type { FastifyReply } from 'fastify';
 import type { FastifyRequest } from 'fastify';
 import { FastifyTypeProviderDefault } from 'fastify';
-import type { HistogramConfiguration } from 'prom-client';
+import type { HistogramConfiguration } from '@prometheus-io/client';
 import type { HTTPMethods } from 'fastify';
 import { RawServerDefault } from 'fastify';
 import type { RouteOptions } from 'fastify';
-import type { SummaryConfiguration } from 'prom-client';
+import type { SummaryConfiguration } from '@prometheus-io/client';
 
 // @public
 const _default: FastifyPluginCallback<Partial<IMetricsPluginOptions>, RawServerDefault, FastifyTypeProviderDefault, FastifyBaseLogger>;

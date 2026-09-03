@@ -50,7 +50,7 @@ typeof client
 
 </td><td>
 
-Prom-client instance
+Prometheus client instance
 
 
 </td></tr>

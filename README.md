@@ -13,7 +13,7 @@
 
 [Prometheus](https://prometheus.io/) metrics exporter for Fastify.
 
-This plugin uses [prom-client](https://github.com/siimon/prom-client) under the hood with optional support for [@platformatic/prom-client](https://github.com/platformatic/prom-client) as a high-performance drop-in replacement.
+This plugin uses [@prometheus-io/client](https://github.com/prometheus/client_js) under the hood with optional support for [@platformatic/prom-client](https://github.com/platformatic/prom-client) as a high-performance drop-in replacement.
 
 This plugin also adds two http metrics for your routes:
 
@@ -26,6 +26,7 @@ This plugin also adds two http metrics for your routes:
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
   - [Notable changes](#notable-changes)
+    - [v14.x.x](#v14xx)
     - [v12.x.x](#v12xx)
     - [v11.x.x](#v11xx)
     - [v10.x.x](#v10xx)
@@ -58,8 +59,16 @@ This plugin also adds two http metrics for your routes:
 - **v9.x.x** - supports `fastify-4.x` `prom-client-14.x`
 - **v11.x.x** - supports `fastify-4.x` `prom-client-15.x`
 - **v12.x.x** - supports `fastify-5.x` `prom-client-15.x`
+- **v14.x.x** - supports `fastify-5.x` `@prometheus-io/client-0.16.x`
 
 ## Notable changes
+
+### v14.x.x
+
+- Replace the deprecated `prom-client` dependency with its official successor
+  [@prometheus-io/client](https://github.com/prometheus/client_js), now maintained by the
+  Prometheus team.
+- Drop node.js 20 support. `@prometheus-io/client` requires node.js `>=22`.
 
 ### v12.x.x
 
@@ -106,19 +115,19 @@ pnpm i fastify-metrics --save
 
 ## Using @platformatic/prom-client
 
-This plugin supports [@platformatic/prom-client](https://github.com/platformatic/prom-client) as an optional drop-in replacement for `prom-client`. It is a performance-focused fork by [Platformatic](https://platformatic.dev/) that provides the same API with lower overhead — optimized internal data structures, reduced memory allocations, and faster metric serialization.
+This plugin supports [@platformatic/prom-client](https://github.com/platformatic/prom-client) as an optional drop-in replacement for `@prometheus-io/client`. It is a performance-focused fork by [Platformatic](https://platformatic.dev/) that provides the same API with lower overhead — optimized internal data structures, reduced memory allocations, and faster metric serialization.
 
-**If `@platformatic/prom-client` is installed, the plugin will use it automatically.** No configuration changes needed. If it's not installed, the plugin falls back to standard `prom-client`.
+**If `@platformatic/prom-client` is installed, the plugin will use it automatically.** No configuration changes needed. If it's not installed, the plugin falls back to `@prometheus-io/client`.
 
 ### Why use it
 
-| | `prom-client` | `@platformatic/prom-client` |
+| | `@prometheus-io/client` | `@platformatic/prom-client` |
 |---|---|---|
 | **API** | Standard | Same (drop-in compatible) |
 | **Internal storage** | `hashMap` | Optimized `LabelMap` |
 | **Memory allocations** | Standard | Reduced |
 | **Metric serialization** | Standard | Faster |
-| **Node.js support** | >=16 | ^20 \|\| ^22 \|\| >=24 |
+| **Node.js support** | ^22 \|\| ^24 \|\| >=26 | ^20 \|\| ^22 \|\| >=24 |
 
 ### Installation
 
@@ -149,25 +158,25 @@ await app.register(metricsPlugin, {
 
 ### Verifying which client is active
 
-After registration, `fastify.metrics.client` holds the resolved prom-client instance. You can check which one is being used:
+After registration, `fastify.metrics.client` holds the resolved prometheus client instance. You can check which one is being used:
 
 ```js
 await app.ready();
-console.log(app.metrics.client); // the active prom-client module
+console.log(app.metrics.client); // the active prometheus client module
 ```
 
 <sub>[Back to top](#toc)</sub>
 
 ## Features and requirements
 
-- Collects default server metrics (see [prom-client](https://github.com/siimon/prom-client/tree/master/lib/metrics));
+- Collects default server metrics (see [@prometheus-io/client](https://github.com/prometheus/client_js/tree/master/lib/metrics));
 - Collects route response timings
 - Adds `metrics` to fastify instance for your custom metrics.
 
 ---
 
 - Requires fastify `>=4.0.0`.
-- Node.js `>=20.0.0`.
+- Node.js `>=22.0.0`.
 
 <sub>[Back to top](#toc)</sub>
 
@@ -203,7 +212,7 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [defaultMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.defaultmetrics.md)                 | [IDefaultMetricsConfig](./docs/api/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
 | [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)                             | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
 | [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                                     | string                                                                                                              | `'metrics'`         |
-| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)                         | `prom-client` instance \| null                                                                                      | `null`              |
+| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)                         | `@prometheus-io/client` instance \| null                                                                            | `null`              |
 | [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)                     | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
 
 #### Route metrics

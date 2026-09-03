@@ -1,15 +1,15 @@
+import promClient, {
+  type Histogram,
+  type LabelValues,
+  type Registry,
+  type Summary,
+} from '@prometheus-io/client';
 import type {
   FastifyInstance,
   FastifyReply,
   FastifyRequest,
   RouteOptions,
 } from 'fastify';
-import promClient, {
-  type Histogram,
-  type LabelValues,
-  type Registry,
-  type Summary,
-} from 'prom-client';
 import type { IFastifyMetrics, IMetricsPluginOptions } from './types';
 
 /**
@@ -32,8 +32,8 @@ interface IReqMetrics<T extends string> {
 }
 
 interface IRouteMetrics {
-  routeHist: Histogram;
-  routeSum: Summary;
+  routeHist: Histogram<string>;
+  routeSum: Summary<string>;
   labelNames: { method: string; status: string; route: string };
 }
 
@@ -80,7 +80,7 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   private createTimers: (request: FastifyRequest) => void;
 
-  /** Prom-client instance. */
+  /** Prometheus client instance. */
   public readonly client: typeof promClient;
 
   /** Creates metrics collector instance */
@@ -251,7 +251,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.deps.fastify.route(routeOptions);
   }
 
-  /** Collect default prom-client metrics */
+  /** Collect default prometheus client metrics */
   private collectDefaultMetrics(): void {
     this.deps.client.collectDefaultMetrics({
       ...this.options.defaultMetrics,

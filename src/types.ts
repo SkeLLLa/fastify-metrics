@@ -1,15 +1,15 @@
 import type {
+  DefaultMetricsCollectorConfiguration,
+  HistogramConfiguration,
+  SummaryConfiguration,
+} from '@prometheus-io/client';
+import type client from '@prometheus-io/client';
+import type {
   FastifyReply,
   FastifyRequest,
   HTTPMethods,
   RouteOptions,
 } from 'fastify';
-import type {
-  DefaultMetricsCollectorConfiguration,
-  HistogramConfiguration,
-  SummaryConfiguration,
-} from 'prom-client';
-import type client from 'prom-client';
 
 /**
  * Route config for metrics
@@ -24,19 +24,19 @@ export interface IMetricsRouteContextConfig {
 }
 
 /**
- * Default prom-client metrics config
+ * Default prometheus client metrics config
  *
  * @remarks
  * Extends the
- * {@link https://github.com/siimon/prom-client#default-metrics | prom-client}
+ * {@link https://github.com/prometheus/client_js#default-metrics | @prometheus-io/client}
  * interface. So it accepts all options from it and pass to default metrics.
  * @public
- * @see {@link https://github.com/siimon/prom-client#default-metrics | prom-client} for extra options
+ * @see {@link https://github.com/prometheus/client_js#default-metrics | @prometheus-io/client} for extra options
  */
 export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfiguration<'text/plain; version=0.0.4; charset=utf-8'> {
   /**
-   * Enables collection of default prom-client metrics (e.g. node.js vitals like
-   * cpu, memory, etc.)
+   * Enables collection of default prometheus client metrics (e.g. node.js
+   * vitals like cpu, memory, etc.)
    *
    * @defaultValue `true`
    */
@@ -272,8 +272,8 @@ export interface IMetricsPluginOptions {
   name: string;
 
   /**
-   * Default prom-client metrics config. Collect prometheus recommended and
-   * node.js specific metrics like event loop lag.
+   * Default prometheus client metrics config. Collect prometheus recommended
+   * and node.js specific metrics like event loop lag.
    *
    * @defaultValue `{ enabled: true }`
    */
@@ -287,8 +287,8 @@ export interface IMetricsPluginOptions {
   routeMetrics: IRouteMetricsConfig;
 
   /**
-   * Clears the prom-client global registry before adding metrics. Default to
-   * `false`
+   * Clears the prometheus client global registry before adding metrics.
+   * Default to `false`
    *
    * @defaultValue `false`
    */
@@ -301,7 +301,7 @@ export interface IMetricsPluginOptions {
  * @public
  */
 export interface IFastifyMetrics {
-  /** Prom-client instance */
+  /** Prometheus client instance */
   client: typeof client;
   /**
    * Initialize metrics in registries. Useful if you call `registry.clear()` to

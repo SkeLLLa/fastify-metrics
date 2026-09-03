@@ -1,7 +1,8 @@
 /**
  * Prometheus metrics exporter for Fastify. Based on
- * {@link https://github.com/siimon/prom-client | prom-client}. Also by default
- * it adds fastify route response time metrics (histogram and summary).
+ * {@link https://github.com/prometheus/client_js | @prometheus-io/client}. Also
+ * by default it adds fastify route response time metrics (histogram and
+ * summary).
  *
  * @packageDocumentation
  */

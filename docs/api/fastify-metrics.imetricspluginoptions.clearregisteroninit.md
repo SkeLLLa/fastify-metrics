@@ -4,7 +4,7 @@
 
 ## IMetricsPluginOptions.clearRegisterOnInit property
 
-Clears the prom-client global registry before adding metrics. Default to `false`
+Clears the prometheus client global registry before adding metrics. Default to `false`
 
 **Signature:**
 

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
+import type promClient from '@prometheus-io/client';
 import { fastify } from 'fastify';
-import type promClient from 'prom-client';
 import fastifyPlugin from '../src/index.js';
 
 void describe('metrics plugin', () => {

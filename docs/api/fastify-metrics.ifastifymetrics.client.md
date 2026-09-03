@@ -4,7 +4,7 @@
 
 ## IFastifyMetrics.client property
 
-Prom-client instance
+Prometheus client instance
 
 **Signature:**
 
