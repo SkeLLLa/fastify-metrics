@@ -1,3 +1,5 @@
+## [14.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v13.2.1...v14.0.0) (2026-09-03)
+
 ## [13.2.1](https://github.com/SkeLLLa/fastify-metrics/compare/v13.2.0...v13.2.1) (2026-06-22)
 
 ### 🛠 Fixes
