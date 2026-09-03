@@ -1,7 +1,8 @@
-import assert from 'node:assert/strict';
-import { after, before, describe, it } from 'node:test';
 import type promClient from '@prometheus-io/client';
 import { fastify, type RouteOptions } from 'fastify';
+import assert from 'node:assert/strict';
+import { after, before, describe, it } from 'node:test';
+
 import fastifyPlugin from '../src/index';
 import { clientPromise } from './helper';
 

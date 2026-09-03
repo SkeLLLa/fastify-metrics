@@ -40,7 +40,7 @@ const metricsPlugin = require('../');
       setTimeout(() => {
         reply.send({ id, delay });
       }, delay);
-    }
+    },
   );
 
   app.get(
@@ -68,7 +68,7 @@ const metricsPlugin = require('../');
       setTimeout(() => {
         reply.send({ data: 'hello', delay });
       }, delay);
-    }
+    },
   );
 
   try {

@@ -15,3 +15,4 @@ routeMetrics: IRouteMetricsConfig;
 ## Default Value
 
 `{ enabled: true }`
+

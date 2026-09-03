@@ -14,36 +14,22 @@ jobs:
         node-version: [22.x, 24.x]
     steps:
       - uses: actions/checkout@v7
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v7
-        with:
-          node-version: ${{ matrix.node-version }}
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v6.0.10
         name: Install pnpm
         id: pnpm-install
         with:
           run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "PNPM_CACHE_DIR=$(pnpm store path)" >> $GITHUB_ENV
-      - uses: actions/cache@v6
-        name: Setup pnpm cache
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v7
         with:
-          path: ${{ env.PNPM_CACHE_DIR }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
       - name: Install dependencies
         run: pnpm install
+      - name: Lint
+        run: pnpm oxlint -f github
       - name: Build
         run: pnpm build
-      - name: Lint
-        uses: reviewdog/action-eslint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-          eslint_flags: '. --ext js,jsx,ts,tsx'
       - name: Test
         run: pnpm test
       - name: Upload coverage to Codecov

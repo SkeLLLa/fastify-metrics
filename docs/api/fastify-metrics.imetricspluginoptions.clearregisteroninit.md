@@ -15,3 +15,4 @@ clearRegisterOnInit: boolean;
 ## Default Value
 
 `false`
+

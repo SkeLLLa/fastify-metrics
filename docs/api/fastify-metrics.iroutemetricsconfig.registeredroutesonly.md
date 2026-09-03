@@ -15,3 +15,4 @@ registeredRoutesOnly?: boolean;
 ## Default Value
 
 `true`
+

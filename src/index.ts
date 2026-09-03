@@ -8,6 +8,7 @@
  */
 
 import { fastifyPlugin } from 'fastify-plugin';
+
 import { FastifyMetrics } from './fastify-metrics';
 import { resolveClient } from './resolve-client';
 import type {

@@ -1,6 +1,13 @@
-strictDepBuilds: true
-onlyBuiltDependencies:
-  - esbuild
-  - unrs-resolver
-minimumReleaseAge: 4320
 trustPolicy: no-downgrade
+minimumReleaseAge: 4320
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+overrides:
+  js-yaml@>=4.0.0 <4.3.0: ^4.3.0
+  js-yaml@>=4.0.0 <4.3.1: ^4.3.1
+  js-yaml@>=4.0.0 <=4.1.1: ^4.2.0
+  lodash-es@<=4.17.23: ^4.18.1
+  lodash-es@>=4.0.0 <=4.17.23: ^4.18.1
+  undici@<6.28.0: ^6.28.0
+  undici@>=7.0.0 <7.29.0: ^7.29.0

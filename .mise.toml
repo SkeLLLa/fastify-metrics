@@ -1,6 +1,6 @@
 [tools]
-node = "24.14.0"
-pnpm = "10.32.1"
+node = "26.8.1"
+pnpm = "12.2.1"
 
 [tasks.sync-versions]
 description = "Sync tool versions from .mise.toml to package.json"
@@ -14,9 +14,8 @@ node -e "
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 pkg.packageManager = 'pnpm@' + '$PNPM_VERSION';
-const nodeMajor = '$NODE_VERSION'.split('.')[0];
 pkg.devEngines = {
-  runtime: { name: 'node', version: '>=' + nodeMajor }
+  runtime: { name: 'node', version: '>=22.19.0' }
 };
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\\n');
 "

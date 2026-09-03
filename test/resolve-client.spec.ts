@@ -1,6 +1,7 @@
+import defaultClient from '@prometheus-io/client';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import defaultClient from '@prometheus-io/client';
+
 import { resolveClient } from '../src/resolve-client';
 
 void describe('resolveClient', () => {

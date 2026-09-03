@@ -15,3 +15,4 @@ endpoint: string | null | RouteOptions;
 ## Default Value
 
 `/metrics`
+

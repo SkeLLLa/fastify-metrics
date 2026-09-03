@@ -15,3 +15,4 @@ percentiles?: number[];
 ## Default Value
 
 `[0.5, 0.9, 0.95, 0.99]`
+

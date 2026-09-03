@@ -15,3 +15,4 @@ defaultMetrics: IDefaultMetricsConfig;
 ## Default Value
 
 `{ enabled: true }`
+

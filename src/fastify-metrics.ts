@@ -1,8 +1,9 @@
-import promClient, {
-  type Histogram,
-  type LabelValues,
-  type Registry,
-  type Summary,
+import type promClient from '@prometheus-io/client';
+import type {
+  Histogram,
+  LabelValues,
+  Registry,
+  Summary,
 } from '@prometheus-io/client';
 import type {
   FastifyInstance,
@@ -10,6 +11,7 @@ import type {
   FastifyRequest,
   RouteOptions,
 } from 'fastify';
+
 import type { IFastifyMetrics, IMetricsPluginOptions } from './types';
 
 /**
@@ -110,7 +112,6 @@ export class FastifyMetrics implements IFastifyMetrics {
       this.options.routeMetrics.overrides?.labels?.getRouteLabel ??
       defaultGetRouteLabel;
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.createTimers = () => {};
 
     this.setMethodBlacklist();
@@ -215,7 +216,10 @@ export class FastifyMetrics implements IFastifyMetrics {
       new Set([globalRegistry, ...defaultRegistries, ...routeRegistries]),
     );
 
-    const routeHandler = async (_: FastifyRequest, reply: FastifyReply) => {
+    const routeHandler = async (
+      _: FastifyRequest,
+      reply: FastifyReply,
+    ): Promise<FastifyReply> => {
       const [singleRegistry] = regisitriesToMerge;
       if (regisitriesToMerge.length === 1 && singleRegistry) {
         const data = await singleRegistry.metrics();
@@ -308,7 +312,6 @@ export class FastifyMetrics implements IFastifyMetrics {
    * Build a pre-computed timer strategy function based on enabled configuration.
    */
   private buildTimerStrategy(): void {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const routeMetrics = this.routeMetrics!;
     const enabled = this.options.routeMetrics.enabled;
 
@@ -416,8 +419,7 @@ export class FastifyMetrics implements IFastifyMetrics {
         }
 
         const statusCode = this.groupStatusCodes
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            STATUS_GROUPS[Math.floor(reply.statusCode / 100)]!
+          ? STATUS_GROUPS[Math.floor(reply.statusCode / 100)]!
           : reply.statusCode;
         const route = this.getRouteLabel(request);
         const method = request.method;

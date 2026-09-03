@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "printWidth": 80,
+  "quoteProps": "consistent",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "sortPackageJson": true,
+  "sortImports": {
+    "groups": [
+      ["builtin", "external"],
+      ["parent", "sibling", "index"],
+      "unknown"
+    ],
+    "newlinesBetween": true
+  },
+  "ignorePatterns": [
+    "**/dist/",
+    "**/coverage/",
+    "**/node_modules/",
+    "**/temp/",
+    "**/*.min.*",
+    "**/*.xxx.*",
+    "docs/",
+    "lcov.info",
+    "pnpm-lock.yaml"
+  ]
+}

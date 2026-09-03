@@ -15,3 +15,4 @@ methodBlacklist?: readonly HTTPMethods[];
 ## Default Value
 
 `['HEAD', 'OPTIONS', 'TRACE', 'CONNECT']`
+

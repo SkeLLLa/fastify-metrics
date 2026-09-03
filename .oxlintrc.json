@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "unicorn"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "options": {
+    "reportUnusedDisableDirectives": "error",
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "env": {
+    "builtin": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    "**/dist/",
+    "**/coverage/",
+    "**/node_modules/",
+    "**/temp/",
+    "**/logs/",
+    "**/*.xxx.*",
+    "examples/"
+  ],
+  "rules": {
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": [
+      "error",
+      { "disallowTypeAnnotations": false }
+    ],
+    "typescript/consistent-type-exports": "error",
+    "typescript/explicit-function-return-type": [
+      "error",
+      { "allowExpressions": true }
+    ],
+    "typescript/no-floating-promises": "error",
+    "typescript/no-extraneous-class": "off",
+    "typescript/no-unsafe-type-assertion": "off"
+  }
+}

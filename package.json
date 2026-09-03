@@ -4,40 +4,45 @@
   "version": "14.0.0",
   "description": "Prometheus metrics exporter for Fastify",
   "keywords": [
+    "fastify",
     "fastify-plugin",
     "metrics",
-    "prometheus",
-    "fastify",
-    "plugin"
+    "plugin",
+    "prometheus"
   ],
   "homepage": "https://github.com/SkeLLLa/fastify-metrics/blob/master/README.md",
   "bugs": {
     "url": "https://github.com/SkeLLLa/fastify-metrics/issues"
   },
+  "license": "MIT",
+  "author": "m03geek",
   "repository": {
     "type": "git",
     "url": "https://github.com/SkeLLLa/fastify-metrics.git"
   },
-  "license": "MIT",
-  "author": "m03geek",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
   "directories": {
     "lib": "src",
     "doc": "docs",
     "example": "examples",
     "test": "test"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "pnpm run build:node && pnpm run build:docs && pnpm run build:format",
     "build:docs": "api-extractor run -l && api-documenter markdown -i ./temp -o ./docs/api",
-    "build:format": "pretty-quick",
+    "build:format": "oxfmt",
     "build:node": "tsc -p tsconfig.build.json",
-    "lint": "pnpm run lint:types && pnpm run lint:codestyle && pnpm run lint:packages",
-    "lint:codestyle": "eslint",
+    "lint": "pnpm run lint:codestyle && pnpm run lint:packages",
+    "lint:codestyle": "oxlint && oxfmt --check",
     "lint:packages": "pnpm audit --prod --audit-level=high",
-    "lint:types": "tsc -p tsconfig.json",
     "release": "semantic-release",
     "test": "pnpm run lint && pnpm run test:unit",
     "test:unit": "node --no-warnings --import tsx --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test test/** --test-coverage-exclude=test/**",
@@ -48,29 +53,27 @@
     "fastify-plugin": "^6.0.0"
   },
   "devDependencies": {
-    "@microsoft/api-documenter": "^7.29.8",
-    "@microsoft/api-extractor": "^7.57.8",
+    "@microsoft/api-documenter": "^7.30.7",
+    "@microsoft/api-extractor": "^7.58.9",
     "@semantic-release/changelog": "^7.0.0",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^11.0.1",
-    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/github": "^12.0.9",
     "@semantic-release/npm": "^13.1.5",
-    "@semantic-release/release-notes-generator": "^14.1.0",
-    "@skellla/lint-config": "^3.0.0",
+    "@semantic-release/release-notes-generator": "^14.1.1",
     "@tsconfig/node-lts": "^24.0.0",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "^25.6.0",
-    "conventional-changelog-conventionalcommits": "^10.2.1",
-    "eslint": "^10.1.0",
+    "@types/node": "^26.1.1",
+    "conventional-changelog-conventionalcommits": "9.3.1",
     "fastify": "^5.8.4",
-    "globals": "^17.5.0",
     "globstar": "^1.0.0",
-    "prettier": "^3.8.1",
-    "pretty-quick": "^4.2.2",
-    "semantic-release": "^25.0.3",
-    "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "oxlint-tsgolint": "^7.0.2001",
+    "semantic-release": "^25.0.6",
+    "tsx": "^4.23.0",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@platformatic/prom-client": "^1.0.0",
@@ -81,21 +84,15 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@10.32.1",
-  "engines": {
-    "node": ">=22",
-    "pnpm": ">=10"
-  },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": ">=22"
+      "version": ">=22.19.0"
     }
   },
-  "publishConfig": {
-    "access": "public",
-    "main": "dist/index.js",
-    "provenance": true,
-    "typings": "dist/index.d.ts"
-  }
+  "engines": {
+    "node": ">=22.19.0",
+    "pnpm": ">=12"
+  },
+  "packageManager": "pnpm@12.2.1"
 }
