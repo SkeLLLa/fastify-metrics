@@ -65,7 +65,7 @@
     "@tsconfig/node-lts": "^24.0.0",
     "@tsconfig/strictest": "^2.0.8",
     "@types/node": "^26.1.1",
-    "conventional-changelog-conventionalcommits": "9.3.1",
+    "conventional-changelog-conventionalcommits": "10.4.0",
     "fastify": "^5.8.4",
     "globstar": "^1.0.0",
     "oxfmt": "^0.68.0",
