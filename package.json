@@ -68,7 +68,7 @@
     "conventional-changelog-conventionalcommits": "9.3.1",
     "fastify": "^5.8.4",
     "globstar": "^1.0.0",
-    "oxfmt": "^0.71.0",
+    "oxfmt": "^0.72.0",
     "oxlint": "^1.78.0",
     "oxlint-tsgolint": "^7.0.2001",
     "semantic-release": "^25.0.6",
