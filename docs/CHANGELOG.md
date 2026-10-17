@@ -1,3 +1,17 @@
+## [14.1.1](https://github.com/SkeLLLa/fastify-metrics/compare/v14.1.0...v14.1.1) (2026-10-17)
+
+### 🛠 Fixes
+
+* **deps:** bump the all-minor-patch group across 1 directory with 6 updates ([0ea44a8](https://github.com/SkeLLLa/fastify-metrics/commit/0ea44a8c02d1bec78ce5cf608d5676680bccaf82))
+
+### 🧾 Other
+
+* **deps-dev:** bump oxfmt from 0.71.0 to 0.72.0 ([5af2bcb](https://github.com/SkeLLLa/fastify-metrics/commit/5af2bcbf9758330f063385b175c72cb1c0b17fd4))
+* **deps-dev:** bump the all-minor-patch group across 1 directory with 8 updates ([dc39b8b](https://github.com/SkeLLLa/fastify-metrics/commit/dc39b8b10d9b7c53052fc64bcdcc4698fb470fe9))
+* **deps-dev:** bump the all-minor-patch group with 8 updates ([2ebe537](https://github.com/SkeLLLa/fastify-metrics/commit/2ebe537ffb7232c526a2faa976c86652a882769f))
+* **deps:** bump the all-actions group across 1 directory with 3 updates ([01a0df0](https://github.com/SkeLLLa/fastify-metrics/commit/01a0df0e255df37008f82ab5d37e10e6029c1922))
+* **deps:** bump the all-actions group with 2 updates ([0c26ccd](https://github.com/SkeLLLa/fastify-metrics/commit/0c26ccd93ba6b0fe58b4b6ce383dbbb69401e859))
+
 ## [14.1.0](https://github.com/SkeLLLa/fastify-metrics/compare/v14.0.0...v14.1.0) (2026-09-03)
 
 ### 🚀 Features

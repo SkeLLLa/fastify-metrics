@@ -15,7 +15,7 @@ export interface IDefaultMetricsConfig extends DefaultMetricsCollectorConfigurat
 
 ## Remarks
 
-Extends the [@prometheus-io/client](https://github.com/prometheus/client_js#default-metrics) interface. So it accepts all options from it and pass to default metrics.
+Extends the[@prometheus-io/client](https://github.com/prometheus/client_js#default-metrics) interface. So it accepts all options from it and pass to default metrics.
 
 ## Properties
 
