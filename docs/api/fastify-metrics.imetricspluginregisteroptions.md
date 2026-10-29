@@ -4,7 +4,7 @@
 
 ## IMetricsPluginRegisterOptions interface
 
-Options accepted when registering the plugin. Same as[IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)<!-- -->, but `endpoint` may omit `method` and `handler` (both are always set by the plugin) and `promClient` also accepts a client selection mode.
+Options accepted when registering the plugin. Same as [IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)<!-- -->, but `endpoint` may omit `method` and `handler` (both are always set by the plugin) and `promClient` also accepts a client selection mode.
 
 **Signature:**
 
@@ -70,7 +70,7 @@ typeof client \| null \| 'auto' \| 'prometheus-io' \| 'platformatic'
 
 </td><td>
 
-PromClient instance to override default internal promClient, or a selection mode: `'auto'` (default, same as `null`<!-- -->) prefers`@platformatic/prom-client` when it is installed and usable;`'prometheus-io'` always uses `@prometheus-io/client`<!-- -->; `'platformatic'` requires `@platformatic/prom-client` and fails registration if it is unavailable or incompatible.
+PromClient instance to override default internal promClient, or a selection mode: `'auto'` (default, same as `null`<!-- -->) prefers `@platformatic/prom-client` when it is installed and usable; `'prometheus-io'` always uses `@prometheus-io/client`<!-- -->; `'platformatic'` requires `@platformatic/prom-client` and fails registration if it is unavailable or incompatible.
 
 
 </td></tr>

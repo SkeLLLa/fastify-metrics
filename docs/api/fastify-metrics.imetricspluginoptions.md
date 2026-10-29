@@ -107,7 +107,7 @@ LogLevel
 
 </td><td>
 
-_(Optional)_ Log level of the metrics endpoint route when `endpoint` is a string. The default keeps the endpoint quiet; consider `'error'` so failures while serving a scrape are visible in the logs. Ignored when `endpoint` is a`RouteOptions` object: set `logLevel` on that object instead.
+_(Optional)_ Log level of the metrics endpoint route when `endpoint` is a string. The default keeps the endpoint quiet; consider `'error'` so failures while serving a scrape are visible in the logs. Ignored when `endpoint` is a `RouteOptions` object: set `logLevel` on that object instead.
 
 
 </td></tr>

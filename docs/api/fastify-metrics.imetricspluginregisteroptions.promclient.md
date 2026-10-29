@@ -4,7 +4,7 @@
 
 ## IMetricsPluginRegisterOptions.promClient property
 
-PromClient instance to override default internal promClient, or a selection mode: `'auto'` (default, same as `null`<!-- -->) prefers`@platformatic/prom-client` when it is installed and usable;`'prometheus-io'` always uses `@prometheus-io/client`<!-- -->; `'platformatic'` requires `@platformatic/prom-client` and fails registration if it is unavailable or incompatible.
+PromClient instance to override default internal promClient, or a selection mode: `'auto'` (default, same as `null`<!-- -->) prefers `@platformatic/prom-client` when it is installed and usable; `'prometheus-io'` always uses `@prometheus-io/client`<!-- -->; `'platformatic'` requires `@platformatic/prom-client` and fails registration if it is unavailable or incompatible.
 
 **Signature:**
 

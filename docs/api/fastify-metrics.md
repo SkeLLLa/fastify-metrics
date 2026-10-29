@@ -4,7 +4,7 @@
 
 ## fastify-metrics package
 
-Prometheus metrics exporter for Fastify. Based on[@prometheus-io/client](https://github.com/prometheus/client_js)<!-- -->. Also by default it adds fastify route response time metrics (histogram and summary).
+Prometheus metrics exporter for Fastify. Based on [@prometheus-io/client](https://github.com/prometheus/client_js)<!-- -->. Also by default it adds fastify route response time metrics (histogram and summary).
 
 ## Interfaces
 
@@ -70,7 +70,7 @@ Metrics plugin config
 
 </td><td>
 
-Options accepted when registering the plugin. Same as[IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)<!-- -->, but `endpoint` may omit `method` and `handler` (both are always set by the plugin) and `promClient` also accepts a client selection mode.
+Options accepted when registering the plugin. Same as [IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)<!-- -->, but `endpoint` may omit `method` and `handler` (both are always set by the plugin) and `promClient` also accepts a client selection mode.
 
 
 </td></tr>
