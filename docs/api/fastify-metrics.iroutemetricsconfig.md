@@ -240,7 +240,7 @@ _(Optional)_ A list of routes that will be excluded from metrics collection.
 
 </td><td>
 
-_(Optional)_ Source of the route duration. `'timers'` starts prom-client timers in the`onRequest` hook; they stay bound to the instruments registered at that time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
+_(Optional)_ Source of the route duration. `'timers'` starts prom-client timers in the `onRequest` hook; they stay bound to the instruments registered at that time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
 
 
 </td></tr>
