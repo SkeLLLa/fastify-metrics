@@ -1,3 +1,31 @@
+## [14.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v14.1.1...v14.2.0) (2026-10-29)
+
+### 🧾 Other
+
+* fp type resolution fix ([6ea46d6](https://github.com/SkeLLLa/fastify-metrics/commit/6ea46d60140e7b0a833affd5a0e9a60d8f344c6a))
+* **deps-dev:** bump the all-minor-patch group with 3 updates ([995bcec](https://github.com/SkeLLLa/fastify-metrics/commit/995bcecbb4cec860300453ad59cfdf5a9da7cecf))
+* **deps-dev:** bump the all-minor-patch group with 3 updates ([b974d25](https://github.com/SkeLLLa/fastify-metrics/commit/b974d259987c7b2cd0449f7c267a8b644a4835aa))
+* **deps:** fix pnpm audit ([fe2a296](https://github.com/SkeLLLa/fastify-metrics/commit/fe2a2965f5c50335f7450855e720f60a771454ff))
+
+### 📔 Docs
+
+* gen new docs and make oxlint format them ([d99378b](https://github.com/SkeLLLa/fastify-metrics/commit/d99378b9681cd342d5bcabfd7d7de054cd3dd359))
+
+### 🚀 Features
+
+* add endpointLogLevel option 4 the metrics route ([37871c1](https://github.com/SkeLLLa/fastify-metrics/commit/37871c1c627c3b17b18d7a8b1a5859c188ed7ba2))
+* add explicit promClient option ([e7cefa9](https://github.com/SkeLLLa/fastify-metrics/commit/e7cefa9cf96897789195157382b1e941fba91da4))
+* add routeMetrics.maxSeries 2 prevent high cardinality overflow ([6f90d7c](https://github.com/SkeLLLa/fastify-metrics/commit/6f90d7ccf7985513f0578df6daecd6a24a1ad208))
+* add routeMetrics.timing option with elapsedTime mode ([ed54d4a](https://github.com/SkeLLLa/fastify-metrics/commit/ed54d4a8e5a4187645892fabed0092b52879893f))
+* isolate route metric recording failures + add onError option ([8c2e773](https://github.com/SkeLLLa/fastify-metrics/commit/8c2e773f097f55c16a3967d9fba7ea6be3b574d2))
+
+### 🛠 Fixes
+
+* keep endpoint options intact & ignore undefined options ([985de49](https://github.com/SkeLLLa/fastify-metrics/commit/985de494e3863b2f411ea8cd1a0a46e2897b15da))
+* match routeBlacklist patterns consistently across requests ([4303ece](https://github.com/SkeLLLa/fastify-metrics/commit/4303ece78f25574b21280d76de775164fffab379))
+* record route metrics after initMetricsInRegistry ([de2c47e](https://github.com/SkeLLLa/fastify-metrics/commit/de2c47ebac282d9c7f569e4bdc182043ba0c0442))
+* require fastify 5 in the plugin version check ([bc3cc78](https://github.com/SkeLLLa/fastify-metrics/commit/bc3cc7822e663485ce4f90e1ca1ba44491530578))
+
 ## [14.1.1](https://github.com/SkeLLLa/fastify-metrics/compare/v14.1.0...v14.1.1) (2026-10-17)
 
 ### 🛠 Fixes
