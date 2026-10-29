@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
+import type { IMetricsPluginOptions } from '../src/types';
 import { clientPromise } from './helper';
 
 let client: typeof promClient;
@@ -20,7 +21,9 @@ void describe('explicit undefined options', () => {
   void it('{ endpoint: undefined } serves /metrics', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, { endpoint: undefined });
+      await app.register(fastifyPlugin, {
+        endpoint: undefined,
+      } as unknown as Partial<IMetricsPluginOptions>);
       await app.ready();
 
       const res = await app.inject({ method: 'GET', url: '/metrics' });
@@ -36,7 +39,7 @@ void describe('explicit undefined options', () => {
       await app.register(fastifyPlugin, {
         routeMetrics: undefined,
         defaultMetrics: undefined,
-      });
+      } as unknown as Partial<IMetricsPluginOptions>);
       app.get('/test', async () => 'ok');
       await app.ready();
 
