@@ -14,6 +14,7 @@ import { resolveClient } from './resolve-client';
 import type {
   IFastifyMetrics,
   IMetricsPluginOptions,
+  IMetricsPluginRegisterOptions,
   IMetricsRouteContextConfig,
 } from './types';
 
@@ -31,6 +32,27 @@ declare module 'fastify' {
 }
 
 export type * from './types';
+
+/** Converts registration input to the internal options shape. */
+function normalizeOptions(
+  input: Partial<IMetricsPluginRegisterOptions>,
+  promClient: IMetricsPluginOptions['promClient'],
+): Partial<IMetricsPluginOptions> {
+  const { endpoint, ...rest } = input;
+  const normalized: Partial<IMetricsPluginOptions> = { ...rest, promClient };
+  if (typeof endpoint === 'object' && endpoint !== null) {
+    // Method and handler are enforced by the plugin; placeholders only satisfy
+    // the RouteOptions type and are replaced on a copy.
+    normalized.endpoint = {
+      ...endpoint,
+      method: endpoint.method ?? 'GET',
+      handler: endpoint.handler ?? (() => undefined),
+    };
+  } else if (endpoint !== undefined) {
+    normalized.endpoint = endpoint;
+  }
+  return normalized;
+}
 
 /**
  * Metric plugin
@@ -55,11 +77,12 @@ export type * from './types';
  *      .listen(3000)
  * ```
  */
-export default fastifyPlugin<Partial<IMetricsPluginOptions>>(
-  async (fastify, options) => {
-    const { name = 'metrics', clearRegisterOnInit = false } = options;
+export default fastifyPlugin<Partial<IMetricsPluginRegisterOptions>>(
+  async (fastify, input) => {
+    const { name = 'metrics', clearRegisterOnInit = false } = input;
 
-    const promClient = options.promClient ?? (await resolveClient());
+    const promClient = await resolveClient(input.promClient);
+    const options = normalizeOptions(input, promClient);
 
     if (clearRegisterOnInit) {
       promClient.register.clear();

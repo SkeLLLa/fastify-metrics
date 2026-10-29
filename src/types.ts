@@ -328,6 +328,45 @@ export interface IMetricsPluginOptions {
 }
 
 /**
+ * Options accepted when registering the plugin. Same as
+ * {@link IMetricsPluginOptions}, but `endpoint` may omit `method` and `handler`
+ * (both are always set by the plugin) and `promClient` also accepts a client
+ * selection mode.
+ *
+ * @public
+ */
+export interface IMetricsPluginRegisterOptions extends Omit<
+  IMetricsPluginOptions,
+  'endpoint' | 'promClient'
+> {
+  /**
+   * Endpoint to expose metrics in prometheus format. `null` - disables metrics
+   * exposure. An object may omit `method` and `handler`; they are always set
+   * to `GET` and the metrics handler.
+   *
+   * @defaultValue `/metrics`
+   */
+  endpoint:
+    | string
+    | null
+    | RouteOptions
+    | (Omit<RouteOptions, 'method' | 'handler'> &
+        Partial<Pick<RouteOptions, 'method' | 'handler'>>);
+
+  /**
+   * PromClient instance to override default internal promClient, or a
+   * selection mode: `'auto'` (default, same as `null`) prefers
+   * `@platformatic/prom-client` when it is installed and usable;
+   * `'prometheus-io'` always uses `@prometheus-io/client`; `'platformatic'`
+   * requires `@platformatic/prom-client` and fails registration if it is
+   * unavailable or incompatible.
+   *
+   * @defaultValue `auto`
+   */
+  promClient: typeof client | null | 'auto' | 'prometheus-io' | 'platformatic';
+}
+
+/**
  * Plugin decorator
  *
  * @public
