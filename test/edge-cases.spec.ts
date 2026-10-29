@@ -144,46 +144,45 @@ void describe('edge cases', () => {
       },
     ];
 
-    for (const scenario of scenarios) {
-      void it(`records new requests to re-registered metrics (${scenario.title})`, async () => {
-        const app = fastify();
-        try {
-          await app.register(fastifyPlugin, {
-            endpoint: '/metrics',
-            ...(scenario.routeMetrics && {
-              routeMetrics: scenario.routeMetrics,
-            }),
-          });
-          app.get('/test', async () => 'get test');
-          await app.ready();
+    for (const timing of ['timers', 'elapsedTime'] as const)
+      for (const scenario of scenarios) {
+        void it(`records new requests to re-registered metrics (${scenario.title}, timing: ${timing})`, async () => {
+          const app = fastify();
+          try {
+            await app.register(fastifyPlugin, {
+              endpoint: '/metrics',
+              routeMetrics: { ...scenario.routeMetrics, timing },
+            });
+            app.get('/test', async () => 'get test');
+            await app.ready();
 
-          await app.inject({ method: 'GET', url: '/test' });
+            await app.inject({ method: 'GET', url: '/test' });
 
-          app.metrics.client.register.clear();
-          app.metrics.initMetricsInRegistry();
+            app.metrics.client.register.clear();
+            app.metrics.initMetricsInRegistry();
 
-          const res = await app.inject({ method: 'GET', url: '/test' });
-          assert.strictEqual(res.statusCode, 200);
+            const res = await app.inject({ method: 'GET', url: '/test' });
+            assert.strictEqual(res.statusCode, 200);
 
-          const metrics = await app.inject({
-            method: 'GET',
-            url: '/metrics',
-          });
-          assert.strictEqual(metrics.statusCode, 200);
+            const metrics = await app.inject({
+              method: 'GET',
+              url: '/metrics',
+            });
+            assert.strictEqual(metrics.statusCode, 200);
 
-          assert.strictEqual(
-            hasCountOne(metrics.payload, 'http_request_duration_seconds'),
-            scenario.hist,
-          );
-          assert.strictEqual(
-            hasCountOne(metrics.payload, 'http_request_summary_seconds'),
-            scenario.sum,
-          );
-        } finally {
-          await app.close();
-        }
-      });
-    }
+            assert.strictEqual(
+              hasCountOne(metrics.payload, 'http_request_duration_seconds'),
+              scenario.hist,
+            );
+            assert.strictEqual(
+              hasCountOne(metrics.payload, 'http_request_summary_seconds'),
+              scenario.sum,
+            );
+          } finally {
+            await app.close();
+          }
+        });
+      }
   });
 
   void describe('default labels', () => {
