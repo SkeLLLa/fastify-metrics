@@ -5,6 +5,7 @@ import { describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
 import { resolveClient } from '../src/resolve-client';
+import { clientPromise, clientSelection, expectNoPlatformatic } from './helper';
 
 /** Checks whether the optional package passes the resolver's own checks. */
 async function platformaticUsable(): Promise<boolean> {
@@ -20,6 +21,19 @@ const quiet = {
 };
 
 void describe('promClient selection', () => {
+  void it('matches the client selected for this test run', async () => {
+    const selected = await clientPromise;
+    const usable = await platformaticUsable();
+    if (expectNoPlatformatic) {
+      assert.strictEqual(usable, false, 'platformatic must not be available');
+    }
+    if (clientSelection === 'prometheus-io' || !usable) {
+      assert.strictEqual(selected, defaultClient);
+    } else {
+      assert.notStrictEqual(selected, defaultClient);
+    }
+  });
+
   void it("'prometheus-io' uses @prometheus-io/client", async () => {
     const app = fastify();
     try {
@@ -42,6 +56,7 @@ void describe('promClient selection', () => {
         promClient: 'platformatic',
         ...quiet,
       });
+      assert.strictEqual(usable, !expectNoPlatformatic);
       if (usable) {
         await registration;
         await app.ready();

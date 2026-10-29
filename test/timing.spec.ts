@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -37,9 +37,12 @@ void describe('routeMetrics.timing', () => {
   void it('uses timers when routeMetrics is an empty object', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, {
-        routeMetrics: {},
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          routeMetrics: {},
+        }),
+      );
       app.get('/test', async () => 'ok');
       await app.ready();
 
@@ -71,9 +74,12 @@ void describe('routeMetrics.timing', () => {
   void it('elapsedTime starts no timers and records a plausible duration', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, {
-        routeMetrics: { timing: 'elapsedTime' },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          routeMetrics: { timing: 'elapsedTime' },
+        }),
+      );
       app.get('/test', async () => {
         await new Promise((resolve) => setTimeout(resolve, 10));
         return 'ok';
@@ -127,9 +133,12 @@ void describe('routeMetrics.timing', () => {
   void it('elapsedTime ignores routes that are excluded', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, {
-        routeMetrics: { timing: 'elapsedTime', routeBlacklist: ['/test'] },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          routeMetrics: { timing: 'elapsedTime', routeBlacklist: ['/test'] },
+        }),
+      );
       app.get('/test', async () => 'ok');
       await app.ready();
 

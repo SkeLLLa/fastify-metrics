@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -31,7 +31,7 @@ void describe('plugin', () => {
     });
 
     void it('exposes prom-client api', async () => {
-      await app.register(fastifyPlugin);
+      await app.register(fastifyPlugin, withClient());
       await app.ready();
       assert.notStrictEqual(app.metrics, undefined);
       assert.notStrictEqual(app.metrics.client, undefined);
@@ -46,9 +46,12 @@ void describe('plugin', () => {
     });
 
     void it('exposes prom-client api', async () => {
-      await app.register(fastifyPlugin, {
-        name: 'foo',
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          name: 'foo',
+        }),
+      );
       await app.ready();
       assert.strictEqual(app.metrics, undefined);
       // @ts-expect-error accessing dynamic property
@@ -68,7 +71,7 @@ void describe('plugin', () => {
 
     void it('collects default and route metrics with no options', async () => {
       app = fastify();
-      await app.register(fastifyPlugin);
+      await app.register(fastifyPlugin, withClient());
       app.get('/test', async () => 'get test');
       await app.ready();
 

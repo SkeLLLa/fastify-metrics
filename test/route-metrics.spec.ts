@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -40,9 +40,12 @@ void describe('route metrics', () => {
 
     beforeEach(async () => {
       app = fastify();
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -124,12 +127,15 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: false,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: false,
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -172,12 +178,15 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: {},
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: {},
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -214,12 +223,15 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          registeredRoutesOnly: false,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            registeredRoutesOnly: false,
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -256,13 +268,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          registeredRoutesOnly: false,
-          invalidRouteGroup: 'foo',
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            registeredRoutesOnly: false,
+            invalidRouteGroup: 'foo',
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -299,13 +314,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          routeBlacklist: ['/test'],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            routeBlacklist: ['/test'],
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -344,13 +362,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          routeBlacklist: [/^\/api\/documentation(\/|$)/],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            routeBlacklist: [/^\/api\/documentation(\/|$)/],
+          },
+        }),
+      );
       app.get('/api/documentation', async () => {
         return 'Base documentation';
       });
@@ -411,14 +432,17 @@ void describe('route metrics', () => {
         app = fastify();
         pattern.lastIndex = 0;
 
-        await app.register(fastifyPlugin, {
-          endpoint: '/metrics',
-          routeMetrics: {
-            enabled: true,
-            registeredRoutesOnly,
-            routeBlacklist: blacklist,
-          },
-        });
+        await app.register(
+          fastifyPlugin,
+          withClient({
+            endpoint: '/metrics',
+            routeMetrics: {
+              enabled: true,
+              registeredRoutesOnly,
+              routeBlacklist: blacklist,
+            },
+          }),
+        );
         app.get('/skip', async () => 'skip');
         app.get('/keep', async () => 'keep');
         await app.ready();
@@ -458,14 +482,17 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          registeredRoutesOnly: false,
-          routeBlacklist: [/\/skip/y],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            registeredRoutesOnly: false,
+            routeBlacklist: [/\/skip/y],
+          },
+        }),
+      );
       app.get('/skip', async () => 'skip');
       app.get('/other/skip', async () => 'other skip');
       await app.ready();
@@ -504,13 +531,16 @@ void describe('route metrics', () => {
       app = fastify();
       pattern.lastIndex = 3;
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          routeBlacklist: [pattern],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            routeBlacklist: [pattern],
+          },
+        }),
+      );
       app.get('/skip', async () => 'skip');
       await app.ready();
     });
@@ -541,13 +571,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          methodBlacklist: ['GET'],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            methodBlacklist: ['GET'],
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -583,13 +616,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          groupStatusCodes: true,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            groupStatusCodes: true,
+          },
+        }),
+      );
       app.get(
         '/test',
         {
@@ -640,13 +676,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          groupStatusCodes: true,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            groupStatusCodes: true,
+          },
+        }),
+      );
       app.get('/odd', async (_, reply) => {
         reply.raw.statusCode = 999;
         return reply.send('odd');
@@ -681,17 +720,20 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          overrides: {
-            labels: {
-              getRouteLabel: (request: FastifyRequest) => request.url,
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            overrides: {
+              labels: {
+                getRouteLabel: (request: FastifyRequest) => request.url,
+              },
             },
           },
-        },
-      });
+        }),
+      );
       app.get('*', async (_request, reply) => {
         await reply.send('foo');
       });
@@ -722,16 +764,19 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          customLabels: {
-            foo: 'bar',
-            url: (request: FastifyRequest) => request.url,
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            customLabels: {
+              foo: 'bar',
+              url: (request: FastifyRequest) => request.url,
+            },
           },
-        },
-      });
+        }),
+      );
       app.get('*', async (_request, reply) => {
         await reply.send('foo');
       });
@@ -762,17 +807,20 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: {
-            summary: false,
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: {
+              summary: false,
+            },
+            customLabels: {
+              url: (request: FastifyRequest) => request.url,
+            },
           },
-          customLabels: {
-            url: (request: FastifyRequest) => request.url,
-          },
-        },
-      });
+        }),
+      );
       app.get('*', async (_request, reply) => {
         await reply.send('foo');
       });
@@ -806,17 +854,20 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: {
-            histogram: false,
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: {
+              histogram: false,
+            },
+            customLabels: {
+              url: (request: FastifyRequest) => request.url,
+            },
           },
-          customLabels: {
-            url: (request: FastifyRequest) => request.url,
-          },
-        },
-      });
+        }),
+      );
       app.get('*', async (_request, reply) => {
         await reply.send('foo');
       });
@@ -850,15 +901,18 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: {
-            histogram: false,
-            summary: false,
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: {
+              histogram: false,
+              summary: false,
+            },
           },
-        },
-      });
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -889,19 +943,22 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          overrides: {
-            labels: {
-              method: 'http_method',
-              status: 'http_status',
-              route: 'http_route',
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            overrides: {
+              labels: {
+                method: 'http_method',
+                status: 'http_status',
+                route: 'http_route',
+              },
             },
           },
-        },
-      });
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -932,22 +989,25 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          overrides: {
-            histogram: {
-              name: 'custom_hist',
-              help: 'custom histogram help',
-            },
-            summary: {
-              name: 'custom_sum',
-              help: 'custom summary help',
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            overrides: {
+              histogram: {
+                name: 'custom_hist',
+                help: 'custom histogram help',
+              },
+              summary: {
+                name: 'custom_sum',
+                help: 'custom summary help',
+              },
             },
           },
-        },
-      });
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -987,13 +1047,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          registeredRoutesOnly: false,
-          methodBlacklist: ['POST'],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            registeredRoutesOnly: false,
+            methodBlacklist: ['POST'],
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -1033,13 +1096,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          registeredRoutesOnly: false,
-          routeBlacklist: ['/health'],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            registeredRoutesOnly: false,
+            routeBlacklist: ['/health'],
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -1079,13 +1145,16 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          registeredRoutesOnly: false,
-          routeBlacklist: [/^\/health/],
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            registeredRoutesOnly: false,
+            routeBlacklist: [/^\/health/],
+          },
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -1131,17 +1200,20 @@ void describe('route metrics', () => {
       customRegistry = new client.Registry();
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-          overrides: {
-            histogram: {
-              registers: [customRegistry],
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            overrides: {
+              histogram: {
+                registers: [customRegistry],
+              },
             },
           },
-        },
-      });
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -1181,12 +1253,15 @@ void describe('route metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        routeMetrics: {
-          enabled: true,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+          },
+        }),
+      );
       app.route({
         method: ['GET', 'POST'],
         url: '/multi',

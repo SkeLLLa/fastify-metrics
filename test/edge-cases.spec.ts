@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -36,9 +36,12 @@ void describe('edge cases', () => {
     });
 
     before(async () => {
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+        }),
+      );
       app.get('/test', async () => {
         return 'get test';
       });
@@ -149,10 +152,13 @@ void describe('edge cases', () => {
         void it(`records new requests to re-registered metrics (${scenario.title}, timing: ${timing})`, async () => {
           const app = fastify();
           try {
-            await app.register(fastifyPlugin, {
-              endpoint: '/metrics',
-              routeMetrics: { ...scenario.routeMetrics, timing },
-            });
+            await app.register(
+              fastifyPlugin,
+              withClient({
+                endpoint: '/metrics',
+                routeMetrics: { ...scenario.routeMetrics, timing },
+              }),
+            );
             app.get('/test', async () => 'get test');
             await app.ready();
 
@@ -193,9 +199,12 @@ void describe('edge cases', () => {
     });
 
     before(async () => {
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+        }),
+      );
       app.metrics.client.register.setDefaultLabels({ foo: 'bar' });
       app.get('/test', async () => {
         return 'get test';

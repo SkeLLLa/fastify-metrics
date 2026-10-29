@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -38,15 +38,18 @@ void describe('default metrics', () => {
 
     beforeEach(async () => {
       app = fastify();
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        defaultMetrics: {
-          enabled: true,
-        },
-        routeMetrics: {
-          enabled: false,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          defaultMetrics: {
+            enabled: true,
+          },
+          routeMetrics: {
+            enabled: false,
+          },
+        }),
+      );
       await app.ready();
     });
 
@@ -76,16 +79,19 @@ void describe('default metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        defaultMetrics: {
-          enabled: true,
-          register: new client.Registry(),
-        },
-        routeMetrics: {
-          enabled: false,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          defaultMetrics: {
+            enabled: true,
+            register: new client.Registry(),
+          },
+          routeMetrics: {
+            enabled: false,
+          },
+        }),
+      );
       await app.ready();
     });
 
@@ -115,15 +121,18 @@ void describe('default metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: null,
-        defaultMetrics: {
-          enabled: true,
-        },
-        routeMetrics: {
-          enabled: true,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: null,
+          defaultMetrics: {
+            enabled: true,
+          },
+          routeMetrics: {
+            enabled: true,
+          },
+        }),
+      );
       await app.ready();
     });
 
@@ -159,15 +168,18 @@ void describe('default metrics', () => {
     beforeEach(async () => {
       app = fastify();
 
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        defaultMetrics: {
-          enabled: false,
-        },
-        routeMetrics: {
-          enabled: false,
-        },
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          defaultMetrics: {
+            enabled: false,
+          },
+          routeMetrics: {
+            enabled: false,
+          },
+        }),
+      );
       await app.ready();
     });
 

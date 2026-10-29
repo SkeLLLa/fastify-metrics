@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import type { IMetricsPluginOptions } from '../src/types';
-import { clientPromise } from './helper';
+import type { IMetricsPluginRegisterOptions } from '../src/types';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -21,9 +21,12 @@ void describe('explicit undefined options', () => {
   void it('{ endpoint: undefined } serves /metrics', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, {
-        endpoint: undefined,
-      } as unknown as Partial<IMetricsPluginOptions>);
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: undefined,
+        } as unknown as Partial<IMetricsPluginRegisterOptions>),
+      );
       await app.ready();
 
       const res = await app.inject({ method: 'GET', url: '/metrics' });
@@ -36,10 +39,13 @@ void describe('explicit undefined options', () => {
   void it('{ routeMetrics: undefined, defaultMetrics: undefined } boots', async () => {
     const app = fastify();
     try {
-      await app.register(fastifyPlugin, {
-        routeMetrics: undefined,
-        defaultMetrics: undefined,
-      } as unknown as Partial<IMetricsPluginOptions>);
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          routeMetrics: undefined,
+          defaultMetrics: undefined,
+        } as unknown as Partial<IMetricsPluginRegisterOptions>),
+      );
       app.get('/test', async () => 'ok');
       await app.ready();
 

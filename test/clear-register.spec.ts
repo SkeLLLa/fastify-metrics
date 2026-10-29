@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -26,16 +26,19 @@ void describe('default metrics', () => {
         labelNames: ['code'],
       });
       c.inc(100);
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        defaultMetrics: {
-          enabled: false,
-        },
-        routeMetrics: {
-          enabled: false,
-        },
-        clearRegisterOnInit: false,
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          defaultMetrics: {
+            enabled: false,
+          },
+          routeMetrics: {
+            enabled: false,
+          },
+          clearRegisterOnInit: false,
+        }),
+      );
       await app.ready();
     });
 
@@ -71,16 +74,19 @@ void describe('default metrics', () => {
         labelNames: ['code'],
       });
       c.inc(100);
-      await app.register(fastifyPlugin, {
-        endpoint: '/metrics',
-        defaultMetrics: {
-          enabled: false,
-        },
-        routeMetrics: {
-          enabled: false,
-        },
-        clearRegisterOnInit: true,
-      });
+      await app.register(
+        fastifyPlugin,
+        withClient({
+          endpoint: '/metrics',
+          defaultMetrics: {
+            enabled: false,
+          },
+          routeMetrics: {
+            enabled: false,
+          },
+          clearRegisterOnInit: true,
+        }),
+      );
       await app.ready();
     });
 
