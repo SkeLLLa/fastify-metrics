@@ -1,0 +1,4 @@
+# Dependabot cooldown matches pnpm minimumReleaseAge (3 days)
+rules:
+  dependabot-cooldown:
+    days: 3

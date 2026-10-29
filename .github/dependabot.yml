@@ -4,6 +4,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 3
     groups:
       production-major:
         dependency-type: 'production'
@@ -23,6 +25,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 3
     groups:
       all-actions:
         patterns:
