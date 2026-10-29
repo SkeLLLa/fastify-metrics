@@ -1,3 +1,17 @@
+## [15.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v14.2.0...v15.0.0) (2026-10-29)
+
+### ⚠ BREAKING CHANGES
+
+* routeMetrics.timing now defaults to 'elapsedTime'. Set routeMetrics: { timing: 'timers' } to keep the previous behaviour.
+
+### 📔 Docs
+
+* add funding config and donation badges ([08c9920](https://github.com/SkeLLLa/fastify-metrics/commit/08c992045e6cd2545c52e3935f4b193857192540))
+
+### 🚀 Features
+
+* use reply.elapsedTime as default route timing source ([206355a](https://github.com/SkeLLLa/fastify-metrics/commit/206355ac9add5c1a3f60c656dec3662ddc4f7a42))
+
 ## [14.2.0](https://github.com/SkeLLLa/fastify-metrics/compare/v14.1.1...v14.2.0) (2026-10-29)
 
 ### 🧾 Other
