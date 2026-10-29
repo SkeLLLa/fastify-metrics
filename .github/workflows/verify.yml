@@ -42,7 +42,7 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: [22.x, 24.x, 26.x]
         client: [prometheus-io, platformatic, auto-uninstalled]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -61,13 +61,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Lint
-        if: matrix.client == 'prometheus-io'
+        if: matrix.client == 'prometheus-io' && matrix.node-version == '26.x'
         run: pnpm oxlint -f github
       - name: Build
-        if: matrix.client == 'prometheus-io'
+        if: matrix.client == 'prometheus-io' && matrix.node-version == '26.x'
         run: pnpm build
       - name: Check formatting and audit packages
-        if: matrix.client == 'prometheus-io'
+        if: matrix.client == 'prometheus-io' && matrix.node-version == '26.x'
         run: pnpm run lint
       - name: Remove optional @platformatic/prom-client
         if: matrix.client == 'auto-uninstalled'
@@ -78,7 +78,7 @@ jobs:
           FASTIFY_METRICS_TEST_CLIENT: ${{ matrix.client == 'auto-uninstalled' && 'auto' || matrix.client }}
           FASTIFY_METRICS_TEST_EXPECT_NO_PLATFORMATIC: ${{ matrix.client == 'auto-uninstalled' && '1' || '0' }}
       - name: Upload coverage to Codecov
-        if: matrix.client == 'prometheus-io' && matrix.node-version == '24.x'
+        if: matrix.client == 'prometheus-io' && matrix.node-version == '26.x'
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
         with:
           use_oidc: true

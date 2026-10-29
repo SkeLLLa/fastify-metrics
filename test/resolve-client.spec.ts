@@ -147,13 +147,40 @@ void describe('resolveClient', () => {
       assert.ok(found[0]?.message.includes('broken module'));
     });
 
+    void it('warns when the import rejects with a non-Error value', async () => {
+      const { client, warnings } = await resolveWithWarnings(() =>
+        Promise.reject('plain failure'),
+      );
+      assert.strictEqual(client, defaultClient);
+      const found = fallbackWarnings(warnings);
+      assert.strictEqual(found.length, 1);
+      assert.ok(found[0]?.message.includes('plain failure'));
+    });
+
+    void it('warns on a not-found code without a message', async () => {
+      const { client, warnings } = await resolveWithWarnings(() =>
+        Promise.reject(
+          Object.assign(new Error(), {
+            code: 'ERR_MODULE_NOT_FOUND',
+            message: undefined,
+          }),
+        ),
+      );
+      assert.strictEqual(client, defaultClient);
+      assert.strictEqual(fallbackWarnings(warnings).length, 1);
+    });
+
     void it('warns when the module has an unexpected shape', async () => {
       const shapes: unknown[] = [
+        null,
+        { default: null },
         {},
         { default: {} },
         { default: { ...goodModule.default, register: null } },
         { default: { ...goodModule.default, collectDefaultMetrics: {} } },
         { default: { ...goodModule.default, Histogram: undefined } },
+        { default: { ...goodModule.default, Summary: undefined } },
+        { default: { ...goodModule.default, Registry: undefined } },
       ];
       for (const shape of shapes) {
         const { client, warnings } = await resolveWithWarnings(() =>

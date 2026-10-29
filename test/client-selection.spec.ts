@@ -106,4 +106,28 @@ void describe('relaxed endpoint object', () => {
       await app.close();
     }
   });
+
+  void it('replaces a provided handler and method with its own', async () => {
+    const app = fastify();
+    try {
+      await app.register(fastifyPlugin, {
+        promClient: 'prometheus-io',
+        endpoint: {
+          url: '/relaxed',
+          method: 'POST',
+          handler: async () => 'not metrics',
+        },
+        ...quiet,
+      });
+      await app.ready();
+      const res = await app.inject({ method: 'GET', url: '/relaxed' });
+      assert.strictEqual(res.statusCode, 200);
+      assert.notStrictEqual(res.payload, 'not metrics');
+      const post = await app.inject({ method: 'POST', url: '/relaxed' });
+      assert.strictEqual(post.statusCode, 404);
+    } finally {
+      defaultClient.register.clear();
+      await app.close();
+    }
+  });
 });
