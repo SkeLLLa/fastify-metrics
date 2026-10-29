@@ -5,7 +5,7 @@ import { afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
 import type { IMetricsPluginOptions } from '../src/types';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -22,10 +22,13 @@ async function getEndpointLogLevel(
         logLevel = route.logLevel;
       }
     });
-    await app.register(fastifyPlugin, {
-      routeMetrics: { enabled: false },
-      ...options,
-    });
+    await app.register(
+      fastifyPlugin,
+      withClient({
+        routeMetrics: { enabled: false },
+        ...options,
+      }),
+    );
     await app.ready();
     return logLevel;
   } finally {

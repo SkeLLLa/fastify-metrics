@@ -6,7 +6,7 @@ import { setImmediate as tick } from 'node:timers/promises';
 
 import fastifyPlugin from '../src/index';
 import type { IMetricsPluginOptions } from '../src/types';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -34,10 +34,13 @@ async function buildApp(
     },
   });
   let calls = 0;
-  await app.register(fastifyPlugin, {
-    endpoint: '/metrics',
-    routeMetrics: { enabled: true, ...routeMetrics },
-  });
+  await app.register(
+    fastifyPlugin,
+    withClient({
+      endpoint: '/metrics',
+      routeMetrics: { enabled: true, ...routeMetrics },
+    }),
+  );
   app.addHook('onResponse', (_, __, done) => {
     calls++;
     done();

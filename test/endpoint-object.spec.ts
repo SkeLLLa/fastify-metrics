@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -14,22 +14,25 @@ void describe('endpoint as object', () => {
 
   before(async () => {
     client = await clientPromise;
-    await app.register(fastifyPlugin, {
-      endpoint: {
-        url: '/custom-endpoint',
-        method: 'POST',
-        preHandler: (_, __, done) => {
-          preHandlerCalled = true;
-          done();
+    await app.register(
+      fastifyPlugin,
+      withClient({
+        endpoint: {
+          url: '/custom-endpoint',
+          method: 'POST',
+          preHandler: (_, __, done) => {
+            preHandlerCalled = true;
+            done();
+          },
+        } as RouteOptions,
+        defaultMetrics: {
+          enabled: true,
         },
-      } as RouteOptions,
-      defaultMetrics: {
-        enabled: true,
-      },
-      routeMetrics: {
-        enabled: false,
-      },
-    });
+        routeMetrics: {
+          enabled: false,
+        },
+      }),
+    );
     await app.ready();
   });
 
@@ -88,10 +91,13 @@ void describe('endpoint as object: input is not mutated', () => {
     } as RouteOptions;
     const snapshot = { ...endpoint };
 
-    await app.register(fastifyPlugin, {
-      endpoint,
-      routeMetrics: { enabled: false },
-    });
+    await app.register(
+      fastifyPlugin,
+      withClient({
+        endpoint,
+        routeMetrics: { enabled: false },
+      }),
+    );
     await app.ready();
 
     assert.deepStrictEqual({ ...endpoint }, snapshot);
@@ -108,10 +114,13 @@ void describe('endpoint as object: input is not mutated', () => {
       method: 'POST',
     }) as RouteOptions;
 
-    await app.register(fastifyPlugin, {
-      endpoint,
-      routeMetrics: { enabled: false },
-    });
+    await app.register(
+      fastifyPlugin,
+      withClient({
+        endpoint,
+        routeMetrics: { enabled: false },
+      }),
+    );
     await app.ready();
 
     assert.strictEqual(endpoint.method, 'POST');

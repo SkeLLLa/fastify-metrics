@@ -5,7 +5,7 @@ import { afterEach, before, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
 import type { IMetricsPluginOptions } from '../src/types';
-import { clientPromise } from './helper';
+import { clientPromise, withClient } from './helper';
 
 let client: typeof promClient;
 
@@ -44,18 +44,23 @@ async function buildApp(
       },
     },
   });
-  await app.register(fastifyPlugin, {
-    endpoint: '/metrics',
-    defaultMetrics: { enabled: false },
-    routeMetrics: {
-      enabled: true,
-      customLabels: {
-        tenant: (request: FastifyRequest) => (request.query as IQuery).t ?? '',
-        region: (request: FastifyRequest) => (request.query as IQuery).r ?? '',
+  await app.register(
+    fastifyPlugin,
+    withClient({
+      endpoint: '/metrics',
+      defaultMetrics: { enabled: false },
+      routeMetrics: {
+        enabled: true,
+        customLabels: {
+          tenant: (request: FastifyRequest) =>
+            (request.query as IQuery).t ?? '',
+          region: (request: FastifyRequest) =>
+            (request.query as IQuery).r ?? '',
+        },
+        ...routeMetrics,
       },
-      ...routeMetrics,
-    },
-  });
+    }),
+  );
   app.get('/test', async () => 'ok');
   await app.ready();
   return app;
