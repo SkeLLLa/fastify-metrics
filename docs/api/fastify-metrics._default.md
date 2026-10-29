@@ -9,7 +9,7 @@ Metric plugin
 **Signature:**
 
 ```typescript
-_default: import("fastify").FastifyPluginCallback<Partial<IMetricsPluginOptions>, import("fastify").RawServerDefault, import("fastify").FastifyTypeProviderDefault, import("fastify").FastifyBaseLogger>
+_default: import("fastify").FastifyPluginCallback<Partial<IMetricsPluginRegisterOptions>, import("fastify").RawServerDefault, import("fastify").FastifyTypeProviderDefault, import("fastify").FastifyBaseLogger>
 ```
 
 ## Example

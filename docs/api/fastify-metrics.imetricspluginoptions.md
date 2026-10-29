@@ -50,7 +50,7 @@ boolean
 
 </td><td>
 
-Clears the prometheus client global registry before adding metrics. Default to `false`
+Clears the global registry of the selected prometheus client before adding metrics. Default to `false`
 
 
 </td></tr>
@@ -89,6 +89,25 @@ string \| null \| RouteOptions
 </td><td>
 
 Endpoint to expose metrics in prometheus format. `null` - disables metrics exposure
+
+
+</td></tr>
+<tr><td>
+
+[endpointLogLevel?](./fastify-metrics.imetricspluginoptions.endpointloglevel.md)
+
+
+</td><td>
+
+
+</td><td>
+
+LogLevel
+
+
+</td><td>
+
+_(Optional)_ Log level of the metrics endpoint route when `endpoint` is a string. The default keeps the endpoint quiet; consider `'error'` so failures while serving a scrape are visible in the logs. Ignored when `endpoint` is a`RouteOptions` object: set `logLevel` on that object instead.
 
 
 </td></tr>

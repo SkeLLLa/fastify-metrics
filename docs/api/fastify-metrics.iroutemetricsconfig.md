@@ -113,6 +113,25 @@ _(Optional)_ Unknown route label. If registeredRoutesOnly routes set to `false` 
 </td></tr>
 <tr><td>
 
+[maxSeries?](./fastify-metrics.iroutemetricsconfig.maxseries.md)
+
+
+</td><td>
+
+
+</td><td>
+
+number
+
+
+</td><td>
+
+_(Optional)_ Upper bound for the number of distinct label tuples (method, route, status and custom labels) admitted per plugin instance, to keep metric cardinality and memory bounded. Each tuple maps to many histogram and summary series, so this limits tuples, not bytes. Once reached, new tuples are recorded with every label except method and status set to `__overflow__`<!-- -->; tuples admitted earlier keep recording normally. Must be a positive integer.
+
+
+</td></tr>
+<tr><td>
+
 [methodBlacklist?](./fastify-metrics.iroutemetricsconfig.methodblacklist.md)
 
 
@@ -127,6 +146,25 @@ readonly HTTPMethods\[\]
 </td><td>
 
 _(Optional)_ A list of HTTP methods that will be excluded from metrics collection
+
+
+</td></tr>
+<tr><td>
+
+[onError?](./fastify-metrics.iroutemetricsconfig.onerror.md)
+
+
+</td><td>
+
+
+</td><td>
+
+(error: unknown, request: FastifyRequest, reply: FastifyReply) =&gt; void
+
+
+</td><td>
+
+_(Optional)_ Called when recording route metrics for a response fails, for example when a custom label function or `getRouteLabel` throws. The response is not affected. Errors thrown by this callback are ignored, and a returned promise is not awaited.
 
 
 </td></tr>
@@ -184,6 +222,25 @@ readonly (string \| RegExp)\[\]
 </td><td>
 
 _(Optional)_ A list of routes that will be excluded from metrics collection.
+
+
+</td></tr>
+<tr><td>
+
+[timing?](./fastify-metrics.iroutemetricsconfig.timing.md)
+
+
+</td><td>
+
+
+</td><td>
+
+'timers' \| 'elapsedTime'
+
+
+</td><td>
+
+_(Optional)_ Source of the route duration. `'timers'` starts prom-client timers in the`onRequest` hook; they stay bound to the instruments registered at that time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
 
 
 </td></tr>

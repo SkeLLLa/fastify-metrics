@@ -50,7 +50,7 @@ Description
 
 </td><td>
 
-_(Optional)_ Function that will return route value for metrics label. By default will use: `request.routeConfig.statsId ?? request.routerPath`
+_(Optional)_ Function that will return route value for metrics label. By default will use: `request.routeOptions.config.statsId ?? request.routeOptions.url` (the route template).
 
 
 </td></tr>
