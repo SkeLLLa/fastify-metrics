@@ -438,34 +438,68 @@ export class FastifyMetrics implements IFastifyMetrics {
           return;
         }
 
-        // Status codes outside 100-599 have no group; keep the raw value.
-        const statusCode = this.groupStatusCodes
-          ? STATUS_GROUPS[Math.floor(reply.statusCode / 100)] ||
-            reply.statusCode
-          : reply.statusCode;
-        const route = this.getRouteLabel(request);
-        const method = request.method;
+        try {
+          // Status codes outside 100-599 have no group; keep the raw value.
+          const statusCode = this.groupStatusCodes
+            ? STATUS_GROUPS[Math.floor(reply.statusCode / 100)] ||
+              reply.statusCode
+            : reply.statusCode;
+          const route = this.getRouteLabel(request);
+          const method = request.method;
 
-        const labels: Record<string, string | number> = {
-          [methodKey]: method,
-          [routeKey]: route,
-          [statusKey]: statusCode,
-        };
+          const labels: Record<string, string | number> = {
+            [methodKey]: method,
+            [routeKey]: route,
+            [statusKey]: statusCode,
+          };
 
-        if (this.hasCustomLabels) {
-          for (const [labelName, labelValue] of this.customLabelEntries) {
-            labels[labelName] =
-              typeof labelValue === 'function'
-                ? labelValue(request, reply)
-                : labelValue;
+          if (this.hasCustomLabels) {
+            for (const [labelName, labelValue] of this.customLabelEntries) {
+              labels[labelName] =
+                typeof labelValue === 'function'
+                  ? labelValue(request, reply)
+                  : labelValue;
+            }
           }
-        }
 
-        if (metrics.hist) metrics.hist(labels);
-        if (metrics.sum) metrics.sum(labels);
+          if (metrics.hist) metrics.hist(labels);
+          if (metrics.sum) metrics.sum(labels);
+        } catch (error) {
+          this.reportError(error, request, reply);
+        }
 
         done();
       });
+  }
+
+  /**
+   * Reports a metric recording failure without affecting the response. Errors
+   * thrown (or rejected) by the error handler itself are ignored.
+   */
+  private reportError(
+    error: unknown,
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ): void {
+    try {
+      const onError = this.options.routeMetrics.onError;
+      if (onError) {
+        const result: unknown = onError(error, request, reply);
+        if (
+          typeof (result as PromiseLike<unknown> | undefined)?.then ===
+          'function'
+        ) {
+          (result as PromiseLike<unknown>).then(undefined, () => {});
+        }
+        return;
+      }
+      request.log.error(
+        { err: error },
+        'fastify-metrics: failed to record route metrics',
+      );
+    } catch {
+      // The error handler must never break the response lifecycle.
+    }
   }
 
   /**

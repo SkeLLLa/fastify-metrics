@@ -246,6 +246,20 @@ export interface IRouteMetricsConfig {
     string | ((request: FastifyRequest, reply: FastifyReply) => string)
   >;
 
+  /**
+   * Called when recording route metrics for a response fails, for example when
+   * a custom label function or `getRouteLabel` throws. The response is not
+   * affected. Errors thrown by this callback are ignored, and a returned
+   * promise is not awaited.
+   *
+   * @defaultValue Logs the error with `request.log.error`
+   */
+  onError?: (
+    error: unknown,
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ) => void;
+
   /** Metric configuration overrides */
   overrides?: IRouteMetricsOverrides;
 }
