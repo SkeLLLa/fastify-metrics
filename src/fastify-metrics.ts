@@ -255,7 +255,7 @@ export class FastifyMetrics implements IFastifyMetrics {
       routeOptions = {
         url: endpoint,
         method: 'GET',
-        logLevel: 'fatal',
+        logLevel: this.options.endpointLogLevel ?? 'fatal',
         exposeHeadRoute: false,
         handler: routeHandler,
       };
