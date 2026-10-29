@@ -397,6 +397,140 @@ void describe('route metrics', () => {
     });
   });
 
+  for (const registeredRoutesOnly of [true, false]) {
+    void describe(`{ routeBlacklist = [/^\\/skip/g], registeredRoutesOnly = ${String(registeredRoutesOnly)} }`, () => {
+      let app = fastify();
+      const pattern = /^\/skip/g;
+      const blacklist = [pattern];
+
+      afterEach(async () => {
+        await app.close();
+      });
+
+      beforeEach(async () => {
+        app = fastify();
+        pattern.lastIndex = 0;
+
+        await app.register(fastifyPlugin, {
+          endpoint: '/metrics',
+          routeMetrics: {
+            enabled: true,
+            registeredRoutesOnly,
+            routeBlacklist: blacklist,
+          },
+        });
+        app.get('/skip', async () => 'skip');
+        app.get('/keep', async () => 'keep');
+        await app.ready();
+        assert.strictEqual(blacklist[0], pattern, 'input array not replaced');
+        assert.strictEqual(pattern.lastIndex, 0, 'unchanged after setup');
+      });
+
+      void it('excludes consecutive matching requests', async () => {
+        for (let i = 0; i < 5; i++) {
+          await app.inject({ method: 'GET', url: '/skip' });
+        }
+        await app.inject({ method: 'GET', url: '/keep' });
+
+        const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+        const lines = metrics.payload.split('\n');
+
+        assert.ok(
+          !lines.some((l) => l.includes('route="/skip"')),
+          'Should not contain /skip',
+        );
+        assertLinesContain(lines, [
+          'http_request_duration_seconds_count{method="GET",route="/keep",status_code="200"} 1',
+        ]);
+        assert.strictEqual(blacklist[0], pattern, 'input array not replaced');
+        assert.strictEqual(pattern.lastIndex, 0, 'unchanged after requests');
+      });
+    });
+  }
+
+  void describe(`{ routeBlacklist = [/\\/skip/y] }`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          registeredRoutesOnly: false,
+          routeBlacklist: [/\/skip/y],
+        },
+      });
+      app.get('/skip', async () => 'skip');
+      app.get('/other/skip', async () => 'other skip');
+      await app.ready();
+    });
+
+    void it('keeps sticky semantics: only matches at the start of the URL', async () => {
+      for (let i = 0; i < 3; i++) {
+        await app.inject({ method: 'GET', url: '/skip' });
+      }
+      for (let i = 0; i < 3; i++) {
+        await app.inject({ method: 'GET', url: '/other/skip' });
+      }
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      const lines = metrics.payload.split('\n');
+
+      assert.ok(
+        !lines.some((l) => l.includes('route="/skip"')),
+        'Should not contain /skip',
+      );
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/other/skip",status_code="200"} 3',
+      ]);
+    });
+  });
+
+  void describe(`{ routeBlacklist = [/^\\/skip/] with preset lastIndex }`, () => {
+    let app = fastify();
+    const pattern = /^\/skip/;
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+      pattern.lastIndex = 3;
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          routeBlacklist: [pattern],
+        },
+      });
+      app.get('/skip', async () => 'skip');
+      await app.ready();
+    });
+
+    void it('does not modify non-global patterns', async () => {
+      for (let i = 0; i < 3; i++) {
+        await app.inject({ method: 'GET', url: '/skip' });
+      }
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      const lines = metrics.payload.split('\n');
+
+      assert.ok(
+        !lines.some((l) => l.includes('route="/skip"')),
+        'Should not contain /skip',
+      );
+      assert.strictEqual(pattern.lastIndex, 3, 'lastIndex untouched');
+    });
+  });
+
   void describe(`{ methodBlacklist = ['GET'] }`, () => {
     let app = fastify();
 
