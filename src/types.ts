@@ -277,12 +277,12 @@ export interface IRouteMetricsConfig {
   maxSeries?: number;
 
   /**
-   * Source of the route duration. `'timers'` starts prom-client timers in the
-   * `onRequest` hook; they stay bound to the instruments registered at that
-   * time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime`
-   * on the current instruments when the response is sent.
+   * Source of the route duration. `'elapsedTime'` starts no timers and
+   * observes `reply.elapsedTime` on the current instruments when the response
+   * is sent. `'timers'` starts prom-client timers in the `onRequest` hook; they
+   * stay bound to the instruments registered at that time.
    *
-   * @defaultValue `timers`
+   * @defaultValue `elapsedTime`
    */
   timing?: 'timers' | 'elapsedTime';
 
@@ -418,10 +418,10 @@ export interface IFastifyMetrics {
    * Initialize metrics in registries. Useful if you call `registry.clear()` to
    * register metrics in regisitries once again.
    *
-   * In `'timers'` mode, requests already in flight during re-initialization
-   * record to the previous instruments; in `'elapsedTime'` mode they record to
-   * the current instruments. Samples collected before re-initialization are not
-   * preserved.
+   * In the default `'elapsedTime'` mode, requests already in flight during
+   * re-initialization record to the current instruments; in `'timers'` mode
+   * they record to the previous instruments. Samples collected before
+   * re-initialization are not preserved.
    */
   initMetricsInRegistry(): void;
 }

@@ -34,42 +34,47 @@ void describe('routeMetrics.timing', () => {
     client.register.clear();
   });
 
-  void it('uses timers when routeMetrics is an empty object', async () => {
-    const app = fastify();
-    try {
-      await app.register(
-        fastifyPlugin,
-        withClient({
-          routeMetrics: {},
-        }),
-      );
-      app.get('/test', async () => 'ok');
-      await app.ready();
-
-      // Timers are only started in the onRequest hook
-      let timerStarts = 0;
-      const histogram = (
-        app.metrics as unknown as {
-          routeMetrics: { routeHist: { startTimer: () => unknown } };
-        }
-      ).routeMetrics.routeHist;
-      const originalStartTimer = histogram.startTimer;
-      const original = originalStartTimer.bind(histogram);
-      histogram.startTimer = () => {
-        timerStarts++;
-        return original();
-      };
-
+  const timerCases: [string, Record<string, unknown>, number][] = [
+    ['uses elapsedTime by default when routeMetrics is an empty object', {}, 0],
+    [
+      'uses elapsedTime by default when timing is undefined',
+      { timing: undefined },
+      0,
+    ],
+    ["uses timers when timing is 'timers'", { timing: 'timers' }, 1],
+  ];
+  for (const [title, routeMetrics, expectedStarts] of timerCases) {
+    void it(title, async () => {
+      const app = fastify();
       try {
-        await app.inject({ method: 'GET', url: '/test' });
-        assert.strictEqual(timerStarts, 1);
+        await app.register(fastifyPlugin, withClient({ routeMetrics }));
+        app.get('/test', async () => 'ok');
+        await app.ready();
+
+        let timerStarts = 0;
+        const histogram = (
+          app.metrics as unknown as {
+            routeMetrics: { routeHist: { startTimer: () => unknown } };
+          }
+        ).routeMetrics.routeHist;
+        const originalStartTimer = histogram.startTimer;
+        const original = originalStartTimer.bind(histogram);
+        histogram.startTimer = () => {
+          timerStarts++;
+          return original();
+        };
+
+        try {
+          await app.inject({ method: 'GET', url: '/test' });
+          assert.strictEqual(timerStarts, expectedStarts);
+        } finally {
+          histogram.startTimer = originalStartTimer;
+        }
       } finally {
-        histogram.startTimer = originalStartTimer;
+        await app.close();
       }
-    } finally {
-      await app.close();
-    }
-  });
+    });
+  }
 
   void it('elapsedTime starts no timers and records a plausible duration', async () => {
     const app = fastify();

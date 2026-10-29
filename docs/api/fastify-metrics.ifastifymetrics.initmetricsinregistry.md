@@ -6,7 +6,7 @@
 
 Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again.
 
-In `'timers'` mode, requests already in flight during re-initialization record to the previous instruments; in `'elapsedTime'` mode they record to the current instruments. Samples collected before re-initialization are not preserved.
+In the default `'elapsedTime'` mode, requests already in flight during re-initialization record to the current instruments; in `'timers'` mode they record to the previous instruments. Samples collected before re-initialization are not preserved.
 
 **Signature:**
 

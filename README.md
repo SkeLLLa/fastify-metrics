@@ -26,6 +26,7 @@ This plugin also adds two http metrics for your routes:
   - [ToC](#toc)
   - [Fastify support](#fastify-support)
   - [Notable changes](#notable-changes)
+    - [v15.x.x](#v15xx)
     - [v14.x.x](#v14xx)
     - [v12.x.x](#v12xx)
     - [v11.x.x](#v11xx)
@@ -67,8 +68,15 @@ This plugin also adds two http metrics for your routes:
 - **v11.x.x** - supports `fastify-4.x` `prom-client-15.x`
 - **v12.x.x** - supports `fastify-5.x` `prom-client-15.x`
 - **v14.x.x** - supports `fastify-5.x` `@prometheus-io/client-0.16.x`
+- **v15.x.x** - supports `fastify-5.x` `@prometheus-io/client-0.16.x`
 
 ## Notable changes
+
+### v15.x.x
+
+- The default route duration source is now `reply.elapsedTime` (`routeMetrics.timing: 'elapsedTime'`). It starts no per-request timers and always records to the current instruments, including after `initMetricsInRegistry()`.
+- Measured durations can differ slightly from `'timers'`. `reply.elapsedTime` is measured by Fastify from the start of request handling (before any `onRequest` hooks, including ones registered before this plugin) until the response finishes, whereas `'timers'` starts in this plugin's `onRequest` hook and stops in its `onResponse` hook. Expect small shifts in latency histograms and summaries, particularly if slow `onRequest` hooks are registered before the plugin.
+- To keep the previous behaviour (prom-client timers started in the `onRequest` hook), set `routeMetrics: { timing: 'timers' }`.
 
 ### v14.x.x
 
@@ -232,7 +240,7 @@ Requirements and behaviour:
 
 - Clear every registry the plugin registers into before calling it, including any custom `registers` you configured in `overrides`. Registering a metric that already exists in a registry throws.
 - Samples collected before re-initialization are not preserved.
-- Requests that are in flight during re-initialization record to the previous instruments when `routeMetrics.timing` is `'timers'`, and to the current instruments when it is `'elapsedTime'`.
+- Requests that are in flight during re-initialization record to the current instruments when `routeMetrics.timing` is `'elapsedTime'` (default), and to the previous instruments when it is `'timers'`.
 - When `routeMetrics.maxSeries` is set, the admitted label tuples are forgotten on re-initialization.
 
 ```js
@@ -319,7 +327,7 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [routeBlacklist?](./docs/api/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly (string \| RegExp)\[\]                                                               | `undefined`                            |
 | [maxSeries?](./docs/api/fastify-metrics.iroutemetricsconfig.maxseries.md)                       | number                                                                                        | `undefined` (unlimited)                |
 | [onError?](./docs/api/fastify-metrics.iroutemetricsconfig.onerror.md)                           | (error: unknown, request: FastifyRequest, reply: FastifyReply) =&gt; void                     | logs with `request.log.error`          |
-| [timing?](./docs/api/fastify-metrics.iroutemetricsconfig.timing.md)                             | `'timers'` \| `'elapsedTime'`                                                                 | `'timers'`                             |
+| [timing?](./docs/api/fastify-metrics.iroutemetricsconfig.timing.md)                             | `'timers'` \| `'elapsedTime'`                                                                 | `'elapsedTime'`                        |
 
 ##### Route metrics enabled
 
@@ -347,8 +355,18 @@ would result in the library only generating histograms.
 
 `timing` selects how the request duration is measured:
 
-- `'timers'` (default) starts prom-client timers when the request arrives. Timers stay bound to the instruments registered at that time.
-- `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
+- `'elapsedTime'` (default) starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
+- `'timers'` starts prom-client timers when the request arrives. Timers stay bound to the instruments registered at that time.
+
+|                                                            | `'elapsedTime'` (default)     | `'timers'`                         |
+| ---------------------------------------------------------- | ----------------------------- | ---------------------------------- |
+| Starts                                                     | before any `onRequest` hook   | in this plugin's `onRequest` hook  |
+| Ends                                                       | when the response is finished | in this plugin's `onResponse` hook |
+| Includes `onRequest` hooks registered before plugin        | yes                           | no                                 |
+| Depends on plugin registration order                       | no                            | yes                                |
+| Records to current metrics after `initMetricsInRegistry()` | yes                           | only for new requests              |
+
+Neither mode measures time spent before Fastify handles the request (network, Node.js HTTP parsing, waiting in a busy event loop), and requests answered by an `onRequest` hook that runs before this plugin's hook are not recorded. Use load balancer or proxy metrics, or event loop lag metrics, for end-to-end latency.
 
 ##### Error handling
 
