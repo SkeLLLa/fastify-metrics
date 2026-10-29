@@ -8,6 +8,17 @@ import { clientPromise } from './helper';
 
 let client: typeof promClient;
 
+const hasCountOne = (payload: string, metric: string): boolean =>
+  payload.split('\n').some((line) => {
+    if (!line.startsWith(`${metric}_count{`)) return false;
+    return (
+      line.includes('method="GET"') &&
+      line.includes('route="/test"') &&
+      line.includes('status_code="200"') &&
+      line.endsWith('} 1')
+    );
+  });
+
 void describe('edge cases', () => {
   before(async () => {
     client = await clientPromise;
@@ -97,6 +108,82 @@ void describe('edge cases', () => {
 
       assert.strictEqual(typeof metricsAfterReinit.payload, 'string');
     });
+  });
+
+  void describe('re-init after registry clear', () => {
+    const scenarios: Array<{
+      title: string;
+      routeMetrics?: Record<string, unknown>;
+      hist: boolean;
+      sum: boolean;
+    }> = [
+      { title: 'default config', hist: true, sum: true },
+      {
+        title: 'enabled flags omitted',
+        routeMetrics: { enabled: {} },
+        hist: true,
+        sum: true,
+      },
+      {
+        title: 'histogram only',
+        routeMetrics: { enabled: { histogram: true, summary: false } },
+        hist: true,
+        sum: false,
+      },
+      {
+        title: 'summary only',
+        routeMetrics: { enabled: { histogram: false, summary: true } },
+        hist: false,
+        sum: true,
+      },
+      {
+        title: 'both disabled',
+        routeMetrics: { enabled: { histogram: false, summary: false } },
+        hist: false,
+        sum: false,
+      },
+    ];
+
+    for (const scenario of scenarios) {
+      void it(`records new requests to re-registered metrics (${scenario.title})`, async () => {
+        const app = fastify();
+        try {
+          await app.register(fastifyPlugin, {
+            endpoint: '/metrics',
+            ...(scenario.routeMetrics && {
+              routeMetrics: scenario.routeMetrics,
+            }),
+          });
+          app.get('/test', async () => 'get test');
+          await app.ready();
+
+          await app.inject({ method: 'GET', url: '/test' });
+
+          app.metrics.client.register.clear();
+          app.metrics.initMetricsInRegistry();
+
+          const res = await app.inject({ method: 'GET', url: '/test' });
+          assert.strictEqual(res.statusCode, 200);
+
+          const metrics = await app.inject({
+            method: 'GET',
+            url: '/metrics',
+          });
+          assert.strictEqual(metrics.statusCode, 200);
+
+          assert.strictEqual(
+            hasCountOne(metrics.payload, 'http_request_duration_seconds'),
+            scenario.hist,
+          );
+          assert.strictEqual(
+            hasCountOne(metrics.payload, 'http_request_summary_seconds'),
+            scenario.sum,
+          );
+        } finally {
+          await app.close();
+        }
+      });
+    }
   });
 
   void describe('default labels', () => {

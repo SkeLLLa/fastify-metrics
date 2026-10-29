@@ -305,7 +305,10 @@ export interface IFastifyMetrics {
   client: typeof client;
   /**
    * Initialize metrics in registries. Useful if you call `registry.clear()` to
-   * register metrics in regisitries once again
+   * register metrics in regisitries once again.
+   *
+   * Requests already in flight during re-initialization record to the previous
+   * instruments; samples collected before re-initialization are not preserved.
    */
   initMetricsInRegistry(): void;
 }
