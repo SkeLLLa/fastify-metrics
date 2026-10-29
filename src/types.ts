@@ -248,6 +248,16 @@ export interface IRouteMetricsConfig {
   >;
 
   /**
+   * Source of the route duration. `'timers'` starts prom-client timers in the
+   * `onRequest` hook; they stay bound to the instruments registered at that
+   * time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime`
+   * on the current instruments when the response is sent.
+   *
+   * @defaultValue `timers`
+   */
+  timing?: 'timers' | 'elapsedTime';
+
+  /**
    * Called when recording route metrics for a response fails, for example when
    * a custom label function or `getRouteLabel` throws. The response is not
    * affected. Errors thrown by this callback are ignored, and a returned
@@ -378,8 +388,10 @@ export interface IFastifyMetrics {
    * Initialize metrics in registries. Useful if you call `registry.clear()` to
    * register metrics in regisitries once again.
    *
-   * Requests already in flight during re-initialization record to the previous
-   * instruments; samples collected before re-initialization are not preserved.
+   * In `'timers'` mode, requests already in flight during re-initialization
+   * record to the previous instruments; in `'elapsedTime'` mode they record to
+   * the current instruments. Samples collected before re-initialization are not
+   * preserved.
    */
   initMetricsInRegistry(): void;
 }

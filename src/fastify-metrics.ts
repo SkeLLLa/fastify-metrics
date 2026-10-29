@@ -31,6 +31,8 @@ interface IConstructiorDeps {
 interface IReqMetrics<T extends string> {
   hist?: (labels?: LabelValues<T>) => number;
   sum?: (labels?: LabelValues<T>) => void;
+  /** Set in `elapsedTime` mode: which instruments to observe on response. */
+  elapsed?: { hist: boolean; sum: boolean };
 }
 
 interface IRouteMetrics {
@@ -40,6 +42,8 @@ interface IRouteMetrics {
 }
 
 const STATUS_GROUPS = ['', '1xx', '2xx', '3xx', '4xx', '5xx'] as const;
+
+const DEFAULT_TIMING = 'timers';
 
 export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   name: 'metrics',
@@ -75,6 +79,7 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   private readonly registeredRoutesOnly: boolean;
   private readonly groupStatusCodes: boolean;
+  private readonly timing: 'timers' | 'elapsedTime';
   private readonly hasCustomLabels: boolean;
   private readonly customLabelEntries: readonly [
     string,
@@ -103,6 +108,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     this.registeredRoutesOnly =
       this.options.routeMetrics.registeredRoutesOnly !== false;
     this.groupStatusCodes = this.options.routeMetrics.groupStatusCodes === true;
+    this.timing = this.options.routeMetrics.timing ?? DEFAULT_TIMING;
 
     const customLabels = this.options.routeMetrics.customLabels;
     this.customLabelEntries = customLabels ? Object.entries(customLabels) : [];
@@ -328,6 +334,19 @@ export class FastifyMetrics implements IFastifyMetrics {
     const routeMetrics = this.routeMetrics!;
     const enabled = this.options.routeMetrics.enabled;
 
+    if (this.timing === 'elapsedTime') {
+      // No per-request timers: the duration is read from the reply on response
+      // and observed on the current instruments.
+      const elapsed = {
+        hist: !(enabled instanceof Object) || enabled.histogram !== false,
+        sum: !(enabled instanceof Object) || enabled.summary !== false,
+      };
+      this.createTimers = (request) => {
+        this.metricStorage.set(request, { elapsed });
+      };
+      return;
+    }
+
     if (enabled instanceof Object) {
       const useHist = enabled.histogram !== false;
       const useSum = enabled.summary !== false;
@@ -462,6 +481,15 @@ export class FastifyMetrics implements IFastifyMetrics {
             }
           }
 
+          if (metrics.elapsed) {
+            const seconds = reply.elapsedTime / 1000;
+            if (metrics.elapsed.hist) {
+              this.routeMetrics?.routeHist.observe(labels, seconds);
+            }
+            if (metrics.elapsed.sum) {
+              this.routeMetrics?.routeSum.observe(labels, seconds);
+            }
+          }
           if (metrics.hist) metrics.hist(labels);
           if (metrics.sum) metrics.sum(labels);
         } catch (error) {
@@ -506,8 +534,10 @@ export class FastifyMetrics implements IFastifyMetrics {
    * Initialize metrics in registries. Useful if you call `registry.clear()` to
    * register metrics in regisitries once again.
    *
-   * Requests already in flight during re-initialization record to the previous
-   * instruments; samples collected before re-initialization are not preserved.
+   * In `'timers'` mode, requests already in flight during re-initialization
+   * record to the previous instruments; in `'elapsedTime'` mode they record to
+   * the current instruments. Samples collected before re-initialization are not
+   * preserved.
    */
   public initMetricsInRegistry(): void {
     if (this.options.defaultMetrics.enabled) {
