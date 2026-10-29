@@ -630,6 +630,47 @@ void describe('route metrics', () => {
     });
   });
 
+  void describe(`{ groupStatusCodes = true } with out-of-range status`, () => {
+    let app = fastify();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    beforeEach(async () => {
+      app = fastify();
+
+      await app.register(fastifyPlugin, {
+        endpoint: '/metrics',
+        routeMetrics: {
+          enabled: true,
+          groupStatusCodes: true,
+        },
+      });
+      app.get('/odd', async (_, reply) => {
+        reply.raw.statusCode = 999;
+        return reply.send('odd');
+      });
+      app.get('/ok', async () => 'ok');
+      await app.ready();
+    });
+
+    void it('keeps the raw status code and still records the response', async () => {
+      const odd = await app.inject({ method: 'GET', url: '/odd' });
+      assert.strictEqual(odd.statusCode, 999);
+      await app.inject({ method: 'GET', url: '/ok' });
+
+      const metrics = await app.inject({ method: 'GET', url: '/metrics' });
+      assert.strictEqual(metrics.statusCode, 200);
+      const lines = metrics.payload.split('\n');
+
+      assertLinesContain(lines, [
+        'http_request_duration_seconds_count{method="GET",route="/odd",status_code="999"} 1',
+        'http_request_duration_seconds_count{method="GET",route="/ok",status_code="2xx"} 1',
+      ]);
+    });
+  });
+
   void describe(`getRouteLabel is defined`, () => {
     let app = fastify();
 

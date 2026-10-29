@@ -89,9 +89,13 @@ export class FastifyMetrics implements IFastifyMetrics {
   /** Creates metrics collector instance */
   constructor(private readonly deps: IConstructiorDeps) {
     this.client = this.deps.client;
+    // Explicit `undefined` values must not shadow the defaults.
+    const providedOptions = Object.fromEntries(
+      Object.entries(deps.options).filter(([, value]) => value !== undefined),
+    ) as Partial<IMetricsPluginOptions>;
     this.options = {
       ...DEFAULT_OPTIONS,
-      ...deps.options,
+      ...providedOptions,
     };
     this.routeFallback =
       this.options.routeMetrics.invalidRouteGroup ?? '__unknown__';
@@ -256,11 +260,9 @@ export class FastifyMetrics implements IFastifyMetrics {
         handler: routeHandler,
       };
     } else {
-      // endpoint is of type RouteOptions
-      routeOptions = endpoint;
-      // do not override the method
-      routeOptions.method = 'GET';
-      routeOptions.handler = routeHandler;
+      // endpoint is of type RouteOptions; copy it so the input is not mutated.
+      // The method and handler are always enforced.
+      routeOptions = { ...endpoint, method: 'GET', handler: routeHandler };
     }
     // Add route
     this.deps.fastify.route(routeOptions);
@@ -436,8 +438,10 @@ export class FastifyMetrics implements IFastifyMetrics {
           return;
         }
 
+        // Status codes outside 100-599 have no group; keep the raw value.
         const statusCode = this.groupStatusCodes
-          ? STATUS_GROUPS[Math.floor(reply.statusCode / 100)]!
+          ? STATUS_GROUPS[Math.floor(reply.statusCode / 100)] ||
+            reply.statusCode
           : reply.statusCode;
         const route = this.getRouteLabel(request);
         const method = request.method;
