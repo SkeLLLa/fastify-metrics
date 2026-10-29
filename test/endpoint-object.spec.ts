@@ -1,7 +1,7 @@
 import type promClient from '@prometheus-io/client';
 import { fastify, type RouteOptions } from 'fastify';
 import assert from 'node:assert/strict';
-import { after, before, describe, it } from 'node:test';
+import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import fastifyPlugin from '../src/index';
 import { clientPromise } from './helper';
@@ -38,7 +38,7 @@ void describe('endpoint as object', () => {
     await app.close();
   });
 
-  void it('should not override method', async () => {
+  void it('should enforce GET method (POST is not served)', async () => {
     const metrics = await app.inject({
       method: 'POST',
       url: '/custom-endpoint',
@@ -62,5 +62,60 @@ void describe('endpoint as object', () => {
       lines.some((l) => /process_cpu_system_seconds_total \d+/.test(l)),
     );
     assert.ok(lines.some((l) => /process_start_time_seconds \d+/.test(l)));
+  });
+});
+
+const preHandler: RouteOptions['preHandler'] = (_, __, done) => done();
+
+void describe('endpoint as object: input is not mutated', () => {
+  let app = fastify();
+
+  beforeEach(() => {
+    app = fastify();
+  });
+
+  afterEach(async () => {
+    client.register.clear();
+    await app.close();
+  });
+
+  void it('does not modify the provided object', async () => {
+    client = await clientPromise;
+    const endpoint = {
+      url: '/custom-endpoint',
+      method: 'POST',
+      preHandler,
+    } as RouteOptions;
+    const snapshot = { ...endpoint };
+
+    await app.register(fastifyPlugin, {
+      endpoint,
+      routeMetrics: { enabled: false },
+    });
+    await app.ready();
+
+    assert.deepStrictEqual({ ...endpoint }, snapshot);
+    assert.strictEqual(endpoint.method, 'POST');
+    assert.strictEqual(endpoint.handler, undefined);
+    const res = await app.inject({ method: 'GET', url: '/custom-endpoint' });
+    assert.strictEqual(res.statusCode, 200);
+  });
+
+  void it('accepts a frozen object', async () => {
+    client = await clientPromise;
+    const endpoint = Object.freeze({
+      url: '/frozen-endpoint',
+      method: 'POST',
+    }) as RouteOptions;
+
+    await app.register(fastifyPlugin, {
+      endpoint,
+      routeMetrics: { enabled: false },
+    });
+    await app.ready();
+
+    assert.strictEqual(endpoint.method, 'POST');
+    const res = await app.inject({ method: 'GET', url: '/frozen-endpoint' });
+    assert.strictEqual(res.statusCode, 200);
   });
 });
