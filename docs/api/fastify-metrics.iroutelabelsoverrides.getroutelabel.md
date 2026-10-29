@@ -4,7 +4,7 @@
 
 ## IRouteLabelsOverrides.getRouteLabel property
 
-Function that will return route value for metrics label. By default will use: `request.routeConfig.statsId ?? request.routerPath`
+Function that will return route value for metrics label. By default will use: `request.routeOptions.config.statsId ?? request.routeOptions.url` (the route template).
 
 **Signature:**
 
@@ -16,11 +16,15 @@ getRouteLabel?: (request: FastifyRequest) => string;
 
 `undefined`
 
+## Remarks
+
+Return values from a small, bounded set (such as route templates). Values derived from the raw request URL grow with the number of distinct URLs and increase metric cardinality.
+
 ## Example
 
-To use route full url as label:
+To use a route template with a fixed fallback:
 
 ```ts
-getRouteLabel: (request) => request.raw.url;
+getRouteLabel: (request) => request.routeOptions.url ?? 'unmatched';
 ```
 

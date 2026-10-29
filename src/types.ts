@@ -104,12 +104,18 @@ export interface IHistogramOverrides extends Partial<
 export interface IRouteLabelsOverrides {
   /**
    * Function that will return route value for metrics label. By default will
-   * use: `request.routeConfig.statsId ?? request.routerPath`
+   * use: `request.routeOptions.config.statsId ?? request.routeOptions.url`
+   * (the route template).
    *
-   * @example To use route full url as label:
+   * @remarks
+   * Return values from a small, bounded set (such as route templates). Values
+   * derived from the raw request URL grow with the number of distinct URLs and
+   * increase metric cardinality.
+   *
+   * @example To use a route template with a fixed fallback:
    *
    * ```ts
-   * getRouteLabel: (request) => request.raw.url;
+   * getRouteLabel: (request) => request.routeOptions.url ?? 'unmatched';
    * ```
    *
    * @defaultValue `undefined`
@@ -231,12 +237,23 @@ export interface IRouteMetricsConfig {
   /**
    * Custom labels to add to metrics
    *
+   * @remarks
+   * Label values should come from a small, bounded set; see `maxSeries` to cap
+   * the number of label combinations.
+   *
    * @example
    *
    * ```ts
+   * const KNOWN_CLIENTS = new Set(['web', 'ios', 'android']);
+   *
    * customLabels: {
    *  myLabel: 'my-value',
-   *  myLabel2: (request, reply) => request.headers['x-my-header'],
+   *  client: (request) => {
+   *    const value = request.headers['x-client'];
+   *    return typeof value === 'string' && KNOWN_CLIENTS.has(value)
+   *      ? value
+   *      : 'other';
+   *  },
    * }
    * ```
    *
@@ -249,8 +266,8 @@ export interface IRouteMetricsConfig {
 
   /**
    * Upper bound for the number of distinct label tuples (method, route, status
-   * and custom labels) admitted per plugin instance, to keep metric cardinality and
-   * memory bounded. Each tuple maps to many histogram and summary series, so
+   * and custom labels) admitted per plugin instance, to keep metric cardinality
+   * and memory bounded. Each tuple maps to many histogram and summary series, so
    * this limits tuples, not bytes. Once reached, new tuples are recorded with
    * every label except method and status set to `__overflow__`; tuples admitted
    * earlier keep recording normally. Must be a positive integer.
@@ -341,7 +358,8 @@ export interface IMetricsPluginOptions {
   routeMetrics: IRouteMetricsConfig;
 
   /**
-   * Clears the prometheus client global registry before adding metrics.
+   * Clears the global registry of the selected prometheus client before adding
+   * metrics.
    * Default to `false`
    *
    * @defaultValue `false`

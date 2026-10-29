@@ -4,7 +4,9 @@
 
 ## IFastifyMetrics.initMetricsInRegistry() method
 
-Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again
+Initialize metrics in registries. Useful if you call `registry.clear()` to register metrics in regisitries once again.
+
+In `'timers'` mode, requests already in flight during re-initialization record to the previous instruments; in `'elapsedTime'` mode they record to the current instruments. Samples collected before re-initialization are not preserved.
 
 **Signature:**
 

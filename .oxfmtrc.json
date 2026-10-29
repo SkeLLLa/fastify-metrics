@@ -26,6 +26,7 @@
     "**/*.min.*",
     "**/*.xxx.*",
     "docs/",
+    "etc/",
     "lcov.info",
     "pnpm-lock.yaml"
   ]

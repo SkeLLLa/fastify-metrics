@@ -65,6 +65,17 @@ Metrics plugin config
 </td></tr>
 <tr><td>
 
+[IMetricsPluginRegisterOptions](./fastify-metrics.imetricspluginregisteroptions.md)
+
+
+</td><td>
+
+Options accepted when registering the plugin. Same as[IMetricsPluginOptions](./fastify-metrics.imetricspluginoptions.md)<!-- -->, but `endpoint` may omit `method` and `handler` (both are always set by the plugin) and `promClient` also accepts a client selection mode.
+
+
+</td></tr>
+<tr><td>
+
 [IMetricsRouteContextConfig](./fastify-metrics.imetricsroutecontextconfig.md)
 
 

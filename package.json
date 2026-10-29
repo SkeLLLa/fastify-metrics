@@ -36,7 +36,7 @@
     "provenance": true
   },
   "scripts": {
-    "build": "pnpm run build:node && pnpm run build:docs && pnpm run build:format",
+    "build": "pnpm run build:node && pnpm run build:docs",
     "build:docs": "api-extractor run -l && api-documenter markdown -i ./temp -o ./docs/api",
     "build:format": "oxfmt",
     "build:node": "tsc -p tsconfig.build.json",

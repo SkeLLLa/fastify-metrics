@@ -16,13 +16,24 @@ customLabels?: Record<string, string | ((request: FastifyRequest, reply: Fastify
 
 `undefined`
 
+## Remarks
+
+Label values should come from a small, bounded set; see `maxSeries` to cap the number of label combinations.
+
 ## Example
 
 
 ```ts
+const KNOWN_CLIENTS = new Set(['web', 'ios', 'android']);
+
 customLabels: {
  myLabel: 'my-value',
- myLabel2: (request, reply) => request.headers['x-my-header'],
+ client: (request) => {
+   const value = request.headers['x-client'];
+   return typeof value === 'string' && KNOWN_CLIENTS.has(value)
+     ? value
+     : 'other';
+ },
 }
 ```
 

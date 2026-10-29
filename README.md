@@ -37,13 +37,20 @@ This plugin also adds two http metrics for your routes:
   - [Features and requirements](#features-and-requirements)
   - [Usage](#usage)
     - [Registry clear](#registry-clear)
+    - [Securing the metrics endpoint](#securing-the-metrics-endpoint)
     - [Plugin options](#plugin-options)
+      - [Metrics endpoint](#metrics-endpoint)
       - [Route metrics](#route-metrics)
         - [Route metrics enabled](#route-metrics-enabled)
+        - [Route blacklist](#route-blacklist)
+        - [Route timing](#route-timing)
+        - [Error handling](#error-handling)
+        - [Label cardinality](#label-cardinality)
         - [Route metrics overrides](#route-metrics-overrides)
           - [Labels](#labels)
           - [Request durations summary](#request-durations-summary)
           - [Request durations histogram](#request-durations-histogram)
+    - [Caveats](#caveats)
     - [HTTP routes metrics in Prometheus](#http-routes-metrics-in-prometheus)
   - [API Docs](#api-docs)
   - [Changelog](#changelog)
@@ -117,7 +124,7 @@ pnpm i fastify-metrics --save
 
 This plugin supports [@platformatic/prom-client](https://github.com/platformatic/prom-client) as an optional drop-in replacement for `@prometheus-io/client`. It is a performance-focused fork by [Platformatic](https://platformatic.dev/) that provides the same API with lower overhead — optimized internal data structures, reduced memory allocations, and faster metric serialization.
 
-**If `@platformatic/prom-client` is installed, the plugin will use it automatically.** No configuration changes needed. If it's not installed, the plugin falls back to `@prometheus-io/client`.
+**If `@platformatic/prom-client` is installed, the plugin will use it automatically.** No configuration changes needed. If it's not installed, the plugin falls back to `@prometheus-io/client`. If it is installed but cannot be used (for example it fails to load or does not expose a prom-client compatible API), the plugin also falls back and emits a process warning with code `FSTMETRICS_CLIENT_FALLBACK`.
 
 ### Why use it
 
@@ -140,14 +147,27 @@ pnpm i @platformatic/prom-client
 
 The plugin auto-detects it on startup. No code changes required.
 
+### Client selection
+
+The `promClient` option selects the client implementation:
+
+| Value             | Behaviour                                                                                                                                                               |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `null` / `'auto'` | Default. Uses `@platformatic/prom-client` if it is installed and usable, otherwise `@prometheus-io/client`. Failures other than "package not installed" emit a warning. |
+| `'prometheus-io'` | Always uses `@prometheus-io/client`.                                                                                                                                    |
+| `'platformatic'`  | Requires `@platformatic/prom-client`. Registration fails with an explicit error if it is not installed or does not expose a compatible API.                             |
+| client object     | Used as-is and not validated.                                                                                                                                           |
+
+The warning has code `FSTMETRICS_CLIENT_FALLBACK` and can be observed with `process.on('warning', ...)`.
+
 ### Explicit client override
 
 You can also pass the client explicitly via the `promClient` option. This takes precedence over auto-detection:
 
 ```js
+import client from '@platformatic/prom-client';
 import fastify from 'fastify';
 import metricsPlugin from 'fastify-metrics';
-import client from '@platformatic/prom-client';
 
 const app = fastify();
 await app.register(metricsPlugin, {
@@ -155,6 +175,14 @@ await app.register(metricsPlugin, {
   promClient: client,
 });
 ```
+
+To select a client by name instead:
+
+```js
+await app.register(metricsPlugin, { promClient: 'platformatic' });
+```
+
+Use `fastify.metrics.client` to create custom metrics, so that they are registered with the same client (and registry) as the plugin metrics.
 
 ### Verifying which client is active
 
@@ -200,6 +228,62 @@ You may create your metrics when app starts and store it in `fastify.metrics` ob
 
 After calling `registry.clear()` all metrics are removed from registry. In order to add them again to the registry, call `fastify.metrics.initMetricsInRegistry`.
 
+Requirements and behaviour:
+
+- Clear every registry the plugin registers into before calling it, including any custom `registers` you configured in `overrides`. Registering a metric that already exists in a registry throws.
+- Samples collected before re-initialization are not preserved.
+- Requests that are in flight during re-initialization record to the previous instruments when `routeMetrics.timing` is `'timers'`, and to the current instruments when it is `'elapsedTime'`.
+- When `routeMetrics.maxSeries` is set, the admitted label tuples are forgotten on re-initialization.
+
+```js
+app.metrics.client.register.clear();
+app.metrics.initMetricsInRegistry();
+```
+
+<sub>[Back to top](#toc)</sub>
+
+### Securing the metrics endpoint
+
+The metrics endpoint is **unauthenticated by default**. Metrics can reveal route names, traffic volumes and runtime details, so restrict access to it in production.
+
+Protect the endpoint with a hook by passing a route options object:
+
+```js
+import fastify from 'fastify';
+import metricsPlugin from 'fastify-metrics';
+
+const app = fastify();
+
+const authHook = async (request, reply) => {
+  if (request.headers.authorization !== `Bearer ${process.env.METRICS_TOKEN}`) {
+    await reply.code(401).send();
+  }
+};
+
+await app.register(metricsPlugin, {
+  endpoint: { url: '/metrics', onRequest: authHook },
+});
+```
+
+Alternatively, disable the built-in endpoint with `endpoint: null` and expose the registry from a separate internal Fastify instance that listens only on a private interface:
+
+```js
+import fastify from 'fastify';
+import metricsPlugin from 'fastify-metrics';
+
+const app = fastify();
+await app.register(metricsPlugin, { endpoint: null });
+
+const internal = fastify();
+internal.get('/metrics', async (request, reply) => {
+  const registry = app.metrics.client.register;
+  return reply.type(registry.contentType).send(await registry.metrics());
+});
+await internal.listen({ host: '127.0.0.1', port: 9091 });
+```
+
+Binding to a private interface is a deployment control, not authentication: combine it with network policies where needed. Do not register the plugin twice against the same global registry; use a single registration and share its registry.
+
 <sub>[Back to top](#toc)</sub>
 
 ### Plugin options
@@ -211,9 +295,15 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [clearRegisterOnInit?](./docs/api/fastify-metrics.imetricspluginoptions.clearregisteroninit.md) | boolean                                                                                                             | `false`             |
 | [defaultMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.defaultmetrics.md)           | [IDefaultMetricsConfig](./docs/api/fastify-metrics.idefaultmetricsconfig.md)                                        | `{ enabled: true }` |
 | [endpoint?](./docs/api/fastify-metrics.imetricspluginoptions.endpoint.md)                       | string \| null \| [`Fastify.RouteOptions`](https://www.fastify.io/docs/api/latest/Reference/Routes/#routes-options) | `'/metrics'`        |
+| [endpointLogLevel?](./docs/api/fastify-metrics.imetricspluginoptions.endpointloglevel.md)       | Fastify `LogLevel`                                                                                                  | `'fatal'`           |
 | [name?](./docs/api/fastify-metrics.imetricspluginoptions.name.md)                               | string                                                                                                              | `'metrics'`         |
-| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)                   | `@prometheus-io/client` instance \| null                                                                            | `null`              |
+| [promClient?](./docs/api/fastify-metrics.imetricspluginoptions.promclient.md)                   | client instance \| `null` \| `'auto'` \| `'prometheus-io'` \| `'platformatic'`                                      | `null`              |
 | [routeMetrics?](./docs/api/fastify-metrics.imetricspluginoptions.routemetrics.md)               | [IRouteMetricsConfig](./docs/api/fastify-metrics.iroutemetricsconfig.md)                                            | `{ enabled: true }` |
+
+#### Metrics endpoint
+
+- `endpoint` is a URL string, `null` (do not expose the endpoint) or a Fastify `RouteOptions` object. In the object form `method` and `handler` are optional: the plugin always serves `GET` with its own handler, and the object you pass is not modified.
+- `endpointLogLevel` sets the log level of the endpoint route when `endpoint` is a string. The default `'fatal'` keeps the endpoint quiet; consider `'error'` so failures while serving a scrape are logged. With an object `endpoint`, set `logLevel` on the object instead.
 
 #### Route metrics
 
@@ -227,6 +317,9 @@ See for details [docs](docs/api/fastify-metrics.imetricspluginoptions.md)
 | [overrides?](./docs/api/fastify-metrics.iroutemetricsconfig.overrides.md)                       | [IRouteMetricsOverrides](./docs/api/fastify-metrics.iroutemetricsoverrides.md)                |                                        |
 | [registeredRoutesOnly?](./docs/api/fastify-metrics.iroutemetricsconfig.registeredroutesonly.md) | boolean                                                                                       | `true`                                 |
 | [routeBlacklist?](./docs/api/fastify-metrics.iroutemetricsconfig.routeblacklist.md)             | readonly (string \| RegExp)\[\]                                                               | `undefined`                            |
+| [maxSeries?](./docs/api/fastify-metrics.iroutemetricsconfig.maxseries.md)                       | number                                                                                        | `undefined` (unlimited)                |
+| [onError?](./docs/api/fastify-metrics.iroutemetricsconfig.onerror.md)                           | (error: unknown, request: FastifyRequest, reply: FastifyReply) =&gt; void                     | logs with `request.log.error`          |
+| [timing?](./docs/api/fastify-metrics.iroutemetricsconfig.timing.md)                             | `'timers'` \| `'elapsedTime'`                                                                 | `'timers'`                             |
 
 ##### Route metrics enabled
 
@@ -245,6 +338,62 @@ The `enabled` configuration option can be either a boolean which enables/disable
 ```
 
 would result in the library only generating histograms.
+
+##### Route blacklist
+
+`routeBlacklist` excludes routes from route metrics. String entries must equal the route; RegExp entries are tested against it. When `registeredRoutesOnly` is `false`, patterns are also matched against the raw request URL for requests that do not match a registered route, so keep patterns simple and linear-time. RegExp entries with the `g` or `y` flag are matched statelessly and are not modified.
+
+##### Route timing
+
+`timing` selects how the request duration is measured:
+
+- `'timers'` (default) starts prom-client timers when the request arrives. Timers stay bound to the instruments registered at that time.
+- `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
+
+##### Error handling
+
+A failure while computing labels or recording a request (for example a throwing `customLabels` function or `getRouteLabel`) never affects the response. By default the error is logged with `request.log.error`. Provide `onError` to handle it yourself:
+
+```js
+await app.register(metricsPlugin, {
+  routeMetrics: {
+    onError: (error, request, reply) => {
+      request.log.warn({ err: error }, 'metrics failure');
+    },
+  },
+});
+```
+
+Errors thrown by `onError`, and promises it returns, are ignored and never awaited.
+
+##### Label cardinality
+
+Every distinct combination of label values creates separate histogram and summary series, held in memory and exported on every scrape. Use label values from small, bounded sets:
+
+```js
+const KNOWN_CLIENTS = new Set(['web', 'ios', 'android']);
+
+await app.register(metricsPlugin, {
+  routeMetrics: {
+    customLabels: {
+      client: (request) => {
+        const value = request.headers['x-client'];
+        return typeof value === 'string' && KNOWN_CLIENTS.has(value)
+          ? value
+          : 'other';
+      },
+    },
+    overrides: {
+      labels: {
+        // Route template with a fixed fallback
+        getRouteLabel: (request) => request.routeOptions.url ?? 'unmatched',
+      },
+    },
+  },
+});
+```
+
+Avoid labels built from raw URLs, unmapped header values or identifiers. As a safety net, set `maxSeries`: it limits the number of distinct label tuples admitted per plugin instance (each tuple maps to many histogram and summary series, so this is not a byte limit). Once the limit is reached, new tuples are recorded with every label except method and status set to `'__overflow__'`; tuples admitted earlier keep recording normally, and a single warning is logged. `maxSeries` must be a positive integer.
 
 ##### Route metrics overrides
 
@@ -284,11 +433,11 @@ await app.register(metricsPlugin, {
 
 ###### Request durations summary
 
-| Property                                                                | Type       | Default value                           |
-| ----------------------------------------------------------------------- | ---------- | --------------------------------------- |
-| [name?](./docs/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`        |
-| [help?](./docs/fastify-metrics.isummaryoverrides.help.md)               | string     | `'request duration in seconds summary'` |
-| [percentiles?](./docs/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                |
+| Property                                                                    | Type       | Default value                           |
+| --------------------------------------------------------------------------- | ---------- | --------------------------------------- |
+| [name?](./docs/api/fastify-metrics.isummaryoverrides.name.md)               | string     | `'http_request_summary_seconds'`        |
+| [help?](./docs/api/fastify-metrics.isummaryoverrides.help.md)               | string     | `'request duration in seconds summary'` |
+| [percentiles?](./docs/api/fastify-metrics.isummaryoverrides.percentiles.md) | number\[\] | `[0.5, 0.9, 0.95, 0.99]`                |
 
 ###### Request durations histogram
 
@@ -297,6 +446,15 @@ await app.register(metricsPlugin, {
 | [name?](./docs/api/fastify-metrics.ihistogramoverrides.name.md)       | string     | `'http_request_duration_seconds'` |
 | [help?](./docs/api/fastify-metrics.ihistogramoverrides.help.md)       | string     | `'request duration in seconds'`   |
 | [buckets?](./docs/api/fastify-metrics.ihistogramoverrides.buckets.md) | number\[\] | `[0.05, 0.1, 0.5, 1, 3, 5, 10]`   |
+
+<sub>[Back to top](#toc)</sub>
+
+### Caveats
+
+- `clearRegisterOnInit` clears the global registry of the **selected** client (see [client selection](#client-selection)), which may differ from the one you imported yourself.
+- When the plugin merges several registries for the endpoint, registry default labels are not preserved.
+- The plugin requires Fastify 5.
+- Create custom metrics with `fastify.metrics.client` so they use the same client as the plugin.
 
 <sub>[Back to top](#toc)</sub>
 
