@@ -44,6 +44,7 @@ interface IRouteMetrics {
 const STATUS_GROUPS = ['', '1xx', '2xx', '3xx', '4xx', '5xx'] as const;
 
 const DEFAULT_TIMING = 'timers';
+const OVERFLOW_LABEL = '__overflow__';
 
 export const DEFAULT_OPTIONS: IMetricsPluginOptions = {
   name: 'metrics',
@@ -80,6 +81,9 @@ export class FastifyMetrics implements IFastifyMetrics {
   private readonly registeredRoutesOnly: boolean;
   private readonly groupStatusCodes: boolean;
   private readonly timing: 'timers' | 'elapsedTime';
+  private readonly maxSeries: number | undefined;
+  private readonly admittedSeries = new Set<string>();
+  private overflowWarned = false;
   private readonly hasCustomLabels: boolean;
   private readonly customLabelEntries: readonly [
     string,
@@ -109,6 +113,17 @@ export class FastifyMetrics implements IFastifyMetrics {
       this.options.routeMetrics.registeredRoutesOnly !== false;
     this.groupStatusCodes = this.options.routeMetrics.groupStatusCodes === true;
     this.timing = this.options.routeMetrics.timing ?? DEFAULT_TIMING;
+
+    const maxSeries = this.options.routeMetrics.maxSeries;
+    if (
+      maxSeries !== undefined &&
+      !(Number.isInteger(maxSeries) && maxSeries > 0)
+    ) {
+      throw new Error(
+        'fastify-metrics: routeMetrics.maxSeries must be a positive integer',
+      );
+    }
+    this.maxSeries = maxSeries;
 
     const customLabels = this.options.routeMetrics.customLabels;
     this.customLabelEntries = customLabels ? Object.entries(customLabels) : [];
@@ -416,6 +431,15 @@ export class FastifyMetrics implements IFastifyMetrics {
     const methodKey = this.routeMetrics.labelNames.method;
     const routeKey = this.routeMetrics.labelNames.route;
     const statusKey = this.routeMetrics.labelNames.status;
+    // Fixed label order used to build admission keys
+    const labelOrder = [
+      ...new Set([
+        methodKey,
+        routeKey,
+        statusKey,
+        ...this.customLabelEntries.map(([name]) => name),
+      ]),
+    ];
 
     this.deps.fastify
       .addHook('onRequest', (request, _, done) => {
@@ -481,23 +505,85 @@ export class FastifyMetrics implements IFastifyMetrics {
             }
           }
 
-          if (metrics.elapsed) {
-            const seconds = reply.elapsedTime / 1000;
-            if (metrics.elapsed.hist) {
-              this.routeMetrics?.routeHist.observe(labels, seconds);
-            }
-            if (metrics.elapsed.sum) {
-              this.routeMetrics?.routeSum.observe(labels, seconds);
+          let effectiveLabels = labels;
+          let admissionKey: string | undefined;
+          if (this.maxSeries !== undefined) {
+            // Key from the final label values; JSON keeps value boundaries
+            const key = JSON.stringify(
+              labelOrder.map((name) => String(labels[name])),
+            );
+            if (!this.admittedSeries.has(key)) {
+              if (this.admittedSeries.size >= this.maxSeries) {
+                // Method and status are bounded and taken from the request
+                // itself, so custom labels reusing those names can't leak
+                effectiveLabels = {};
+                for (const name of labelOrder) {
+                  effectiveLabels[name] = OVERFLOW_LABEL;
+                }
+                effectiveLabels[methodKey] = method;
+                effectiveLabels[statusKey] = statusCode;
+                this.warnSeriesLimit();
+              } else {
+                admissionKey = key;
+              }
             }
           }
-          if (metrics.hist) metrics.hist(labels);
-          if (metrics.sum) metrics.sum(labels);
+
+          // A slot is used as soon as an instrument has recorded the tuple, so
+          // a later failure can't leave recorded series uncounted
+          this.observe(metrics, reply, effectiveLabels, () => {
+            if (admissionKey !== undefined) {
+              this.admittedSeries.add(admissionKey);
+            }
+          });
         } catch (error) {
           this.reportError(error, request, reply);
         }
 
         done();
       });
+  }
+
+  /**
+   * Records a response duration for the given labels. `onRecorded` is called
+   * after each instrument that has recorded successfully.
+   */
+  private observe(
+    metrics: IReqMetrics<string>,
+    reply: FastifyReply,
+    labels: Record<string, string | number>,
+    onRecorded: () => void,
+  ): void {
+    if (metrics.elapsed) {
+      const seconds = reply.elapsedTime / 1000;
+      if (metrics.elapsed.hist) {
+        this.routeMetrics?.routeHist.observe(labels, seconds);
+        onRecorded();
+      }
+      if (metrics.elapsed.sum) {
+        this.routeMetrics?.routeSum.observe(labels, seconds);
+        onRecorded();
+      }
+    }
+    if (metrics.hist) {
+      metrics.hist(labels);
+      onRecorded();
+    }
+    if (metrics.sum) {
+      metrics.sum(labels);
+      onRecorded();
+    }
+  }
+
+  /** Logs once that the label tuple limit has been reached. */
+  private warnSeriesLimit(): void {
+    if (this.overflowWarned) {
+      return;
+    }
+    this.overflowWarned = true;
+    this.deps.fastify.log.warn(
+      `fastify-metrics: routeMetrics.maxSeries (${String(this.maxSeries)}) reached; further label combinations are recorded as '${OVERFLOW_LABEL}'`,
+    );
   }
 
   /**
@@ -546,6 +632,7 @@ export class FastifyMetrics implements IFastifyMetrics {
     if (!(this.options.routeMetrics.enabled === false)) {
       this.routeMetrics = this.registerRouteMetrics();
       this.buildTimerStrategy();
+      this.admittedSeries.clear();
     }
   }
 }
