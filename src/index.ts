@@ -92,7 +92,7 @@ export default fastifyPlugin<Partial<IMetricsPluginRegisterOptions>>(
     fastify.decorate<IFastifyMetrics>(name, fm);
   },
   {
-    fastify: '>=4.0.0',
+    fastify: '>=5.0.0',
     name: 'fastify-metrics',
   },
 );

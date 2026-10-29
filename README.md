@@ -175,7 +175,7 @@ console.log(app.metrics.client); // the active prometheus client module
 
 ---
 
-- Requires fastify `>=4.0.0`.
+- Requires fastify `>=5.0.0`.
 - Node.js `>=22.0.0`.
 
 <sub>[Back to top](#toc)</sub>
