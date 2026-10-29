@@ -8,6 +8,7 @@ import type {
   FastifyReply,
   FastifyRequest,
   HTTPMethods,
+  LogLevel,
   RouteOptions,
 } from 'fastify';
 
@@ -284,6 +285,16 @@ export interface IMetricsPluginOptions {
    * @defaultValue `/metrics`
    */
   endpoint: string | null | RouteOptions;
+
+  /**
+   * Log level of the metrics endpoint route when `endpoint` is a string. The
+   * default keeps the endpoint quiet; consider `'error'` so failures while
+   * serving a scrape are visible in the logs. Ignored when `endpoint` is a
+   * `RouteOptions` object: set `logLevel` on that object instead.
+   *
+   * @defaultValue `fatal`
+   */
+  endpointLogLevel?: LogLevel;
 
   /**
    * Plugin name that will be registered in fastify instance.
