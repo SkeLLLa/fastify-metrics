@@ -66,6 +66,7 @@ export class FastifyMetrics implements IFastifyMetrics {
   >();
   private readonly routesWhitelist = new Map<string, Set<string>>();
   private readonly methodBlacklist = new Set<string>();
+  private readonly routeBlacklistMatchers: readonly (string | RegExp)[];
 
   private routeMetrics?: IRouteMetrics;
   private readonly options: IMetricsPluginOptions;
@@ -113,6 +114,16 @@ export class FastifyMetrics implements IFastifyMetrics {
       defaultGetRouteLabel;
 
     this.createTimers = () => {};
+
+    // Copy stateful (global/sticky) patterns so the user's RegExp objects are
+    // never mutated and matching stays deterministic across requests.
+    this.routeBlacklistMatchers = (
+      this.options.routeMetrics.routeBlacklist ?? []
+    ).map((pattern) =>
+      typeof pattern !== 'string' && (pattern.global || pattern.sticky)
+        ? new RegExp(pattern.source, pattern.flags)
+        : pattern,
+    );
 
     this.setMethodBlacklist();
     this.setRouteWhitelist();
@@ -360,11 +371,18 @@ export class FastifyMetrics implements IFastifyMetrics {
 
   /** Check if route is in blacklist */
   private isRouteBlacklisted(url: string): boolean {
-    return (
-      this.options.routeMetrics.routeBlacklist?.some((pattern) =>
-        typeof pattern === 'string' ? pattern === url : pattern.test(url),
-      ) ?? false
-    );
+    return this.routeBlacklistMatchers.some((pattern) => {
+      if (typeof pattern === 'string') {
+        return pattern === url;
+      }
+      // Global/sticky entries are private copies that keep state between
+      // calls; reset it so the result depends only on the URL. Other entries
+      // are the caller's objects and are left untouched.
+      if (pattern.global || pattern.sticky) {
+        pattern.lastIndex = 0;
+      }
+      return pattern.test(url);
+    });
   }
 
   /** Collect per-route metrics */

@@ -201,6 +201,13 @@ export interface IRouteMetricsConfig {
   /**
    * A list of routes that will be excluded from metrics collection.
    *
+   * @remarks
+   * When `registeredRoutesOnly` is `false`, patterns are also matched against
+   * the raw request URL for requests that did not match a registered route.
+   * Keep patterns linear-time. RegExp entries with the `g` or `y` flag are
+   * copied internally and matched statelessly (`lastIndex` is reset before each
+   * test); the original objects are never modified.
+   *
    * @defaultValue `undefined`
    */
   routeBlacklist?: readonly (string | RegExp)[];
