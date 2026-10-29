@@ -509,7 +509,11 @@ See [changelog](docs/CHANGELOG.md).
 
 ## Support Ukraine
 
-If you find this project useful, please consider [supporting Ukraine's defense](./SPONSOR.md).
+If `fastify-metrics` is useful to you and you want to say thanks, please consider supporting Ukrainian defenders instead of sending money to the author.
+
+[![Come Back Alive](resources/badges/donate-come-back-alive.svg)](https://savelife.in.ua/en/donate-en/)
+[![Sternenko Fund](resources/badges/donate-sternenko-fund.svg)](https://www.sternenkofund.org/en/donate)
+[![Prytula Foundation](resources/badges/donate-prytula-foundation.svg)](https://prytulafoundation.org/en/donation)
 
 ## License
 

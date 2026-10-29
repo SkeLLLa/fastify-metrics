@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="202" height="20" role="img" aria-label="Donate Ukraine: Come Back Alive">
+  <title>Donate Ukraine: Come Back Alive</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
+    <stop offset="1" stop-color="#000" stop-opacity=".16"/>
+  </linearGradient>
+  <clipPath id="r">
+    <rect width="202" height="20" rx="3" fill="#fff"/>
+  </clipPath>
+  <g clip-path="url(#r)">
+    <rect width="66" height="20" fill="#2b2f28"/>
+    <rect x="66" width="136" height="20" fill="#415133"/>
+    <rect width="202" height="20" fill="url(#s)"/>
+  </g>
+  <g font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" text-rendering="geometricPrecision">
+    <text x="24" y="15" text-anchor="middle" fill="#fff">Donate</text>
+    <g transform="translate(50 5)">
+      <rect width="12" height="5" fill="#0057b8"/>
+      <rect y="5" width="12" height="5" fill="#ffd700"/>
+    </g>
+    <text x="134" y="15" text-anchor="middle" fill="#fff">Come Back Alive</text>
+  </g>
+</svg>
