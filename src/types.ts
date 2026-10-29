@@ -248,6 +248,18 @@ export interface IRouteMetricsConfig {
   >;
 
   /**
+   * Upper bound for the number of distinct label tuples (method, route, status
+   * and custom labels) admitted per plugin instance, to keep metric cardinality and
+   * memory bounded. Each tuple maps to many histogram and summary series, so
+   * this limits tuples, not bytes. Once reached, new tuples are recorded with
+   * every label except method and status set to `__overflow__`; tuples admitted
+   * earlier keep recording normally. Must be a positive integer.
+   *
+   * @defaultValue `undefined` (unlimited)
+   */
+  maxSeries?: number;
+
+  /**
    * Source of the route duration. `'timers'` starts prom-client timers in the
    * `onRequest` hook; they stay bound to the instruments registered at that
    * time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime`
