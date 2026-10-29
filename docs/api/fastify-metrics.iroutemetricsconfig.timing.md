@@ -4,7 +4,7 @@
 
 ## IRouteMetricsConfig.timing property
 
-Source of the route duration. `'timers'` starts prom-client timers in the `onRequest` hook; they stay bound to the instruments registered at that time. `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent.
+Source of the route duration. `'elapsedTime'` starts no timers and observes `reply.elapsedTime` on the current instruments when the response is sent. `'timers'` starts prom-client timers in the `onRequest` hook; they stay bound to the instruments registered at that time.
 
 **Signature:**
 
@@ -14,5 +14,5 @@ timing?: 'timers' | 'elapsedTime';
 
 ## Default Value
 
-`timers`
+`elapsedTime`
 
