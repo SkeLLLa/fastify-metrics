@@ -167,6 +167,7 @@ overrides:
   js-yaml@>=4.0.0 <4.3.1: ^4.3.1
   js-yaml@>=4.0.0 <=4.1.1: ^4.2.0
   lodash-es@<=4.17.23: ^4.18.1
+  minimatch@>=7.0.0 <11.0.1: ^11.0.1
   lodash-es@>=4.0.0 <=4.17.23: ^4.18.1
   undici@<6.28.0: ^6.28.0
   undici@>=7.0.0 <7.29.0: ^7.29.0
@@ -453,6 +454,9 @@ packages:
 
   '@fastify/proxy-addr@5.1.2':
     resolution: {integrity: sha512-uqB4QsgVoro0XDC+DIftIMGXHdBPn+lK6Ek3xXAIxPMCJfqxnbtyEoMCm2KPUVOuIosd7Cyw9HawEqMFM/UA+g==}
+
+  '@isaacs/nonrecursive-glob-match@1.0.3':
+    resolution: {integrity: sha512-SI7kyKHq4XXDRozw+r9GlRZkia1ZkFrpLW98r2IC2Bpr8YkFGE3fvjzmxCG0x78A++69HmDNrDvSMYBZmHGpKA==}
 
   '@microsoft/api-documenter@7.30.20':
     resolution: {integrity: sha512-aGyajeJv7uXKUKk3Ds8geXWnWI7NHBtk7jeWPYOSQlsIKP+B5Zo+4THt1V+orRdQi/GiB+P0F1F6Y6TIGuk28g==}
@@ -1801,9 +1805,9 @@ packages:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
     engines: {node: '>=12'}
 
-  minimatch@10.2.3:
-    resolution: {integrity: sha512-Rwi3pnapEqirPSbWbrZaa6N3nmqq4Xer/2XooiOKyV3q12ML06f7MOuc5DVH8ONZIFhwIYQ3yzPH4nt7iWHaTg==}
-    engines: {node: 18 || 20 || >=22}
+  minimatch@11.0.4:
+    resolution: {integrity: sha512-/UJ1dEoVQTjPNDh6SGlUo+ueLMmoHTas4q+8yaAR/5t6nLAIiBDJtoYUh20IYleix7ehiQkgczb84PE3uzHkxg==}
+    engines: {node: 20 || >=22}
 
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
@@ -2699,6 +2703,8 @@ snapshots:
       '@fastify/forwarded': 3.1.2
       ipaddr.js: 2.5.0
 
+  '@isaacs/nonrecursive-glob-match@1.0.3': {}
+
   '@microsoft/api-documenter@7.30.20(@types/node@26.6.6)':
     dependencies:
       '@microsoft/api-extractor-model': 7.33.16(@types/node@26.6.6)
@@ -2729,7 +2735,7 @@ snapshots:
       '@rushstack/terminal': 0.24.8(@types/node@26.6.6)
       '@rushstack/ts-command-line': 5.3.18(@types/node@26.6.6)
       diff: 8.0.4
-      minimatch: 10.2.3
+      minimatch: 11.0.4
       resolve: 1.22.13
       semver: 7.7.4
       source-map: 0.6.1
@@ -3939,8 +3945,9 @@ snapshots:
 
   mimic-fn@4.0.0: {}
 
-  minimatch@10.2.3:
+  minimatch@11.0.4:
     dependencies:
+      '@isaacs/nonrecursive-glob-match': 1.0.3
       brace-expansion: 5.0.12
 
   minimatch@3.1.5:
