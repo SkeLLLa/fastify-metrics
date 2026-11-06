@@ -1,3 +1,14 @@
+## [15.0.1](https://github.com/SkeLLLa/fastify-metrics/compare/v15.0.0...v15.0.1) (2026-11-06)
+
+### 🛠 Fixes
+
+* **security:** moderate CVE-2026-118764 ([1cefee0](https://github.com/SkeLLLa/fastify-metrics/commit/1cefee04024b94ee919dfc3d8a6de2e689f63e0f))
+
+### 🧾 Other
+
+* **deps-dev:** bump the all-minor-patch group across 1 directory with 6 updates ([322d7b9](https://github.com/SkeLLLa/fastify-metrics/commit/322d7b90f446359f125cfb7217b736978f91eecb))
+* **deps:** bump jdx/mise-action ([fe2f998](https://github.com/SkeLLLa/fastify-metrics/commit/fe2f998064023271a45d28815e33e34647bed41f))
+
 ## [15.0.0](https://github.com/SkeLLLa/fastify-metrics/compare/v14.2.0...v15.0.0) (2026-10-29)
 
 ### ⚠ BREAKING CHANGES
