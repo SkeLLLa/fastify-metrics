@@ -216,8 +216,8 @@ importers:
         specifier: ^14.1.1
         version: 14.1.1(semantic-release@25.0.9(supports-color@8.1.1)(typescript@7.0.2))(supports-color@8.1.1)
       '@tsconfig/node-lts':
-        specifier: ^24.0.1
-        version: 24.0.1
+        specifier: ^26.0.1
+        version: 26.0.1
       '@tsconfig/strictest':
         specifier: ^2.0.8
         version: 2.0.9
@@ -928,8 +928,8 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@tsconfig/node-lts@24.0.1':
-    resolution: {integrity: sha512-xo+1KtV5zVb90fyyeglG1n5cqg3cQXLlCkEpLptYlZUNk28xmwhuD5GmxoXwmrVtUTvaMyclun9kAd0TK7H+Pg==}
+  '@tsconfig/node-lts@26.0.1':
+    resolution: {integrity: sha512-Z8DWX8MgVR006YMHZYf7d2lzWMBfYAhW4lMyhdeMG9+KGAgbJuGYuoWOAlYipfggCkiHCAZVm/Wiw6IuG5lcnw==}
 
   '@tsconfig/strictest@2.0.9':
     resolution: {integrity: sha512-CbwIySRXoGapLZYXqQHF15cg0wQImJa25Ynmubb7816vnHqTdQrmQlSbZxkJrrBusHLbF1kFbNVn8XtxmQ3EpQ==}
@@ -3128,7 +3128,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@tsconfig/node-lts@24.0.1': {}
+  '@tsconfig/node-lts@26.0.1': {}
 
   '@tsconfig/strictest@2.0.9': {}
 
