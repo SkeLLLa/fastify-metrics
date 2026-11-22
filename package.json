@@ -71,7 +71,7 @@
     "oxfmt": "^0.78.0",
     "oxlint": "^1.89.0",
     "oxlint-tsgolint": "^7.0.2005",
-    "semantic-release": "^25.0.9",
+    "semantic-release": "^26.0.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
